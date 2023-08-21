@@ -1,0 +1,16 @@
+﻿using System.Collections;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace VeloMobilDb;
+
+public partial class Course
+{
+    public int CourseId { get; set; }
+    public List<DetailPosition> DetailPosition { get; set; }
+    public string Name { get; set; }
+    public float Picture { get; set; }
+    public bool Visible { get; set; }
+    public double Distance { get; set; }
+    public double MaxSpeed { get; set; }
+    public DateTime DrivenTime { get; set; }
+}

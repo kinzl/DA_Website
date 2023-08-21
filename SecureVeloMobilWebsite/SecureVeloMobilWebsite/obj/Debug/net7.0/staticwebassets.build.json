@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "Wi2vMrUVfad94kYA8qhxaqyYpN5i/qOd3uigi14KIEQ=",
+  "Hash": "2uwZSaL5Cv0Ay1M3qKHDEPgfSkYji187drIjjKHSMWk=",
   "Source": "SecureVeloMobilWebsite",
   "BasePath": "_content/SecureVeloMobilWebsite",
   "Mode": "Default",
@@ -51,6 +51,23 @@
       "OriginalItemSpec": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\obj\\Debug\\net7.0\\scopedcss\\projectbundle\\SecureVeloMobilWebsite.bundle.scp.css"
     },
     {
+      "Identity": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\css\\Index.css",
+      "SourceId": "SecureVeloMobilWebsite",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\",
+      "BasePath": "_content/SecureVeloMobilWebsite",
+      "RelativePath": "css/Index.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\Index.css"
+    },
+    {
       "Identity": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\css\\site.css",
       "SourceId": "SecureVeloMobilWebsite",
       "SourceType": "Discovered",
@@ -66,6 +83,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\site.css"
+    },
+    {
+      "Identity": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\Extensions\\Seeder.cs",
+      "SourceId": "SecureVeloMobilWebsite",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\",
+      "BasePath": "_content/SecureVeloMobilWebsite",
+      "RelativePath": "Extensions/Seeder.cs",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Extensions\\Seeder.cs"
     },
     {
       "Identity": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\favicon.ico",
