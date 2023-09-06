@@ -1,10 +1,12 @@
-﻿namespace SecureVeloMobilWebsite.Dto;
+﻿using System.Text.Json.Serialization;
+
+namespace SecureVeloMobilWebsite.Dto;
 
 public class DetailPositionDto
 {
-    //Order is important
+    public int DetailPositionId { get; set; }
     public float PosX { get; set; }
     public float PosY { get; set; }
     public DateTime DateTime { get; set; }
-    public int DetailPositionId { get; set; }
+    // [JsonIgnore] public CourseDto Courses { get; set; }
 }

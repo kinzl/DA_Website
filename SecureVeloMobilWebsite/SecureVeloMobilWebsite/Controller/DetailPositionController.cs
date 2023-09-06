@@ -1,8 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SecureVeloMobilWebsite.Dto;
 using SecureVeloMobilWebsite.Services;
+using VeloMobilDb;
 
 namespace SecureVeloMobilWebsite.Controller;
 
+[ApiController]
+[Route("[controller]/[action]")]
 public class DetailPositionController
 {
     private VeloMobilService _service;
@@ -12,8 +16,29 @@ public class DetailPositionController
         _service = service;
     }
 
-    public ActionResult GetFirstPosition()
+    [HttpGet("{courseId}")]
+    public List<DetailPositionDto> GetPositionsByCourseId(int courseId)
     {
-        return null;
+        return _service.GetPositionsByCourseId(courseId)
+            .Select(x => new DetailPositionDto().CopyFrom(x))
+            .ToList();
+    }
+
+    [HttpPost]
+    public ActionResult AddPositionsToNewCourse([FromBody] CourseDto positions)
+    {
+        var p = new Course()
+        {
+            Name = positions.Name,
+            CourseId = positions.CourseId,
+            DetailPosition = positions.DetailPosition.Select(x => new DetailPosition().CopyFrom(x)).ToList(),
+            Distance = positions.Distance,
+            Picture = positions.Picture,
+            Visible = positions.Visible,
+            DrivenTime = positions.DrivenTime,
+            MaxSpeed = positions.MaxSpeed,
+        };
+        _service.AddPositionsToNewCourse(p);
+        return new OkResult();
     }
 }
