@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "q4yuZhZbHoR9hi0RkTd4ro46KkoY+ZkQjIkXfiRahrRYJ41UyX8FotEF/pCniOuioODZk3Nfl+AY8G8rmUKlAA==",
+  "dgSpecHash": "XTDbVK+Cr0os3YykzcIh+sXIKdbU1A7l1GAazJwW+e87MZ9ghlZ4ovmLplxpYLDfazeFqG0zPvDdX/RVoFl76A==",
   "success": true,
-  "projectFilePath": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\temp\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite.csproj",
+  "projectFilePath": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\kinzl\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\kinzl\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
