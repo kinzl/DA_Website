@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using SecureVeloMobilWebsite.Controller;
+using SecureVeloMobilWebsite.Services;
 using SecureVeloMobilWebsite.wwwroot.Extensions;
 using VeloMobilDb;
 
@@ -55,8 +57,10 @@ Console.WriteLine($"******** ConnectionString: {connectionString}");
 Console.ForegroundColor = ConsoleColor.Yellow;
 Console.WriteLine($"******** Don't forget to comment out NorthwindContext.OnConfiguring !");
 Console.ResetColor();
+
 builder.Services.AddDbContext<VeloMobilContext>(options => options.UseSqlServer(connectionString));
 builder.Services.AddScoped<Seeder>();
+builder.Services.AddScoped<VeloMobilService>();
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options => { options.IdleTimeout = TimeSpan.FromHours(10); });

@@ -23,13 +23,14 @@ public class IndexModel : PageModel
         _logger = logger;
         _db = db;
         _seeder = seeder;
+        
+        // _db.Database.EnsureDeleted();
+        // _db.Database.EnsureCreated();
+        // _seeder.Seed();
     }
 
     public void OnGet()
     {
-        // _db.Database.EnsureDeleted();
-        // _db.Database.EnsureCreated();
-        // _seeder.Seed();
         Initialize();
     }
 
@@ -40,20 +41,27 @@ public class IndexModel : PageModel
             .ToList();
         if (!Courses.IsNullOrEmpty())
         {
-            SelectedCourseIndex = Convert.ToInt32(HttpContext.Session.GetString("SelectedCourseIndex") ?? "0");
-            SelectedCourseId = Convert.ToInt32(HttpContext.Session.GetString("SelectedCourseId") ?? "1");
-            DetailPositions = _db.DetailPositions
-                .Where(x => x.Courses.CourseId == SelectedCourseId)
-                .Select(x => new DetailPositionDto()
-                {
-                    DateTime = x.DateTime,
-                    PosY = x.PosY,
-                    PosX = x.PosX,
-                    DetailPositionId = x.DetailPositionId,
-                })
-                .ToList();
-            LastDetailPosition = DetailPositions.OrderBy(x => x.DateTime)
-                .Last();
+            try
+            {
+                SelectedCourseIndex = Convert.ToInt32(HttpContext.Session.GetString("SelectedCourseIndex") ?? "0");
+                SelectedCourseId = Convert.ToInt32(HttpContext.Session.GetString("SelectedCourseId") ?? "1");
+                DetailPositions = _db.DetailPositions
+                    .Where(x => x.Courses.CourseId == SelectedCourseId)
+                    .Select(x => new DetailPositionDto()
+                    {
+                        DateTime = x.DateTime,
+                        PosY = x.PosY,
+                        PosX = x.PosX,
+                        DetailPositionId = x.DetailPositionId,
+                    })
+                    .ToList();
+                LastDetailPosition = DetailPositions.OrderBy(x => x.DateTime)
+                    .Last();
+            }
+            catch (Exception)
+            {
+                _logger.LogWarning("No route found");
+            }
         }
     }
 
