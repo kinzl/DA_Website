@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\temp\\VeloMobilDA\\SecureVeloMobilWebsite\\VeloMobilDb\\VeloMobilDb.csproj": {}
+    "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\VeloMobilDb\\VeloMobilDb.csproj": {}
   },
   "projects": {
-    "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\temp\\VeloMobilDA\\SecureVeloMobilWebsite\\VeloMobilDb\\VeloMobilDb.csproj": {
+    "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\VeloMobilDb\\VeloMobilDb.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\temp\\VeloMobilDA\\SecureVeloMobilWebsite\\VeloMobilDb\\VeloMobilDb.csproj",
+        "projectUniqueName": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\VeloMobilDb\\VeloMobilDb.csproj",
         "projectName": "VeloMobilDb",
-        "projectPath": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\temp\\VeloMobilDA\\SecureVeloMobilWebsite\\VeloMobilDb\\VeloMobilDb.csproj",
+        "projectPath": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\VeloMobilDb\\VeloMobilDb.csproj",
         "packagesPath": "C:\\Users\\kinzl\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\temp\\VeloMobilDA\\SecureVeloMobilWebsite\\VeloMobilDb\\obj\\",
+        "outputPath": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\VeloMobilDb\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\kinzl\\AppData\\Roaming\\NuGet\\NuGet.Config",

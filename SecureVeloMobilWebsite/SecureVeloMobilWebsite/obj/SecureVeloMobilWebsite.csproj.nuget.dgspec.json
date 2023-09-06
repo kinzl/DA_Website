@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\temp\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite.csproj": {}
+    "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite.csproj": {}
   },
   "projects": {
-    "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\temp\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite.csproj": {
+    "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\temp\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite.csproj",
+        "projectUniqueName": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite.csproj",
         "projectName": "SecureVeloMobilWebsite",
-        "projectPath": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\temp\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite.csproj",
+        "projectPath": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite.csproj",
         "packagesPath": "C:\\Users\\kinzl\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\temp\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\obj\\",
+        "outputPath": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\kinzl\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -28,8 +28,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\temp\\VeloMobilDA\\SecureVeloMobilWebsite\\VeloMobilDb\\VeloMobilDb.csproj": {
-                "projectPath": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\temp\\VeloMobilDA\\SecureVeloMobilWebsite\\VeloMobilDb\\VeloMobilDb.csproj"
+              "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\VeloMobilDb\\VeloMobilDb.csproj": {
+                "projectPath": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\VeloMobilDb\\VeloMobilDb.csproj"
               }
             }
           }
@@ -100,14 +100,14 @@
         }
       }
     },
-    "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\temp\\VeloMobilDA\\SecureVeloMobilWebsite\\VeloMobilDb\\VeloMobilDb.csproj": {
+    "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\VeloMobilDb\\VeloMobilDb.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\temp\\VeloMobilDA\\SecureVeloMobilWebsite\\VeloMobilDb\\VeloMobilDb.csproj",
+        "projectUniqueName": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\VeloMobilDb\\VeloMobilDb.csproj",
         "projectName": "VeloMobilDb",
-        "projectPath": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\temp\\VeloMobilDA\\SecureVeloMobilWebsite\\VeloMobilDb\\VeloMobilDb.csproj",
+        "projectPath": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\VeloMobilDb\\VeloMobilDb.csproj",
         "packagesPath": "C:\\Users\\kinzl\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\temp\\VeloMobilDA\\SecureVeloMobilWebsite\\VeloMobilDb\\obj\\",
+        "outputPath": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\VeloMobilDb\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\kinzl\\AppData\\Roaming\\NuGet\\NuGet.Config",
