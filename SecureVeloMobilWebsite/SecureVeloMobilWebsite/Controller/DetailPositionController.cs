@@ -25,7 +25,7 @@ public class DetailPositionController
     }
 
     [HttpPost]
-    public ActionResult AddPositionsToNewCourse([FromBody] CourseDto positions)
+    public ActionResult AddPositionsToNewCourse([FromBody] PostCourseDto positions)
     {
         var p = new Course()
         {

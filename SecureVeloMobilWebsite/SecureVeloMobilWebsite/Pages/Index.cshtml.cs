@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SecureVeloMobilWebsite.Dto;
 using SecureVeloMobilWebsite.wwwroot.Extensions;
@@ -23,10 +24,10 @@ public class IndexModel : PageModel
         _logger = logger;
         _db = db;
         _seeder = seeder;
-        
-        // _db.Database.EnsureDeleted();
-        // _db.Database.EnsureCreated();
-        // _seeder.Seed();
+
+        _db.Database.EnsureDeleted();
+        _db.Database.EnsureCreated();
+        _seeder.Seed();
     }
 
     public void OnGet()
@@ -37,6 +38,7 @@ public class IndexModel : PageModel
     private void Initialize()
     {
         Courses = _db.Courses
+            .Include(x => x.DetailPosition)
             .Select(x => new CourseDto().CopyFrom(x))
             .ToList();
         if (!Courses.IsNullOrEmpty())

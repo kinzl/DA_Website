@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using SecureVeloMobilWebsite.Controller;
 using SecureVeloMobilWebsite.Services;
 using SecureVeloMobilWebsite.wwwroot.Extensions;
@@ -58,9 +59,14 @@ Console.ForegroundColor = ConsoleColor.Yellow;
 Console.WriteLine($"******** Don't forget to comment out NorthwindContext.OnConfiguring !");
 Console.ResetColor();
 
-builder.Services.AddDbContext<VeloMobilContext>(options => options.UseSqlServer(connectionString));
-builder.Services.AddScoped<Seeder>();
+// builder.Services.AddDbContext<VeloMobilContext>(options => options.UseSqlServer(connectionString));
+string? connectionStringMariaDb = builder.Configuration.GetConnectionString("VeloMobilMariaDb");
+builder.Services.AddDbContext<VeloMobilContext>(options => options      
+    .UseMySql(connectionStringMariaDb, 
+        ServerVersion.Create(new Version(10, 4, 6), ServerType.MariaDb)));
+
 builder.Services.AddScoped<VeloMobilService>();
+builder.Services.AddScoped<Seeder>();
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options => { options.IdleTimeout = TimeSpan.FromHours(10); });
