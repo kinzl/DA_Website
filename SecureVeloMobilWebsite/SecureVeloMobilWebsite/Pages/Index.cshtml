@@ -19,35 +19,35 @@
 
 <div class="container mt-3">
     <div class="row">
-     
-    <div class="left-section col-md-3">
-        <!-- Listbox content goes here -->
-        <form method="post" asp-page-handler="CourseChanged">
-            <select id="routeList" size="@Model.Courses.Count" onchange="this.form.submit()" name="courseId" class="routeListbox">
-                @for (int i = 0; i < @Model.Courses.Count; i++)
-                {
-                    @if (i == @Model.SelectedCourseIndex)
+
+        <div class="left-section col-md-3">
+            <!-- Listbox content goes here -->
+            <form method="post" asp-page-handler="CourseChanged">
+                <select id="routeList" size="15" onchange="this.form.submit()" name="courseId" class="routeListbox">
+                    @for (int i = 0; i < @Model.Courses.Count; i++)
                     {
-                        <option value="@Model.Courses[i].CourseId" class="listGroupSelected" selected="selected">@Model.Courses[i].Name</option>
+                        @if (i == @Model.SelectedCourseIndex)
+                        {
+                            <option value="@Model.Courses[i].CourseId" class="listGroupSelected" selected="selected">@Model.Courses[i].Name</option>
+                        }
+                        else
+                        {
+                            <option value="@Model.Courses[i].CourseId" class="listGroupSelected">@Model.Courses[i].Name</option>
+                        }
                     }
-                    else
-                    {
-                        <option value="@Model.Courses[i].CourseId" class="listGroupSelected">@Model.Courses[i].Name</option>
-                    }
-                }
-            </select>
-        </form>
-    </div>
-    <div class="center-section col-md-6" >
-        <!-- Map content goes here -->
-        <div id="map"></div>
-    </div>
-    <div class="right-section d-flex flex-column col-md-3">
-        <!-- Stats content goes here -->
-        <label id="totalDistance"></label>
-        <label id="maxSpeed">0 km/h (speed)</label>
-        <label id="drivenTime">--:-- (time)</label>
-    </div>   
+                </select>
+            </form>
+        </div>
+        <div class="center-section col-md-6">
+            <!-- Map content goes here -->
+            <div id="map"></div>
+        </div>
+        <div class="right-section d-flex flex-column col-md-3">
+            <!-- Stats content goes here -->
+            <label id="totalDistance"></label>
+            <label id="maxSpeed">0 km/h (speed)</label>
+            <label id="drivenTime">--:-- (time)</label>
+        </div>
     </div>
 </div>
 <script>

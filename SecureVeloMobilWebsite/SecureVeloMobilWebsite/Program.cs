@@ -63,7 +63,7 @@ Console.ResetColor();
 string? connectionStringMariaDb = builder.Configuration.GetConnectionString("VeloMobilMariaDb");
 builder.Services.AddDbContext<VeloMobilContext>(options => options      
     .UseMySql(connectionStringMariaDb, 
-        ServerVersion.Create(new Version(10, 4, 6), ServerType.MariaDb)));
+        ServerVersion.Create(new Version(11, 1, 2), ServerType.MariaDb)));
 
 builder.Services.AddScoped<VeloMobilService>();
 builder.Services.AddScoped<Seeder>();

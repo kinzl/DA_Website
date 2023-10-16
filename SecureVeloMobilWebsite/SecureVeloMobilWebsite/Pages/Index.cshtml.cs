@@ -25,9 +25,9 @@ public class IndexModel : PageModel
         _db = db;
         _seeder = seeder;
 
-        _db.Database.EnsureDeleted();
-        _db.Database.EnsureCreated();
-        _seeder.Seed();
+        // _db.Database.EnsureDeleted();
+        // _db.Database.EnsureCreated();
+        // _seeder.Seed();
     }
 
     public void OnGet()
