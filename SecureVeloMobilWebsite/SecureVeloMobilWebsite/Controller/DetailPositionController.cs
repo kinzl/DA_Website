@@ -30,7 +30,6 @@ public class DetailPositionController
         var p = new Course()
         {
             Name = positions.Name,
-            CourseId = positions.CourseId,
             DetailPosition = positions.DetailPosition.Select(x => new DetailPosition().CopyFrom(x)).ToList(),
             Distance = positions.Distance,
             Picture = positions.Picture,
