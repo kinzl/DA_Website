@@ -5,6 +5,6 @@ public partial class DetailPosition
     public int DetailPositionId { get; set; }
     public float PosX { get; set; }
     public float PosY { get; set; }
-    public DateTime DateTime { get; set; }
+    public DateTime PositionTime { get; set; }
     public Course Courses { get; set; }
 }

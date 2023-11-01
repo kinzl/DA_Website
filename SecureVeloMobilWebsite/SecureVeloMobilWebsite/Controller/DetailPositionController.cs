@@ -25,17 +25,16 @@ public class DetailPositionController
     }
 
     [HttpPost]
-    public ActionResult AddPositionsToNewCourse([FromBody] CourseDto positions)
+    public ActionResult AddPositionsToNewCourse([FromBody] PostCourseDto positions)
     {
         var p = new Course()
         {
             Name = positions.Name,
-            CourseId = positions.CourseId,
             DetailPosition = positions.DetailPosition.Select(x => new DetailPosition().CopyFrom(x)).ToList(),
             Distance = positions.Distance,
             Picture = positions.Picture,
             Visible = positions.Visible,
-            DrivenTime = positions.DrivenTime,
+            StartTime = positions.DrivenTime,
             MaxSpeed = positions.MaxSpeed,
         };
         _service.AddPositionsToNewCourse(p);

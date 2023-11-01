@@ -7,6 +7,6 @@ public class DetailPositionDto
     public int DetailPositionId { get; set; }
     public float PosX { get; set; }
     public float PosY { get; set; }
-    public DateTime DateTime { get; set; }
-    // [JsonIgnore] public CourseDto Courses { get; set; }
+    public DateTime PositionTime { get; set; }
+    public int CoursesId { get; set; }
 }

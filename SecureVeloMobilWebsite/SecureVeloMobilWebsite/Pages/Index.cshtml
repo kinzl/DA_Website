@@ -6,7 +6,7 @@
 }
 
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head>
     <title>Velomobil</title>
     <link rel="stylesheet" href="css/Index.css"/>
@@ -19,35 +19,60 @@
 
 <div class="container mt-3">
     <div class="row">
-     
-    <div class="left-section col-md-3">
-        <!-- Listbox content goes here -->
-        <form method="post" asp-page-handler="CourseChanged">
-            <select id="routeList" size="@Model.Courses.Count" onchange="this.form.submit()" name="courseId" class="routeListbox">
-                @for (int i = 0; i < @Model.Courses.Count; i++)
-                {
-                    @if (i == @Model.SelectedCourseIndex)
+        <div class="left-section d-flex flex-column col-md-3">
+            <!-- Listbox content goes here -->
+            <form method="post" asp-page-handler="TimeFilterChanged">
+                <select id="pastTime" onchange="this.form.submit()" name="selectedDay">
+                    @for (int i = 0; i < @Model.FilterDates.Count(); i++)
                     {
-                        <option value="@Model.Courses[i].CourseId" class="listGroupSelected" selected="selected">@Model.Courses[i].Name</option>
+                        @if (i == @Model.SelectedFilterDateIndex)
+                        {
+                            <option value="@Model.FilterDates[i].DayName" class="listGroupSelected" selected="selected">@Model.FilterDates[i].DayName</option>
+                        }
+                        else
+                        {
+                            <option value="@Model.FilterDates[i].DayName" class="listGroupSelected">@Model.FilterDates[i].DayName</option>
+                        }
                     }
-                    else
+                </select>
+            </form>
+            <form method="post" asp-page-handler="SetStartDate">
+                <label for="startDate">Start</label>
+                <input id="startDate" type="date" onchange="this.form.submit()" name="startDate" value="@Model.SelectedFilterDate.startTime.ToString("yyyy-MM-dd")"/>
+            </form>
+            <form method="post" asp-page-handler="SetEndDate">
+                <label for="endDate">End</label>
+                <input id="endDate" type="date" onchange="this.form.submit()" name="endDate" value="@Model.SelectedFilterDate.endTime.ToString("yyyy-MM-dd")"/>
+            </form>
+            <form method="post" asp-page-handler="CourseChanged">
+                <select id="routeList" size="10" onchange="this.form.submit()" name="courseId" class="routeListbox">
+                    @for (int i = 0; i < @Model.Courses.Count; i++)
                     {
-                        <option value="@Model.Courses[i].CourseId" class="listGroupSelected">@Model.Courses[i].Name</option>
+                        @if (i == @Model.SelectedCourseIndex)
+                        {
+                            <option value="@Model.Courses[i].CourseId" class="listGroupSelected" selected="selected">@Model.Courses[i].Name</option>
+                        }
+                        else
+                        {
+                            <option value="@Model.Courses[i].CourseId" class="listGroupSelected">@Model.Courses[i].Name</option>
+                        }
                     }
-                }
-            </select>
-        </form>
-    </div>
-    <div class="center-section col-md-6" >
-        <!-- Map content goes here -->
-        <div id="map"></div>
-    </div>
-    <div class="right-section d-flex flex-column col-md-3">
-        <!-- Stats content goes here -->
-        <label id="totalDistance"></label>
-        <label id="maxSpeed">0 km/h (speed)</label>
-        <label id="drivenTime">--:-- (time)</label>
-    </div>   
+                </select>
+            </form>
+            <label id="totalDistance"></label>
+            <label id="maxSpeed">0 km/h (speed)</label>
+            <label id="drivenTime">--:-- (time)</label>
+            <label id="drivenDay">@Model.SelectedCourse.DayOfRecording.ToString("ddd dd-MM-yyyy hh:mm")</label>
+
+        </div>
+        <div class="center-section col-md-6">
+            <!-- Map content goes here -->
+            <div id="map"></div>
+        </div>
+        <div class="right-section  col-md-3">
+            <!-- Stats content goes here -->
+
+        </div>
     </div>
 </div>
 <script>

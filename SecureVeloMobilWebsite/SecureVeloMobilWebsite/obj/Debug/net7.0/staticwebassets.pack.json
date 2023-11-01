@@ -5,8 +5,8 @@
       "PackagePath": "staticwebassets\\SecureVeloMobilWebsite.bundle.scp.css"
     },
     {
-      "Id": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\Extensions\\Seeder.cs",
-      "PackagePath": "staticwebassets\\Extensions\\Seeder.cs"
+      "Id": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\css\\AboutUs.css",
+      "PackagePath": "staticwebassets\\css\\AboutUs.css"
     },
     {
       "Id": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\css\\Index.css",
@@ -19,6 +19,22 @@
     {
       "Id": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\favicon.ico",
       "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\img\\DavidKogler.jpg",
+      "PackagePath": "staticwebassets\\img\\DavidKogler.jpg"
+    },
+    {
+      "Id": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\img\\EmilKinzl.jpg",
+      "PackagePath": "staticwebassets\\img\\EmilKinzl.jpg"
+    },
+    {
+      "Id": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\img\\MatthiasKogler.jpg",
+      "PackagePath": "staticwebassets\\img\\MatthiasKogler.jpg"
+    },
+    {
+      "Id": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\img\\TorstenWelsch.jpg",
+      "PackagePath": "staticwebassets\\img\\TorstenWelsch.jpg"
     },
     {
       "Id": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\js\\site.js",

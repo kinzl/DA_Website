@@ -109,3 +109,5 @@ C:\Users\kinzl\OneDrive\HtlGrieskirchen\Diplomarbeit\SecureVeloMobilWebsite\Velo
 C:\Users\kinzl\OneDrive\HtlGrieskirchen\Diplomarbeit\SecureVeloMobilWebsite\VeloMobilDA\SecureVeloMobilWebsite\SecureVeloMobilWebsite\obj\Debug\net7.0\SecureVeloMobilWebsite.pdb
 C:\Users\kinzl\OneDrive\HtlGrieskirchen\Diplomarbeit\SecureVeloMobilWebsite\VeloMobilDA\SecureVeloMobilWebsite\SecureVeloMobilWebsite\obj\Debug\net7.0\SecureVeloMobilWebsite.genruntimeconfig.cache
 C:\Users\kinzl\OneDrive\HtlGrieskirchen\Diplomarbeit\SecureVeloMobilWebsite\VeloMobilDA\SecureVeloMobilWebsite\SecureVeloMobilWebsite\obj\Debug\net7.0\ref\SecureVeloMobilWebsite.dll
+C:\Users\kinzl\OneDrive\HtlGrieskirchen\Diplomarbeit\SecureVeloMobilWebsite\VeloMobilDA\SecureVeloMobilWebsite\SecureVeloMobilWebsite\bin\Debug\net7.0\MySqlConnector.dll
+C:\Users\kinzl\OneDrive\HtlGrieskirchen\Diplomarbeit\SecureVeloMobilWebsite\VeloMobilDA\SecureVeloMobilWebsite\SecureVeloMobilWebsite\bin\Debug\net7.0\Pomelo.EntityFrameworkCore.MySql.dll

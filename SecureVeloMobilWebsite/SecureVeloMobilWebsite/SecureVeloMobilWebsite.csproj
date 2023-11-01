@@ -19,15 +19,13 @@
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         <PrivateAssets>all</PrivateAssets>
       </PackageReference>
+      <PackageReference Include="MySqlConnector" Version="2.2.7" />
+      <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
       <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\VeloMobilDb\VeloMobilDb.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Compile Include="wwwroot\Extensions\Seeder.cs" />
     </ItemGroup>
 
 </Project>
