@@ -35,7 +35,7 @@ public class DetailPositionController
             Distance = positions.Distance,
             Picture = positions.Picture,
             Visible = positions.Visible,
-            DrivenTime = positions.DrivenTime,
+            StartTime = positions.DrivenTime,
             MaxSpeed = positions.MaxSpeed,
         };
         _service.AddPositionsToNewCourse(p);
