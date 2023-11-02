@@ -13,7 +13,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
+    <script src="js/Draw.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
@@ -66,61 +67,20 @@
 
         </div>
         <div class="center-section col-md-6">
-            <!-- Map content goes here -->
             <div id="map"></div>
         </div>
         <div class="right-section  col-md-3">
-            <!-- Stats content goes here -->
-
+            <canvas id="co2Chart"></canvas>
         </div>
     </div>
 </div>
 <script>
-$(document).ready(function() {
-    const map = L.map('map').setView([51.5074, -0.1278], 13); // Set the initial center coordinates and zoom level
-
-    // Add the OpenStreetMap tile layer
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
-      maxZoom: 19
-    }).addTo(map);
-
-    // Array of coordinates for the route you drove
-    const routeCoordinates = @Html.Raw(Json.Serialize(Model.DetailPositions));
-    const routeCoordinatesOnly = [];
-    
-    for (let item of routeCoordinates)
-    {
-        let positions = {posY:item["posY"], posX:item["posX"]};
-        routeCoordinatesOnly.push(Object.values(positions));
-    }
-    
-    // Add the route using a polyline
-    const route = L.polyline(routeCoordinatesOnly, { color: 'blue' }).addTo(map)
-
-    // Calculate the distance of the route
-    let distance = 0;
-    for (let i = 0; i < routeCoordinatesOnly.length - 1; i++) {
-      let from = L.latLng(routeCoordinatesOnly[i]);
-      let to = L.latLng(routeCoordinatesOnly[i + 1]);
-      distance += from.distanceTo(to);
-    }
-    // console.log('Total distance: ' + distance + ' meters');
-
-    const lblDistnace = $('#totalDistance');
-    lblDistnace.html(distance + " Meters");
-
-    // Add a marker to the map
-    const lastTimeStamp = @Html.Raw(Json.Serialize(Model.LastDetailPosition));
-    console.log(lastTimeStamp)
-    const markerCoordinates = [lastTimeStamp["posY"], lastTimeStamp["posX"]]; // Example coordinates
-    const marker = L.marker(markerCoordinates).addTo(map);
-
-    // Fit the map bounds to the route and marker
-    const bounds = L.latLngBounds(routeCoordinatesOnly.concat(markerCoordinates));
-    map.fitBounds(bounds);
+$(document).ready(function () {
+let data = @Html.Raw(Json.Serialize(Model.DetailPositions));
+let lastTimeStamp = @Html.Raw(Json.Serialize(Model.LastDetailPosition));
+drawMap(data, lastTimeStamp);
+drawCo2Graphic();
 });
-
 </script>
 </body>
 </html>

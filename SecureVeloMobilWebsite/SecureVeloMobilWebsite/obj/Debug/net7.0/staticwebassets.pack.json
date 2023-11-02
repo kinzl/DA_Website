@@ -37,6 +37,10 @@
       "PackagePath": "staticwebassets\\img\\TorstenWelsch.jpg"
     },
     {
+      "Id": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\js\\Draw.js",
+      "PackagePath": "staticwebassets\\js\\Draw.js"
+    },
+    {
       "Id": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },
