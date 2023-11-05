@@ -20,9 +20,10 @@ public class IndexModel : PageModel
     public List<DetailPositionDto> DetailPositions;
     public int SelectedFilterDateIndex;
     public CourseDto SelectedCourse;
+    public TimeSpan DrivenTime;
     public FilterDate SelectedFilterDate { get; set; }
 
-    public List<FilterDate> FilterDates = new List<FilterDate>()
+    public List<FilterDate> FilterDates = new()
     {
         new()
         {
@@ -64,9 +65,9 @@ public class IndexModel : PageModel
         _db = db;
         _seeder = seeder;
 
-        // _db.Database.EnsureDeleted();
-        // _db.Database.EnsureCreated();
-        // _seeder.Seed();
+        _db.Database.EnsureDeleted();
+        _db.Database.EnsureCreated();
+        _seeder.Seed();
     }
 
     public void OnGet()
@@ -100,6 +101,7 @@ public class IndexModel : PageModel
             SelectedFilterDate = FilterDates[SelectedFilterDateIndex];
         }
 
+        
 
         Courses = _db.Courses
             .Include(x => x.DetailPosition)
@@ -126,7 +128,8 @@ public class IndexModel : PageModel
             {
                 SelectedCourseIndex = Convert.ToInt32(HttpContext.Session.GetString("SelectedCourseIndex") ?? "0");
                 SelectedCourseId = Convert.ToInt32(HttpContext.Session.GetString("SelectedCourseId") ?? "1");
-                SelectedCourse = Courses.Where(x => x.CourseId == SelectedCourseId).SingleOrDefault();
+                SelectedCourse = Courses.Where(x => x.CourseId == SelectedCourseId).SingleOrDefault() ?? Courses.First();
+                DrivenTime = SelectedCourse.EndTime - SelectedCourse.StartTime;
                 DetailPositions = _db.DetailPositions
                     .Where(x => x.Courses.CourseId == SelectedCourseId)
                     .Select(x => new DetailPositionDto()

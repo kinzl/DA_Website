@@ -62,8 +62,8 @@
             </form>
             <label id="totalDistance"></label>
             <label id="maxSpeed">0 km/h (speed)</label>
-            <label id="drivenTime">--:-- (time)</label>
-            <label id="drivenDay">@Model.SelectedCourse.DayOfRecording.ToString("ddd dd-MM-yyyy hh:mm")</label>
+            <label id="drivenTime">Driven Time: @Model.DrivenTime.ToString(@"hh\:mm\:ss");</label>
+            <label id="drivenDay">Start Time: @Model.SelectedCourse.DayOfRecording.ToString("ddd dd-MM-yyyy hh:mm")</label>
 
         </div>
         <div class="center-section col-md-6">
