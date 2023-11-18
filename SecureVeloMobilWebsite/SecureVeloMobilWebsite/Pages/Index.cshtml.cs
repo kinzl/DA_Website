@@ -21,6 +21,7 @@ public class IndexModel : PageModel
     public int SelectedFilterDateIndex;
     public CourseDto SelectedCourse;
     public TimeSpan DrivenTime;
+    public string InfoBoxText = "";
     public FilterDate SelectedFilterDate { get; set; }
 
     public List<FilterDate> FilterDates = new()
@@ -65,9 +66,9 @@ public class IndexModel : PageModel
         _db = db;
         _seeder = seeder;
 
-        _db.Database.EnsureDeleted();
-        _db.Database.EnsureCreated();
-        _seeder.Seed();
+        // _db.Database.EnsureDeleted();
+        // _db.Database.EnsureCreated();
+        // _seeder.Seed();
     }
 
     public void OnGet()
@@ -101,7 +102,6 @@ public class IndexModel : PageModel
             SelectedFilterDate = FilterDates[SelectedFilterDateIndex];
         }
 
-        
 
         Courses = _db.Courses
             .Include(x => x.DetailPosition)
@@ -128,7 +128,8 @@ public class IndexModel : PageModel
             {
                 SelectedCourseIndex = Convert.ToInt32(HttpContext.Session.GetString("SelectedCourseIndex") ?? "0");
                 SelectedCourseId = Convert.ToInt32(HttpContext.Session.GetString("SelectedCourseId") ?? "1");
-                SelectedCourse = Courses.Where(x => x.CourseId == SelectedCourseId).SingleOrDefault() ?? Courses.First();
+                SelectedCourse = Courses.SingleOrDefault(x => x.CourseId == SelectedCourseId) ??
+                                 new CourseDto();
                 DrivenTime = SelectedCourse.EndTime - SelectedCourse.StartTime;
                 DetailPositions = _db.DetailPositions
                     .Where(x => x.Courses.CourseId == SelectedCourseId)
@@ -147,6 +148,11 @@ public class IndexModel : PageModel
             {
                 _logger.LogWarning("No route found");
             }
+        }
+        else
+        {
+            SelectedCourse = new CourseDto();
+            InfoBoxText = "Es wurden keine Fahrten für den ausgewählten Zeitraum gefunden";
         }
     }
 
@@ -171,21 +177,14 @@ public class IndexModel : PageModel
         return new RedirectToPageResult("Index");
     }
 
-    public IActionResult OnPostSetStartDate(DateTime startDate)
+    public IActionResult OnPostSetDate(DateTime startDate, DateTime endDate)
     {
         Initialize();
+        if (startDate > endDate) (startDate, endDate) = (endDate, startDate);
+
         HttpContext.Session.SetString("startDate", startDate.ToString());
-        HttpContext.Session.SetString("SelectedFilterDateIndex", "0");
-        return new RedirectToPageResult("Index");
-    }
-
-    public IActionResult OnPostSetEndDate(DateTime endDate)
-    {
-        Initialize();
-
         HttpContext.Session.SetString("endDate", endDate.ToString());
         HttpContext.Session.SetString("SelectedFilterDateIndex", "0");
-
         return new RedirectToPageResult("Index");
     }
 }

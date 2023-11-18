@@ -1,4 +1,5 @@
 ﻿@page
+@using System.Globalization
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
@@ -13,17 +14,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="js/Draw.js"></script>
+    <script src="js/draw.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/keymap.js"></script>
 </head>
 <body>
 
-<div class="container mt-3">
+<div class="container index-container body-container">
     <div class="row">
         <div class="left-section d-flex flex-column col-md-3">
             <!-- Listbox content goes here -->
             <form method="post" asp-page-handler="TimeFilterChanged">
-                <select id="pastTime" onchange="this.form.submit()" name="selectedDay">
+                <select id="pastTime" onchange="this.form.submit()" name="selectedDay" class="routeListbox">
                     @for (int i = 0; i < @Model.FilterDates.Count(); i++)
                     {
                         @if (i == @Model.SelectedFilterDateIndex)
@@ -37,16 +39,15 @@
                     }
                 </select>
             </form>
-            <form method="post" asp-page-handler="SetStartDate">
+            <form method="post" asp-page-handler="SetDate">
                 <label for="startDate">Start</label>
-                <input id="startDate" type="date" onchange="this.form.submit()" name="startDate" value="@Model.SelectedFilterDate.startTime.ToString("yyyy-MM-dd")"/>
-            </form>
-            <form method="post" asp-page-handler="SetEndDate">
+                <input id="startDate" type="date" onfocusout="this.form.submit()" name="startDate" value="@Model.SelectedFilterDate.startTime.ToString("yyyy-MM-dd")"/>
                 <label for="endDate">End</label>
-                <input id="endDate" type="date" onchange="this.form.submit()" name="endDate" value="@Model.SelectedFilterDate.endTime.ToString("yyyy-MM-dd")"/>
+                <input id="endDate" type="date" onfocusout="this.form.submit()" name="endDate" value="@Model.SelectedFilterDate.endTime.ToString("yyyy-MM-dd")"/>
             </form>
+
             <form method="post" asp-page-handler="CourseChanged">
-                <select id="routeList" size="10" onchange="this.form.submit()" name="courseId" class="routeListbox">
+                <select id="routeList" size="7" onchange="this.form.submit()" name="courseId" class="routeListbox">
                     @for (int i = 0; i < @Model.Courses.Count; i++)
                     {
                         @if (i == @Model.SelectedCourseIndex)
@@ -60,18 +61,49 @@
                     }
                 </select>
             </form>
-            <label id="totalDistance"></label>
-            <label id="maxSpeed">0 km/h (speed)</label>
-            <label id="drivenTime">Driven Time: @Model.DrivenTime.ToString(@"hh\:mm\:ss");</label>
-            <label id="drivenDay">Start Time: @Model.SelectedCourse.DayOfRecording.ToString("ddd dd-MM-yyyy hh:mm")</label>
+            <h6 style="color: red">@Model.InfoBoxText</h6>
+            <div class="container-row">
+                <div>
+                    <canvas id="co2Chart" class="co2Chart"></canvas>
+                </div>
+                <div class="stats">
+                    <table>
+                        <tr>
+                            <td>Total Distance</td>
+                            <td id="totalDistance"></td>
+                        </tr>
+                        <tr>
+                            <td>Max Speed</td>
+                            <td id="maxSpeed">Something kmh</td>
+                        </tr>
+                        <tr>
+                            <td>Driven Time</td>
+                            <td id="drivenTime">@Model.DrivenTime.ToString(@"hh\:mm\:ss")</td>
+                        </tr>
+                        <tr>
+                            <td>Driven Day</td>
+                            <td id="drivenDay">@Model.SelectedCourse.DayOfRecording.ToString("ddd dd.MM.yyyy hh:mm", CultureInfo.GetCultureInfo("de"))</td>
+                        </tr>
+                    </table>
+                    @* <label id="totalDistance"></label> *@
+                    @* <label id="maxSpeed">0 km/h (speed)</label> *@
+                    @* <label id="drivenTime">Driven Time: @Model.DrivenTime.ToString(@"hh\:mm\:ss");</label> *@
+                    @* <label id="drivenDay">Start Time: @Model.SelectedCourse.DayOfRecording.ToString("ddd dd.MM.yyyy hh:mm", CultureInfo.GetCultureInfo("de"))</label> *@
+                </div>
+            </div>
+            <h6 class="savedCo2Text">Sie haben mit dieser Fahrt <b>x kg</b> CO2 eingesparrt</h6>
+        </div>
+        <div class="right-section col-md-6">
+            <div id="map">
+                @* <h2>Es kann keine Karte gezeichnet werden \\oder empty map mit standpunkt london bzw kann man wo anders setzen</h2> *@
+            </div>
+        </div>
+        @* <div class="right-section d-flex flex-column  col-md-3"> *@
+        @* *@
 
-        </div>
-        <div class="center-section col-md-6">
-            <div id="map"></div>
-        </div>
-        <div class="right-section  col-md-3">
-            <canvas id="co2Chart"></canvas>
-        </div>
+        @* *@
+        @* </div> *@
+
     </div>
 </div>
 <script>
@@ -80,7 +112,8 @@ let data = @Html.Raw(Json.Serialize(Model.DetailPositions));
 let lastTimeStamp = @Html.Raw(Json.Serialize(Model.LastDetailPosition));
 drawMap(data, lastTimeStamp);
 drawCo2Graphic();
-});
+})
+
 </script>
 </body>
 </html>

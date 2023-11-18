@@ -8,6 +8,7 @@
 };
 
 function drawMap(data, inputLastTimeStamp) {
+    if (data == null) return;
     const map = L.map('map').setView([51.5074, -0.1278], 13);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -27,8 +28,7 @@ function drawMap(data, inputLastTimeStamp) {
         distance += from.distanceTo(to);
     }
 
-    const lblDistance = $('#totalDistance');
-    lblDistance.html(distance.toFixed(4) + " Meters");
+    const lblDistance = $('#totalDistance').html((distance / 1000).toFixed(3) + " km");
 
     // Add square markers for each coordinate
     data.forEach(item => {
@@ -44,7 +44,7 @@ function drawMap(data, inputLastTimeStamp) {
         // marker.bindPopup('PosX: ' + item.posX);
         // marker.bindPopup('PosY: ' + item.posY);
         const date = new Date(item.positionTime);
-        marker.bindPopup(date.toLocaleDateString("en-US", dateOptions));
+        marker.bindPopup(date.toLocaleDateString("de", dateOptions));
     });
 
     // Add some additional map enhancements
@@ -62,7 +62,7 @@ function drawCo2Graphic() {
     new Chart(ctx, {
         type: 'bar', // Use 'bar' for vertical bars
         data: {
-            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            labels: ['Fahrrad', 'Zug', 'Auto', 'Flugzeug'],
             datasets: [{
                 label: '# of Votes',
                 data: [12, 19, 3, 5, 2, 3],
@@ -70,7 +70,7 @@ function drawCo2Graphic() {
             }]
         },
         options: {
-            indexAxis: 'y', // Use 'y' for vertical bars
+            indexAxis: 'x', // Use 'y' for vertical bars
             scales: {
                 x: {
                     beginAtZero: true
