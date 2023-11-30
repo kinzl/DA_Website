@@ -11,6 +11,7 @@ public class VeloMobilService
 {
     private VeloMobilContext _db;
     private ILogger<VeloMobilService> _logger;
+
     public VeloMobilService(ILogger<VeloMobilService> logger, VeloMobilContext db)
     {
         _logger = logger;
@@ -26,11 +27,17 @@ public class VeloMobilService
     }
 
     public ActionResult AddPositionsToNewCourse(Course detailPositions)
-    { 
+    {
+        int maxSpeed = 0;
+        detailPositions.DetailPosition.ForEach(x =>
+        {
+            
+        });
         _db.Courses.Add(new Course()
         {
             DetailPosition = detailPositions.DetailPosition,
             Name = detailPositions.Name,
+            MaxSpeed = maxSpeed,
         });
         _db.SaveChanges();
         return new OkResult();

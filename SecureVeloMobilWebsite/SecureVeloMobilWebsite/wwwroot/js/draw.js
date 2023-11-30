@@ -53,8 +53,9 @@ function drawMap(data, inputLastTimeStamp) {
 
     const bounds = L.latLngBounds(routeCoordinates);
     map.fitBounds(bounds);
-}
 
+    calculateCo2((distance / 1000).toFixed(3));
+}
 
 function drawCo2Graphic() {
     const ctx = document.getElementById('co2Chart');
@@ -78,4 +79,8 @@ function drawCo2Graphic() {
             }
         }
     });
+}
+
+function calculateCo2(distance) {
+    $("#savedCo2").html("Sie haben " + (((distance * co2FootprintCarInGram) - (distance * co2FootprintBikeInGram))/1000).toFixed(1) + " kg eingespart");
 }

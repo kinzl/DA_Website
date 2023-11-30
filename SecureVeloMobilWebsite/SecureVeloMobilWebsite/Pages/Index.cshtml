@@ -17,6 +17,8 @@
     <script src="js/draw.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="js/keymap.js"></script>
+    <script src="js/calculate.js"></script>
+    <script src="js/constants.js"></script>
 </head>
 <body>
 
@@ -91,7 +93,14 @@
                     @* <label id="drivenDay">Start Time: @Model.SelectedCourse.DayOfRecording.ToString("ddd dd.MM.yyyy hh:mm", CultureInfo.GetCultureInfo("de"))</label> *@
                 </div>
             </div>
-            <h6 class="savedCo2Text">Sie haben mit dieser Fahrt <b>x kg</b> CO2 eingesparrt</h6>
+            <h6 class="savedCo2Text" id="savedCo2">
+                @* Sie haben mit dieser Fahrt *@
+                @* <b> *@
+                @*     <script> *@
+                @*     $('#totalDistance').html(); *@
+                @* </script> g *@
+                @* </b> CO2 eingesparrt *@
+            </h6>
         </div>
         <div class="right-section col-md-6">
             <div id="map">

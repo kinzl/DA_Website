@@ -20,6 +20,7 @@
 
 .body-container {
     background-color: #e1eaf1;
+    /*background-color: black;*/
     padding-left: 0px !important;
     padding-right: 0px !important;
     max-width: 100%;
@@ -55,8 +56,8 @@
     flex: 1;
     min-width: 50%;
     max-width: 100%;
-    max-height: 90vh;
-    /*background-color: rgba(238, 238, 238, 0.93);*/
+    max-height: 85vh;
+    background-color: rgba(238, 238, 238, 0.93);
 }
 
 table {
@@ -78,7 +79,8 @@ th {
 
 #map {
     width: 100%;
-    padding-bottom: 90vh;
+    padding-bottom: 85vh;
+    margin: 0px;
     position: relative;
 }
 
@@ -113,6 +115,9 @@ th {
 
 .navbar {
     background-color: lightblue;
+    /*background-color: black;*/
+    font-size: 20px;
+    font-weight: bold;
 }
 
 .square-marker {
