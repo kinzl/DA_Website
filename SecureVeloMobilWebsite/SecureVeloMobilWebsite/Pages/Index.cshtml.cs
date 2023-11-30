@@ -20,9 +20,11 @@ public class IndexModel : PageModel
     public List<DetailPositionDto> DetailPositions;
     public int SelectedFilterDateIndex;
     public CourseDto SelectedCourse;
+    public TimeSpan DrivenTime;
+    public string InfoBoxText = "";
     public FilterDate SelectedFilterDate { get; set; }
 
-    public List<FilterDate> FilterDates = new List<FilterDate>()
+    public List<FilterDate> FilterDates = new()
     {
         new()
         {
@@ -126,7 +128,9 @@ public class IndexModel : PageModel
             {
                 SelectedCourseIndex = Convert.ToInt32(HttpContext.Session.GetString("SelectedCourseIndex") ?? "0");
                 SelectedCourseId = Convert.ToInt32(HttpContext.Session.GetString("SelectedCourseId") ?? "1");
-                SelectedCourse = Courses.Where(x => x.CourseId == SelectedCourseId).SingleOrDefault();
+                SelectedCourse = Courses.SingleOrDefault(x => x.CourseId == SelectedCourseId) ??
+                                 new CourseDto();
+                DrivenTime = SelectedCourse.EndTime - SelectedCourse.StartTime;
                 DetailPositions = _db.DetailPositions
                     .Where(x => x.Courses.CourseId == SelectedCourseId)
                     .Select(x => new DetailPositionDto()
@@ -144,6 +148,11 @@ public class IndexModel : PageModel
             {
                 _logger.LogWarning("No route found");
             }
+        }
+        else
+        {
+            SelectedCourse = new CourseDto();
+            InfoBoxText = "Es wurden keine Fahrten für den ausgewählten Zeitraum gefunden";
         }
     }
 
@@ -168,21 +177,14 @@ public class IndexModel : PageModel
         return new RedirectToPageResult("Index");
     }
 
-    public IActionResult OnPostSetStartDate(DateTime startDate)
+    public IActionResult OnPostSetDate(DateTime startDate, DateTime endDate)
     {
         Initialize();
+        if (startDate > endDate) (startDate, endDate) = (endDate, startDate);
+
         HttpContext.Session.SetString("startDate", startDate.ToString());
-        HttpContext.Session.SetString("SelectedFilterDateIndex", "0");
-        return new RedirectToPageResult("Index");
-    }
-
-    public IActionResult OnPostSetEndDate(DateTime endDate)
-    {
-        Initialize();
-
         HttpContext.Session.SetString("endDate", endDate.ToString());
         HttpContext.Session.SetString("SelectedFilterDateIndex", "0");
-
         return new RedirectToPageResult("Index");
     }
 }

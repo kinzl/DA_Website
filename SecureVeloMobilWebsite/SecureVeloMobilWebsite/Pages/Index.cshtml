@@ -1,4 +1,5 @@
 ﻿@page
+@using System.Globalization
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
@@ -13,16 +14,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
+    <script src="js/draw.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/keymap.js"></script>
+    <script src="js/calculate.js"></script>
+    <script src="js/constants.js"></script>
 </head>
 <body>
 
-<div class="container mt-3">
+<div class="container index-container body-container">
     <div class="row">
         <div class="left-section d-flex flex-column col-md-3">
             <!-- Listbox content goes here -->
             <form method="post" asp-page-handler="TimeFilterChanged">
-                <select id="pastTime" onchange="this.form.submit()" name="selectedDay">
+                <select id="pastTime" onchange="this.form.submit()" name="selectedDay" class="routeListbox">
                     @for (int i = 0; i < @Model.FilterDates.Count(); i++)
                     {
                         @if (i == @Model.SelectedFilterDateIndex)
@@ -36,16 +41,15 @@
                     }
                 </select>
             </form>
-            <form method="post" asp-page-handler="SetStartDate">
+            <form method="post" asp-page-handler="SetDate">
                 <label for="startDate">Start</label>
-                <input id="startDate" type="date" onchange="this.form.submit()" name="startDate" value="@Model.SelectedFilterDate.startTime.ToString("yyyy-MM-dd")"/>
-            </form>
-            <form method="post" asp-page-handler="SetEndDate">
+                <input id="startDate" type="date" onfocusout="this.form.submit()" name="startDate" value="@Model.SelectedFilterDate.startTime.ToString("yyyy-MM-dd")"/>
                 <label for="endDate">End</label>
-                <input id="endDate" type="date" onchange="this.form.submit()" name="endDate" value="@Model.SelectedFilterDate.endTime.ToString("yyyy-MM-dd")"/>
+                <input id="endDate" type="date" onfocusout="this.form.submit()" name="endDate" value="@Model.SelectedFilterDate.endTime.ToString("yyyy-MM-dd")"/>
             </form>
+
             <form method="post" asp-page-handler="CourseChanged">
-                <select id="routeList" size="10" onchange="this.form.submit()" name="courseId" class="routeListbox">
+                <select id="routeList" size="7" onchange="this.form.submit()" name="courseId" class="routeListbox">
                     @for (int i = 0; i < @Model.Courses.Count; i++)
                     {
                         @if (i == @Model.SelectedCourseIndex)
@@ -59,67 +63,65 @@
                     }
                 </select>
             </form>
-            <label id="totalDistance"></label>
-            <label id="maxSpeed">0 km/h (speed)</label>
-            <label id="drivenTime">--:-- (time)</label>
-            <label id="drivenDay">@Model.SelectedCourse.DayOfRecording.ToString("ddd dd-MM-yyyy hh:mm")</label>
+            <h6 style="color: red">@Model.InfoBoxText</h6>
+            <div class="container-row">
+                <div>
+                    <canvas id="co2Chart" class="co2Chart"></canvas>
+                </div>
+                <div class="stats">
+                    <table>
+                        <tr>
+                            <td>Total Distance</td>
+                            <td id="totalDistance"></td>
+                        </tr>
+                        <tr>
+                            <td>Max Speed</td>
+                            <td id="maxSpeed">Something kmh</td>
+                        </tr>
+                        <tr>
+                            <td>Driven Time</td>
+                            <td id="drivenTime">@Model.DrivenTime.ToString(@"hh\:mm\:ss")</td>
+                        </tr>
+                        <tr>
+                            <td>Driven Day</td>
+                            <td id="drivenDay">@Model.SelectedCourse.DayOfRecording.ToString("ddd dd.MM.yyyy hh:mm", CultureInfo.GetCultureInfo("de"))</td>
+                        </tr>
+                    </table>
+                    @* <label id="totalDistance"></label> *@
+                    @* <label id="maxSpeed">0 km/h (speed)</label> *@
+                    @* <label id="drivenTime">Driven Time: @Model.DrivenTime.ToString(@"hh\:mm\:ss");</label> *@
+                    @* <label id="drivenDay">Start Time: @Model.SelectedCourse.DayOfRecording.ToString("ddd dd.MM.yyyy hh:mm", CultureInfo.GetCultureInfo("de"))</label> *@
+                </div>
+            </div>
+            <h6 class="savedCo2Text" id="savedCo2">
+                @* Sie haben mit dieser Fahrt *@
+                @* <b> *@
+                @*     <script> *@
+                @*     $('#totalDistance').html(); *@
+                @* </script> g *@
+                @* </b> CO2 eingesparrt *@
+            </h6>
+        </div>
+        <div class="right-section col-md-6">
+            <div id="map">
+                @* <h2>Es kann keine Karte gezeichnet werden \\oder empty map mit standpunkt london bzw kann man wo anders setzen</h2> *@
+            </div>
+        </div>
+        @* <div class="right-section d-flex flex-column  col-md-3"> *@
+        @* *@
 
-        </div>
-        <div class="center-section col-md-6">
-            <!-- Map content goes here -->
-            <div id="map"></div>
-        </div>
-        <div class="right-section  col-md-3">
-            <!-- Stats content goes here -->
+        @* *@
+        @* </div> *@
 
-        </div>
     </div>
 </div>
 <script>
-$(document).ready(function() {
-    const map = L.map('map').setView([51.5074, -0.1278], 13); // Set the initial center coordinates and zoom level
-
-    // Add the OpenStreetMap tile layer
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
-      maxZoom: 19
-    }).addTo(map);
-
-    // Array of coordinates for the route you drove
-    const routeCoordinates = @Html.Raw(Json.Serialize(Model.DetailPositions));
-    const routeCoordinatesOnly = [];
-    
-    for (let item of routeCoordinates)
-    {
-        let positions = {posY:item["posY"], posX:item["posX"]};
-        routeCoordinatesOnly.push(Object.values(positions));
-    }
-    
-    // Add the route using a polyline
-    const route = L.polyline(routeCoordinatesOnly, { color: 'blue' }).addTo(map)
-
-    // Calculate the distance of the route
-    let distance = 0;
-    for (let i = 0; i < routeCoordinatesOnly.length - 1; i++) {
-      let from = L.latLng(routeCoordinatesOnly[i]);
-      let to = L.latLng(routeCoordinatesOnly[i + 1]);
-      distance += from.distanceTo(to);
-    }
-    // console.log('Total distance: ' + distance + ' meters');
-
-    const lblDistnace = $('#totalDistance');
-    lblDistnace.html(distance + " Meters");
-
-    // Add a marker to the map
-    const lastTimeStamp = @Html.Raw(Json.Serialize(Model.LastDetailPosition));
-    console.log(lastTimeStamp)
-    const markerCoordinates = [lastTimeStamp["posY"], lastTimeStamp["posX"]]; // Example coordinates
-    const marker = L.marker(markerCoordinates).addTo(map);
-
-    // Fit the map bounds to the route and marker
-    const bounds = L.latLngBounds(routeCoordinatesOnly.concat(markerCoordinates));
-    map.fitBounds(bounds);
-});
+$(document).ready(function () {
+let data = @Html.Raw(Json.Serialize(Model.DetailPositions));
+let lastTimeStamp = @Html.Raw(Json.Serialize(Model.LastDetailPosition));
+drawMap(data, lastTimeStamp);
+drawCo2Graphic();
+})
 
 </script>
 </body>

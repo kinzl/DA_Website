@@ -5,16 +5,12 @@
       "PackagePath": "staticwebassets\\SecureVeloMobilWebsite.bundle.scp.css"
     },
     {
-      "Id": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\css\\AboutUs.css",
-      "PackagePath": "staticwebassets\\css\\AboutUs.css"
+      "Id": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\css\\aboutus.css",
+      "PackagePath": "staticwebassets\\css\\aboutus.css"
     },
     {
-      "Id": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\css\\Index.css",
-      "PackagePath": "staticwebassets\\css\\Index.css"
-    },
-    {
-      "Id": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\css\\site.css",
-      "PackagePath": "staticwebassets\\css\\site.css"
+      "Id": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\css\\index.css",
+      "PackagePath": "staticwebassets\\css\\index.css"
     },
     {
       "Id": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\favicon.ico",
@@ -37,8 +33,16 @@
       "PackagePath": "staticwebassets\\img\\TorstenWelsch.jpg"
     },
     {
-      "Id": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\js\\site.js",
-      "PackagePath": "staticwebassets\\js\\site.js"
+      "Id": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\js\\calculate.js",
+      "PackagePath": "staticwebassets\\js\\calculate.js"
+    },
+    {
+      "Id": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\js\\constants.js",
+      "PackagePath": "staticwebassets\\js\\constants.js"
+    },
+    {
+      "Id": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\js\\draw.js",
+      "PackagePath": "staticwebassets\\js\\draw.js"
     },
     {
       "Id": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\lib\\bootstrap\\LICENSE",

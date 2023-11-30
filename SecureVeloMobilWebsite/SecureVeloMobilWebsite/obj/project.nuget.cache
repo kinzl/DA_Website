@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "unleywxzLWN7IiQqg+QMkwz5v02BusZUXkYdaNAp2C8jDM+Va2IwVpL6XpyNm28KnnpMd1UtS/rwYj8y5NoXcg==",
+  "dgSpecHash": "Exvpg7XF8S6XRdQ5KR0mae5vkSmLeCIsN0PYrL7oRo937hjemXOl72+lZsCY0/SgfAJw5YHVc8FSMhaYvS8QUA==",
   "success": true,
   "projectFilePath": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite.csproj",
   "expectedPackageFiles": [
@@ -88,7 +88,11 @@
     "C:\\Users\\kinzl\\.nuget\\packages\\system.text.json\\7.0.0\\system.text.json.7.0.0.nupkg.sha512",
     "C:\\Users\\kinzl\\.nuget\\packages\\system.threading.tasks\\4.3.0\\system.threading.tasks.4.3.0.nupkg.sha512",
     "C:\\Users\\kinzl\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512",
-    "C:\\Users\\kinzl\\.nuget\\packages\\system.windows.extensions\\5.0.0\\system.windows.extensions.5.0.0.nupkg.sha512"
+    "C:\\Users\\kinzl\\.nuget\\packages\\system.windows.extensions\\5.0.0\\system.windows.extensions.5.0.0.nupkg.sha512",
+    "C:\\Users\\kinzl\\.nuget\\packages\\microsoft.netcore.app.ref\\7.0.14\\microsoft.netcore.app.ref.7.0.14.nupkg.sha512",
+    "C:\\Users\\kinzl\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\7.0.14\\microsoft.windowsdesktop.app.ref.7.0.14.nupkg.sha512",
+    "C:\\Users\\kinzl\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\7.0.14\\microsoft.aspnetcore.app.ref.7.0.14.nupkg.sha512",
+    "C:\\Users\\kinzl\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\7.0.14\\microsoft.netcore.app.host.win-x64.7.0.14.nupkg.sha512"
   ],
   "logs": []
 }

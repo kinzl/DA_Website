@@ -1,0 +1,167 @@
+.content-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.container-row {
+    display: flex;
+}
+
+.container {
+    /*remove the container default padding attribute*/
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.nav-link:hover {
+    animation: bounce 1s ease infinite;
+}
+
+.body-container {
+    background-color: #e1eaf1;
+    /*background-color: black;*/
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    max-width: 100%;
+}
+
+.index-container {
+    margin: 10px 1vw 10px 1vw;
+    width: 98vw;
+}
+
+/*.left-section, .center-section, .right-section {*/
+/*    flex: 1;*/
+/*    padding: 5px;*/
+/*    background-color: #f0f0f0;*/
+/*}*/
+
+.co2Chart, .stats {
+    flex: 1;
+    margin: 10px;
+}
+
+.co2Chart {
+    max-width: 30vw;
+    height: 50vh;
+}
+
+.left-section {
+    flex: 1;
+    width: 50%;
+}
+
+.right-section {
+    flex: 1;
+    min-width: 50%;
+    max-width: 100%;
+    max-height: 85vh;
+    background-color: rgba(238, 238, 238, 0.93);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ddd; /* Border color for the table */
+}
+
+th, td {
+    border: 1px solid #ddd; /* Border color for cells */
+    padding: 8px; /* Adjust padding as needed */
+    text-align: left;
+    background-color: #f2f2f2;
+}
+
+th {
+    background-color: #f2f2f2; /* Background color for header cells */
+}
+
+#map {
+    width: 100%;
+    padding-bottom: 85vh;
+    margin: 0px;
+    position: relative;
+}
+
+@media (max-width: 768px) {
+    .left-section,
+    .right-section {
+        flex: auto;
+        border: none;
+        margin: 0;
+    }
+}
+
+.savedCo2Text {
+    font-size: 25px;
+    background-color: #e7f3de;
+    text-align: center
+}
+
+.routeListbox {
+    width: 99%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+    font-size: 14px;
+    color: #333;
+    transition: border-color 0.2s;
+    white-space: normal; /* Allow text to wrap */
+    text-align: center;
+    max-height: 40vh;
+}
+
+.navbar {
+    background-color: lightblue;
+    /*background-color: black;*/
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.square-marker {
+    width: 10px; /* Adjust the width and height as needed */
+    height: 10px;
+    background-color: blue; /* Adjust the background color as needed */
+    border: 2px solid whitesmoke; /* Add a border if desired */
+    border-radius: 4px; /* To make the square slightly rounded */
+}
+
+.routeListbox:hover {
+    border-color: #999;
+}
+
+.routeListbox:focus {
+    border-color: dodgerblue;
+    outline: none;
+    box-shadow: 0 0 0 2px dodgerblue;
+}
+
+/* Style for listbox options */
+.routeListbox option {
+    padding: 8px;
+    font-size: 14px;
+    white-space: normal; /* Allow text to wrap within options */
+}
+
+.routeListbox option:hover {
+    background-color: #f0f0f0;
+}
+
+select {
+    height: auto;
+    overflow: auto;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}

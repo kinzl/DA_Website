@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "T8sGGl40rwhak2ueRmI+cIZdmkyPpGU3/9bwEuUOyeI=",
+  "Hash": "xc60QdVdt5Tz3VH8qSlGVB5HV+cg3bmU6RYUnLTohH0=",
   "Source": "SecureVeloMobilWebsite",
   "BasePath": "_content/SecureVeloMobilWebsite",
   "Mode": "Default",
@@ -51,12 +51,12 @@
       "OriginalItemSpec": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\obj\\Debug\\net7.0\\scopedcss\\projectbundle\\SecureVeloMobilWebsite.bundle.scp.css"
     },
     {
-      "Identity": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\css\\AboutUs.css",
+      "Identity": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\css\\aboutus.css",
       "SourceId": "SecureVeloMobilWebsite",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\",
       "BasePath": "_content/SecureVeloMobilWebsite",
-      "RelativePath": "css/AboutUs.css",
+      "RelativePath": "css/aboutus.css",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -65,15 +65,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\css\\AboutUs.css"
+      "OriginalItemSpec": "wwwroot\\css\\aboutus.css"
     },
     {
-      "Identity": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\css\\Index.css",
+      "Identity": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\css\\index.css",
       "SourceId": "SecureVeloMobilWebsite",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\",
       "BasePath": "_content/SecureVeloMobilWebsite",
-      "RelativePath": "css/Index.css",
+      "RelativePath": "css/index.css",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -82,24 +82,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\css\\Index.css"
-    },
-    {
-      "Identity": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\css\\site.css",
-      "SourceId": "SecureVeloMobilWebsite",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\",
-      "BasePath": "_content/SecureVeloMobilWebsite",
-      "RelativePath": "css/site.css",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\css\\site.css"
+      "OriginalItemSpec": "wwwroot\\css\\index.css"
     },
     {
       "Identity": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\favicon.ico",
@@ -187,12 +170,12 @@
       "OriginalItemSpec": "wwwroot\\img\\TorstenWelsch.jpg"
     },
     {
-      "Identity": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\js\\site.js",
+      "Identity": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\js\\calculate.js",
       "SourceId": "SecureVeloMobilWebsite",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\",
       "BasePath": "_content/SecureVeloMobilWebsite",
-      "RelativePath": "js/site.js",
+      "RelativePath": "js/calculate.js",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -201,7 +184,41 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\js\\site.js"
+      "OriginalItemSpec": "wwwroot\\js\\calculate.js"
+    },
+    {
+      "Identity": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\js\\constants.js",
+      "SourceId": "SecureVeloMobilWebsite",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\",
+      "BasePath": "_content/SecureVeloMobilWebsite",
+      "RelativePath": "js/constants.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\constants.js"
+    },
+    {
+      "Identity": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\js\\draw.js",
+      "SourceId": "SecureVeloMobilWebsite",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\",
+      "BasePath": "_content/SecureVeloMobilWebsite",
+      "RelativePath": "js/draw.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\draw.js"
     },
     {
       "Identity": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
