@@ -7,7 +7,7 @@ using VeloMobilDb;
 
 namespace SecureVeloMobilWebsite.Services;
 
-public class VeloMobilService
+public class VeloMobilService : ControllerBase
 {
     private VeloMobilContext _db;
     private ILogger<VeloMobilService> _logger;
@@ -28,18 +28,31 @@ public class VeloMobilService
 
     public ActionResult AddPositionsToNewCourse(Course detailPositions)
     {
-        int maxSpeed = 0;
-        detailPositions.DetailPosition.ForEach(x =>
-        {
-            
-        });
         _db.Courses.Add(new Course()
         {
             DetailPosition = detailPositions.DetailPosition,
             Name = detailPositions.Name,
-            MaxSpeed = maxSpeed,
+            MaxSpeed = 0,
         });
         _db.SaveChanges();
-        return new OkResult();
+        var lastCourseId = _db.Courses.OrderBy(x => x.CourseId).Last().CourseId;
+        return Ok(lastCourseId);
+    }
+
+    public ActionResult AddPositionsToExistingCourse(Course course)
+    {
+        var selectedCourse = _db.Courses
+            .Include(x => x.DetailPosition)
+            .SingleOrDefault(x => x.CourseId == course.CourseId)
+            .DetailPosition;
+
+        foreach (var item in course.DetailPosition)
+        {
+            selectedCourse.Add(item);
+        }
+
+        _db.SaveChanges();
+
+        return Ok("Added positions to " + course.CourseId);
     }
 }

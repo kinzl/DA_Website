@@ -4,6 +4,7 @@
         <TargetFramework>net7.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
     <ItemGroup>
@@ -20,12 +21,19 @@
         <PrivateAssets>all</PrivateAssets>
       </PackageReference>
       <PackageReference Include="MySqlConnector" Version="2.2.7" />
+      <PackageReference Include="NLog.Extensions.Logging" Version="5.3.5" />
       <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
       <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\VeloMobilDb\VeloMobilDb.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\.dockerignore">
+        <Link>.dockerignore</Link>
+      </Content>
     </ItemGroup>
 
 </Project>

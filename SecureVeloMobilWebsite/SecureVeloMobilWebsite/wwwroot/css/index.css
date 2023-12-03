@@ -95,7 +95,6 @@ th {
 
 .savedCo2Text {
     font-size: 25px;
-    background-color: #e7f3de;
     text-align: center
 }
 
@@ -115,7 +114,7 @@ th {
 
 .navbar {
     background-color: lightblue;
-    /*background-color: black;*/
+    /*background-color: #66AF05;*/
     font-size: 20px;
     font-weight: bold;
 }

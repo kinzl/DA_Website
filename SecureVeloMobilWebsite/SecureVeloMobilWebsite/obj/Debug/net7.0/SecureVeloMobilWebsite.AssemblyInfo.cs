@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SecureVeloMobilWebsite")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0629ccb8d0934db9e9a407726523ef0e7c299572")]
 [assembly: System.Reflection.AssemblyProductAttribute("SecureVeloMobilWebsite")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SecureVeloMobilWebsite")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

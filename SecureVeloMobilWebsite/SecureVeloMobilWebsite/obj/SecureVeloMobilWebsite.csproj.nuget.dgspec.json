@@ -81,6 +81,10 @@
               "target": "Package",
               "version": "[2.2.7, )"
             },
+            "NLog.Extensions.Logging": {
+              "target": "Package",
+              "version": "[5.3.5, )"
+            },
             "Pomelo.EntityFrameworkCore.MySql": {
               "target": "Package",
               "version": "[7.0.0, )"
@@ -183,6 +187,10 @@
             "MySqlConnector": {
               "target": "Package",
               "version": "[2.2.7, )"
+            },
+            "NLog.Extensions.Logging": {
+              "target": "Package",
+              "version": "[5.3.5, )"
             },
             "Pomelo.EntityFrameworkCore.MySql": {
               "target": "Package",

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Exvpg7XF8S6XRdQ5KR0mae5vkSmLeCIsN0PYrL7oRo937hjemXOl72+lZsCY0/SgfAJw5YHVc8FSMhaYvS8QUA==",
+  "dgSpecHash": "T2KB224wYvbzAL4kalBvl0TXSRI3rAuk+bjygPNt96xry2iOT3eFay+NK1mbIY2mUogBSPWRfLsvfrMoCgBR6w==",
   "success": true,
   "projectFilePath": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite.csproj",
   "expectedPackageFiles": [
@@ -51,6 +51,8 @@
     "C:\\Users\\kinzl\\.nuget\\packages\\microsoft.win32.systemevents\\5.0.0\\microsoft.win32.systemevents.5.0.0.nupkg.sha512",
     "C:\\Users\\kinzl\\.nuget\\packages\\mono.texttemplating\\2.2.1\\mono.texttemplating.2.2.1.nupkg.sha512",
     "C:\\Users\\kinzl\\.nuget\\packages\\mysqlconnector\\2.2.7\\mysqlconnector.2.2.7.nupkg.sha512",
+    "C:\\Users\\kinzl\\.nuget\\packages\\nlog\\5.2.5\\nlog.5.2.5.nupkg.sha512",
+    "C:\\Users\\kinzl\\.nuget\\packages\\nlog.extensions.logging\\5.3.5\\nlog.extensions.logging.5.3.5.nupkg.sha512",
     "C:\\Users\\kinzl\\.nuget\\packages\\pomelo.entityframeworkcore.mysql\\7.0.0\\pomelo.entityframeworkcore.mysql.7.0.0.nupkg.sha512",
     "C:\\Users\\kinzl\\.nuget\\packages\\sqlitepclraw.bundle_e_sqlite3\\2.1.4\\sqlitepclraw.bundle_e_sqlite3.2.1.4.nupkg.sha512",
     "C:\\Users\\kinzl\\.nuget\\packages\\sqlitepclraw.core\\2.1.4\\sqlitepclraw.core.2.1.4.nupkg.sha512",

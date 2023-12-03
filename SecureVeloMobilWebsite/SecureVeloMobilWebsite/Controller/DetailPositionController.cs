@@ -24,19 +24,40 @@ public class DetailPositionController
             .ToList();
     }
 
-    [HttpPost]
-    public ActionResult AddPositionsToNewCourse([FromBody] PostCourseDto positions)
+    [HttpPut]
+    public ActionResult AddPositionsToExistiongCourse([FromBody] CourseDto course)
     {
-        var p = new Course()
+        return _service.AddPositionsToExistingCourse(new Course()
+        {
+            Name = course.Name,
+            DetailPosition = course.DetailPosition.Select(x => new DetailPosition().CopyFrom(x)).ToList(),
+            Distance = course.Distance,
+            Picture = course.Picture,
+            Visible = course.Visible,
+            StartTime = course.StartTime,
+            MaxSpeed = course.MaxSpeed,
+            CourseId = course.CourseId,
+            EndTime = course.EndTime,
+            DayOfRecording = course.DayOfRecording
+        });
+    }
+
+    [HttpPost]
+    public IActionResult AddPositionsToNewCourse([FromBody] PostCourseDto positions)
+    {
+        var newCourse = new Course()
         {
             Name = positions.Name,
             DetailPosition = positions.DetailPosition.Select(x => new DetailPosition().CopyFrom(x)).ToList(),
             Distance = positions.Distance,
             Picture = positions.Picture,
             Visible = positions.Visible,
-            StartTime = positions.DrivenTime
+            StartTime = positions.StartTime,
+            MaxSpeed = positions.MaxSpeed,
+            EndTime = positions.EndTime,
+            DayOfRecording = positions.DayOfRecording,
         };
-        _service.AddPositionsToNewCourse(p);
-        return new OkResult();
+        return _service.AddPositionsToNewCourse(newCourse);
+
     }
 }
