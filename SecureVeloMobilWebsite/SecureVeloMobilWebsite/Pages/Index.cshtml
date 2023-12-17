@@ -10,15 +10,13 @@
 <html xmlns="http://www.w3.org/1999/html">
 <head>
     <title>Velomobil</title>
-    <link rel="stylesheet" href="css/Index.css"/>
+    <link rel="stylesheet" href="css/index.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="js/draw.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="js/keymap.js"></script>
     <script src="js/calculate.js"></script>
-    <script src="js/constants.js"></script>
 </head>
 <body>
 
@@ -43,7 +41,7 @@
             <form method="post" asp-page-handler="SetDate">
                 <label for="startDate">Start</label>
                 <input id="startDate" type="date" onfocusout="this.form.submit()" name="startDate" value="@Model.SelectedFilterDate.startTime.ToString("yyyy-MM-dd")"/>
-                <label for="endDate">End</label>
+                <label for="endDate">Ende</label>
                 <input id="endDate" type="date" onfocusout="this.form.submit()" name="endDate" value="@Model.SelectedFilterDate.endTime.ToString("yyyy-MM-dd")"/>
             </form>
 
@@ -70,47 +68,34 @@
                 <div class="stats">
                     <table>
                         <tr>
-                            <td>Total Distance</td>
+                            <td>Strecke</td>
                             <td id="totalDistance"></td>
                         </tr>
                         <tr>
-                            <td>Max Speed</td>
+                            <td>Maximale Geschwindigkeit</td>
                             <td id="maxSpeed">Something kmh</td>
                         </tr>
                         <tr>
-                            <td>Driven Time</td>
+                            <td>Gefahrene Zeit</td>
                             <td id="drivenTime">@Model.DrivenTime.ToString(@"hh\:mm\:ss")</td>
                         </tr>
                         <tr>
-                            <td>Driven Day</td>
-                            <td id="drivenDay">@Model.SelectedCourse.DayOfRecording.ToString("ddd dd.MM.yyyy hh:mm", CultureInfo.GetCultureInfo("de"))</td>
+                            <td>Gefahrener Tag</td>
+                            <td id="drivenDay">@Model.SelectedCourse.DayOfRecording.ToString("ddd dd.MM.yyyy", CultureInfo.GetCultureInfo("de"))</td>
+                        </tr>
+                        <tr>
+                            <td>Eingesparrtes CO2</td>
+                            <td>@Model.SelectedCourse.SavedCo2.ToString("####.#") kg</td>
                         </tr>
                     </table>
-                    @* <label id="totalDistance"></label> *@
-                    @* <label id="maxSpeed">0 km/h (speed)</label> *@
-                    @* <label id="drivenTime">Driven Time: @Model.DrivenTime.ToString(@"hh\:mm\:ss");</label> *@
-                    @* <label id="drivenDay">Start Time: @Model.SelectedCourse.DayOfRecording.ToString("ddd dd.MM.yyyy hh:mm", CultureInfo.GetCultureInfo("de"))</label> *@
                 </div>
             </div>
-            <h6 class="savedCo2Text" id="savedCo2">
-                @* Sie haben mit dieser Fahrt *@
-                @* <b> *@
-                @*     <script> *@
-                @*     $('#totalDistance').html(); *@
-                @* </script> g *@
-                @* </b> CO2 eingesparrt *@
-            </h6>
         </div>
         <div class="right-section col-md-6">
             <div id="map">
                 @* <h2>Es kann keine Karte gezeichnet werden \\oder empty map mit standpunkt london bzw kann man wo anders setzen</h2> *@
             </div>
         </div>
-        @* <div class="right-section d-flex flex-column  col-md-3"> *@
-        @* *@
-
-        @* *@
-        @* </div> *@
 
     </div>
 </div>
@@ -118,7 +103,9 @@
 $(document).ready(function () {
 let data = @Html.Raw(Json.Serialize(Model.DetailPositions));
 let lastTimeStamp = @Html.Raw(Json.Serialize(Model.LastDetailPosition));
-drawMap(data, lastTimeStamp);
+let distance = @Html.Raw(Json.Serialize(Model.SelectedCourse.Distance));
+console.log(distance);
+drawMap(data, lastTimeStamp, distance);
 drawCo2Graphic();
 })
 

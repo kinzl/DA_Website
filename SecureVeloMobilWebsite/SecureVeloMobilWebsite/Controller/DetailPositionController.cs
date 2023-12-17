@@ -16,14 +16,6 @@ public class DetailPositionController
         _service = service;
     }
 
-    [HttpGet("{courseId}")]
-    public List<DetailPositionDto> GetPositionsByCourseId(int courseId)
-    {
-        return _service.GetPositionsByCourseId(courseId)
-            .Select(x => new DetailPositionDto().CopyFrom(x))
-            .ToList();
-    }
-
     [HttpPut]
     public ActionResult AddPositionsToExistiongCourse([FromBody] CourseDto course)
     {
@@ -31,9 +23,6 @@ public class DetailPositionController
         {
             Name = course.Name,
             DetailPosition = course.DetailPosition.Select(x => new DetailPosition().CopyFrom(x)).ToList(),
-            Distance = course.Distance,
-            Picture = course.Picture,
-            Visible = course.Visible,
             StartTime = course.StartTime,
             MaxSpeed = course.MaxSpeed,
             CourseId = course.CourseId,
@@ -49,14 +38,12 @@ public class DetailPositionController
         {
             Name = positions.Name,
             DetailPosition = positions.DetailPosition.Select(x => new DetailPosition().CopyFrom(x)).ToList(),
-            Distance = positions.Distance,
-            Picture = positions.Picture,
-            Visible = positions.Visible,
             StartTime = positions.StartTime,
             MaxSpeed = positions.MaxSpeed,
             EndTime = positions.EndTime,
             DayOfRecording = positions.DayOfRecording,
         };
+        
         return _service.AddPositionsToNewCourse(newCourse);
 
     }

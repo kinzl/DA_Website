@@ -22,7 +22,8 @@ public class IndexModel : PageModel
     public CourseDto SelectedCourse;
     public TimeSpan DrivenTime;
     public string InfoBoxText = "";
-    public FilterDate SelectedFilterDate { get; set; }
+    public static int TotalCo2Saved { get; private set; }
+    public FilterDate SelectedFilterDate;
 
     public List<FilterDate> FilterDates = new()
     {
@@ -58,7 +59,7 @@ public class IndexModel : PageModel
         },
     };
 
-    public DetailPositionDto LastDetailPosition { get; set; }
+    public DetailPositionDto LastDetailPosition;
 
     public IndexModel(ILogger<IndexModel> logger, VeloMobilContext db, Seeder seeder)
     {
@@ -66,9 +67,9 @@ public class IndexModel : PageModel
         _db = db;
         _seeder = seeder;
 
-        // _db.Database.EnsureDeleted();
-        // _db.Database.EnsureCreated();
-        // _seeder.Seed();
+        _db.Database.EnsureDeleted();
+        _db.Database.EnsureCreated();
+        _seeder.Seed();
     }
 
     public void OnGet()
@@ -90,6 +91,7 @@ public class IndexModel : PageModel
 
     private void Initialize()
     {
+        TotalCo2Saved = _db.Courses.Select(x => x.SavedCo2).Count();
         SelectedFilterDateIndex = Convert.ToInt32(HttpContext.Session.GetString("SelectedFilterDateIndex") ?? "0");
         if (SelectedFilterDateIndex == 0)
         {
@@ -102,22 +104,20 @@ public class IndexModel : PageModel
             SelectedFilterDate = FilterDates[SelectedFilterDateIndex];
         }
 
-
         Courses = _db.Courses
             .Include(x => x.DetailPosition)
             .Where(x => x.DayOfRecording >= SelectedFilterDate.startTime &&
                         x.DayOfRecording <= SelectedFilterDate.endTime)
             .Select(x => new CourseDto()
             {
-                Picture = x.Picture,
                 CourseId = x.CourseId,
                 DayOfRecording = x.DayOfRecording,
                 Distance = x.Distance,
                 Name = x.Name,
-                Visible = x.Visible,
                 EndTime = x.EndTime,
                 MaxSpeed = x.MaxSpeed,
                 StartTime = x.StartTime,
+                SavedCo2 = x.SavedCo2,
             })
             .ToList();
 

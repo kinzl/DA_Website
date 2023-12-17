@@ -7,8 +7,9 @@
     second: '2-digit',
 };
 
-function drawMap(data, inputLastTimeStamp) {
+function drawMap(data, inputLastTimeStamp, distance) {
     if (data == null) return;
+    console.log(distance);
     const map = L.map('map').setView([51.5074, -0.1278], 13);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -21,12 +22,13 @@ function drawMap(data, inputLastTimeStamp) {
     const route = L.polyline(routeCoordinates, {color: 'blue'}).addTo(map);
 
     // Calculate the total distance of the route
-    let distance = 0;
-    for (let i = 0; i < routeCoordinates.length - 1; i++) {
-        let from = L.latLng(routeCoordinates[i]);
-        let to = L.latLng(routeCoordinates[i + 1]);
-        distance += from.distanceTo(to);
-    }
+    // let distance = 0;
+    // for (let i = 0; i < routeCoordinates.length - 1; i++) {
+    //     let from = L.latLng(routeCoordinates[i]);
+    //     let to = L.latLng(routeCoordinates[i + 1]);
+    //     distance += from.distanceTo(to);
+    // }
+    console.log(data);
 
     const lblDistance = $('#totalDistance').html((distance / 1000).toFixed(3) + " km");
 
@@ -45,6 +47,8 @@ function drawMap(data, inputLastTimeStamp) {
         // marker.bindPopup('PosY: ' + item.posY);
         const date = new Date(item.positionTime);
         marker.bindPopup(date.toLocaleDateString("de", dateOptions));
+
+
     });
 
     // Add some additional map enhancements
@@ -53,8 +57,7 @@ function drawMap(data, inputLastTimeStamp) {
 
     const bounds = L.latLngBounds(routeCoordinates);
     map.fitBounds(bounds);
-
-    calculateCo2((distance / 1000).toFixed(3));
+    
 }
 
 function drawCo2Graphic() {
@@ -79,8 +82,4 @@ function drawCo2Graphic() {
             }
         }
     });
-}
-
-function calculateCo2(distance) {
-    $("#savedCo2").html("Sie haben " + (((distance * co2FootprintCarInGram) - (distance * co2FootprintBikeInGram))/1000).toFixed(1) + " kg eingespart");
 }

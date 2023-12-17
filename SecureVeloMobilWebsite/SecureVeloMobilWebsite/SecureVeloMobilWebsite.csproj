@@ -5,6 +5,7 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <UserSecretsId>d7e321b5-e81f-4d9f-a35c-167f40e4901d</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
@@ -20,6 +21,7 @@
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         <PrivateAssets>all</PrivateAssets>
       </PackageReference>
+      <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.4" />
       <PackageReference Include="MySqlConnector" Version="2.2.7" />
       <PackageReference Include="NLog.Extensions.Logging" Version="5.3.5" />
       <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
