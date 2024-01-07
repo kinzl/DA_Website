@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.VisualBasic;
 using SecureVeloMobilWebsite.Controller;
 using SecureVeloMobilWebsite.Dto;
@@ -30,9 +31,10 @@ public class VeloMobilService : ControllerBase
 
     public async Task<ActionResult> AddPositionsToNewCourse(Course course)
     {
+        if (course.DetailPosition.IsNullOrEmpty()) return Ok("No Positions found");
         course.Distance = CalculateDistance(course);
         course.SavedCo2 = CalculateSavedCo2(course.Distance);
-        
+
         foreach (var position in course.DetailPosition)
         {
             position.PosZ = await GetAltitudeAsync(position.PosY, position.PosX);
@@ -53,10 +55,10 @@ public class VeloMobilService : ControllerBase
         Console.WriteLine(lastCourseId);
         return Ok(lastCourseId);
     }
-
-
+    
     public async Task<ActionResult> AddPositionsToExistingCourse(Course course)
     {
+        if (course.DetailPosition.IsNullOrEmpty()) return BadRequest("No Positions found");
         course.Distance = CalculateDistance(course);
         course.SavedCo2 = CalculateSavedCo2(course.Distance);
 
@@ -76,7 +78,7 @@ public class VeloMobilService : ControllerBase
 
         return Ok("Added positions to " + course.CourseId);
     }
-    
+
     private double CalculateDistance(Course course)
     {
         double distance = 0;
@@ -103,6 +105,7 @@ public class VeloMobilService : ControllerBase
     {
         return (distance * MyConstants.co2FootprintCarInGram - distance * MyConstants.co2FootprintBikeInGram) / 1000;
     }
+
     async Task<double> GetAltitudeAsync(double latitude, double longitude)
     {
         using (HttpClient httpClient = new HttpClient())

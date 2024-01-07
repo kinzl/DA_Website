@@ -35,7 +35,7 @@ public class IndexModel : PageModel
         new()
         {
             startTime = DateTime.MinValue,
-            endTime = DateTime.Today,
+            endTime = DateTime.Today.AddDays(1),
             DayName = "Alle",
         },
         new()
