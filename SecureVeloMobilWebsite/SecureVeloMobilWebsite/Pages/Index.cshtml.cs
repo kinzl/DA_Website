@@ -35,7 +35,7 @@ public class IndexModel : PageModel
         new()
         {
             startTime = DateTime.MinValue,
-            endTime = DateTime.Today.AddDays(1),
+            endTime = DateTime.Today,
             DayName = "Alle",
         },
         new()
@@ -101,8 +101,8 @@ public class IndexModel : PageModel
 
         Courses = _db.Courses
             .Include(x => x.DetailPosition)
-            .Where(x => x.StartTime >= SelectedFilterDate.startTime &&
-                        x.EndTime <= SelectedFilterDate.endTime)
+            .Where(x => x.StartTime.Date >= SelectedFilterDate.startTime.Date &&
+                        x.StartTime.Date <= SelectedFilterDate.endTime.Date)
             .Select(x => new CourseDto()
             {
                 CourseId = x.CourseId,

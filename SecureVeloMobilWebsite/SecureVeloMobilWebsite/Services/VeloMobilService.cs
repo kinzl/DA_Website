@@ -55,7 +55,7 @@ public class VeloMobilService : ControllerBase
         Console.WriteLine(lastCourseId);
         return Ok(lastCourseId);
     }
-    
+
     public async Task<ActionResult> AddPositionsToExistingCourse(Course course)
     {
         if (course.DetailPosition.IsNullOrEmpty()) return BadRequest("No Positions found");
@@ -98,7 +98,7 @@ public class VeloMobilService : ControllerBase
             distance += segmentDistance;
         }
 
-        return distance;
+        return (distance / 1000);
     }
 
     private double CalculateSavedCo2(double distance)

@@ -25,7 +25,7 @@ function drawMap(data, inputLastTimeStamp, distance) {
 
     console.log(data);
 
-    const lblDistance = $('#totalDistance').html((distance / 1000).toFixed(3) + " km");
+    // const lblDistance = $('#totalDistance').html((distance / 1000).toFixed(3) + " km");
 
     // Add square markers for each coordinate
     data.forEach(item => {

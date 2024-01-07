@@ -64,7 +64,7 @@ builder.Services.AddDbContext<VeloMobilContext>(options => options
     .UseMySql(connectionStringMariaDb,
         ServerVersion.Create(new Version(11, 1, 2), ServerType.MariaDb)));
 
-builder.Services.AddHostedService<StartupBackgroundService>();
+// builder.Services.AddHostedService<StartupBackgroundService>();
 builder.Services.AddScoped<VeloMobilService>();
 
 builder.Services.AddDistributedMemoryCache();

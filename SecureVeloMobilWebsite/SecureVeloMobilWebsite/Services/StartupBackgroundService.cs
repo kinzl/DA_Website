@@ -14,7 +14,6 @@ public class StartupBackgroundService : BackgroundService
 
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        Console.WriteLine("StartupBackgroundService");
         var db = _scope.ServiceProvider.GetRequiredService<VeloMobilContext>();
         db.Database.EnsureDeleted();
         db.Database.EnsureCreated();
@@ -146,7 +145,7 @@ public class StartupBackgroundService : BackgroundService
             distance += 6376500.0 * (2.0 * Math.Atan2(Math.Sqrt(d3), Math.Sqrt(1.0 - d3)));
         }
 
-        return distance;
+        return distance/1000;
     }
 
     private double CalculateSavedCo2(double distance)
