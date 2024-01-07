@@ -28,10 +28,16 @@ public class VeloMobilService : ControllerBase
             .ToList();
     }
 
-    public ActionResult AddPositionsToNewCourse(Course course)
+    public async Task<ActionResult> AddPositionsToNewCourse(Course course)
     {
         course.Distance = CalculateDistance(course);
         course.SavedCo2 = CalculateSavedCo2(course.Distance);
+        
+        foreach (var position in course.DetailPosition)
+        {
+            position.PosZ = await GetAltitudeAsync(position.PosY, position.PosX);
+        }
+
         _db.Courses.Add(new Course()
         {
             DetailPosition = course.DetailPosition,
@@ -40,35 +46,37 @@ public class VeloMobilService : ControllerBase
             MaxSpeed = course.MaxSpeed,
             EndTime = course.EndTime,
             StartTime = course.StartTime,
-            DayOfRecording = course.DayOfRecording,
-            SavedCo2 = course.SavedCo2
+            SavedCo2 = course.SavedCo2,
         });
-        _db.SaveChanges();
+        await _db.SaveChangesAsync();
         var lastCourseId = _db.Courses.OrderBy(x => x.CourseId).Last().CourseId;
         Console.WriteLine(lastCourseId);
         return Ok(lastCourseId);
     }
 
-    public ActionResult AddPositionsToExistingCourse(Course course)
+
+    public async Task<ActionResult> AddPositionsToExistingCourse(Course course)
     {
         course.Distance = CalculateDistance(course);
         course.SavedCo2 = CalculateSavedCo2(course.Distance);
+
+        foreach (var position in course.DetailPosition)
+        {
+            position.PosZ = await GetAltitudeAsync(position.PosY, position.PosX);
+        }
+
         var selectedCourse = _db.Courses
             .Include(x => x.DetailPosition)
             .SingleOrDefault(x => x.CourseId == course.CourseId)!
             .DetailPosition;
 
+        selectedCourse.AddRange(course.DetailPosition);
 
-        foreach (var item in course.DetailPosition)
-        {
-            selectedCourse.Add(item);
-        }
-
-        _db.SaveChanges();
+        await _db.SaveChangesAsync();
 
         return Ok("Added positions to " + course.CourseId);
     }
-
+    
     private double CalculateDistance(Course course)
     {
         double distance = 0;
@@ -94,5 +102,35 @@ public class VeloMobilService : ControllerBase
     private double CalculateSavedCo2(double distance)
     {
         return (distance * MyConstants.co2FootprintCarInGram - distance * MyConstants.co2FootprintBikeInGram) / 1000;
+    }
+    async Task<double> GetAltitudeAsync(double latitude, double longitude)
+    {
+        using (HttpClient httpClient = new HttpClient())
+        {
+            string apiUrl = $"https://api.open-elevation.com/api/v1/lookup?locations={latitude},{longitude}";
+
+            try
+            {
+                HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string json = await response.Content.ReadAsStringAsync();
+                    dynamic result = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
+
+                    // Extract altitude from the API response
+                    double altitude = result.results[0].elevation;
+                    return altitude;
+                }
+
+                Console.WriteLine($"API request failed: {response.StatusCode}");
+                return double.NaN;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                return double.NaN;
+            }
+        }
     }
 }

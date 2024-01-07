@@ -67,9 +67,9 @@ public class IndexModel : PageModel
         _db = db;
         _seeder = seeder;
 
-        _db.Database.EnsureDeleted();
-        _db.Database.EnsureCreated();
-        _seeder.Seed();
+        // _db.Database.EnsureDeleted();
+        // _db.Database.EnsureCreated();
+        // _seeder.Seed();
     }
 
     public void OnGet()
@@ -106,12 +106,11 @@ public class IndexModel : PageModel
 
         Courses = _db.Courses
             .Include(x => x.DetailPosition)
-            .Where(x => x.DayOfRecording >= SelectedFilterDate.startTime &&
-                        x.DayOfRecording <= SelectedFilterDate.endTime)
+            .Where(x => x.StartTime >= SelectedFilterDate.startTime &&
+                        x.EndTime <= SelectedFilterDate.endTime)
             .Select(x => new CourseDto()
             {
                 CourseId = x.CourseId,
-                DayOfRecording = x.DayOfRecording,
                 Distance = x.Distance,
                 Name = x.Name,
                 EndTime = x.EndTime,
@@ -120,8 +119,7 @@ public class IndexModel : PageModel
                 SavedCo2 = x.SavedCo2,
             })
             .ToList();
-
-
+        
         if (!Courses.IsNullOrEmpty())
         {
             try
@@ -138,6 +136,7 @@ public class IndexModel : PageModel
                         PositionTime = x.PositionTime,
                         PosY = x.PosY,
                         PosX = x.PosX,
+                        PosZ = x.PosZ,
                         DetailPositionId = x.DetailPositionId,
                     })
                     .ToList();

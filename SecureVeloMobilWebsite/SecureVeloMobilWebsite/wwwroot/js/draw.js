@@ -9,25 +9,20 @@
 
 function drawMap(data, inputLastTimeStamp, distance) {
     if (data == null) return;
-    console.log(distance);
+    console.log(data);
     const map = L.map('map').setView([51.5074, -0.1278], 13);
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    // Use CartoDB Dark Matter tiles for a dark map style
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
         maxZoom: 19
     }).addTo(map);
 
     const routeCoordinates = data.map(item => [item.posY, item.posX]);
 
-    const route = L.polyline(routeCoordinates, {color: 'blue'}).addTo(map);
+    // const route = L.polyline(routeCoordinates, { color: 'blue' }).addTo(map);
+    const route = L.polyline(routeCoordinates, {color: '#5FBD00'}).addTo(map);
 
-    // Calculate the total distance of the route
-    // let distance = 0;
-    // for (let i = 0; i < routeCoordinates.length - 1; i++) {
-    //     let from = L.latLng(routeCoordinates[i]);
-    //     let to = L.latLng(routeCoordinates[i + 1]);
-    //     distance += from.distanceTo(to);
-    // }
     console.log(data);
 
     const lblDistance = $('#totalDistance').html((distance / 1000).toFixed(3) + " km");
@@ -43,12 +38,8 @@ function drawMap(data, inputLastTimeStamp, distance) {
             })
         }).addTo(map);
 
-        // marker.bindPopup('PosX: ' + item.posX);
-        // marker.bindPopup('PosY: ' + item.posY);
         const date = new Date(item.positionTime);
         marker.bindPopup(date.toLocaleDateString("de", dateOptions));
-
-
     });
 
     // Add some additional map enhancements
@@ -57,8 +48,8 @@ function drawMap(data, inputLastTimeStamp, distance) {
 
     const bounds = L.latLngBounds(routeCoordinates);
     map.fitBounds(bounds);
-    
 }
+
 
 function drawCo2Graphic() {
     const ctx = document.getElementById('co2Chart');

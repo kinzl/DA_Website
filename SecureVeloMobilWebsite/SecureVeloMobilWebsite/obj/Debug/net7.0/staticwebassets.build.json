@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "3Q8yu+l9vIsERqdYGmuvgp7q3FNoHhTzVLnEynIoMDE=",
+  "Hash": "903ikT5+5OrIY3xr9qlm9qF2cGN9o28KcVl715eFeSQ=",
   "Source": "SecureVeloMobilWebsite",
   "BasePath": "_content/SecureVeloMobilWebsite",
   "Mode": "Default",
@@ -186,25 +186,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\img\\TorstenWelsch.jpg"
-    },
-    {
-      "Identity": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\js\\calculate.js",
-      "SourceId": "SecureVeloMobilWebsite",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\",
-      "BasePath": "_content/SecureVeloMobilWebsite",
-      "RelativePath": "js/calculate.js",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\js\\calculate.js"
     },
     {
       "Identity": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\js\\draw.js",

@@ -18,7 +18,6 @@ public class Seeder
         {
             CourseId = 0,
             Name = "Peuerbach - Grieskirchen",
-            DayOfRecording = DateTime.Today,
             StartTime = DateTime.Today.AddDays(-1).AddHours(11),
             EndTime = DateTime.Today,
             DetailPosition = new List<DetailPosition>()
@@ -51,7 +50,6 @@ public class Seeder
             Name = "Linz - Graz - Wien",
             StartTime = DateTime.Today.AddDays(-1).AddHours(-2),
             EndTime = DateTime.Today,
-            DayOfRecording = DateTime.Today.AddDays(-1),
             DetailPosition = new List<DetailPosition>()
             {
                 // Wien
@@ -87,7 +85,6 @@ public class Seeder
             Name = "Linz - Graz - Wien",
             StartTime = DateTime.Today.AddDays(-8).AddHours(2),
             EndTime = DateTime.Today.AddDays(-7),
-            DayOfRecording = DateTime.Today.AddDays(-8),
             DetailPosition = new List<DetailPosition>()
             {
                 // Wien
