@@ -13,7 +13,6 @@ public class IndexModel : PageModel
 {
     private readonly ILogger<IndexModel> _logger;
     private VeloMobilContext _db;
-    private Seeder _seeder;
     public List<CourseDto> Courses;
     public int SelectedCourseIndex;
     public int SelectedCourseId;
@@ -61,15 +60,11 @@ public class IndexModel : PageModel
 
     public DetailPositionDto LastDetailPosition;
 
-    public IndexModel(ILogger<IndexModel> logger, VeloMobilContext db, Seeder seeder)
+    public IndexModel(ILogger<IndexModel> logger, VeloMobilContext db)
     {
         _logger = logger;
         _db = db;
-        _seeder = seeder;
 
-        // _db.Database.EnsureDeleted();
-        // _db.Database.EnsureCreated();
-        // _seeder.Seed();
     }
 
     public void OnGet()
