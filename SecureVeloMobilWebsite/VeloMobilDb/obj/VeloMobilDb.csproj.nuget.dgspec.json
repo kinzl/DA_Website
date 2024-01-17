@@ -88,15 +88,15 @@
           "downloadDependencies": [
             {
               "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[7.0.14, 7.0.14]"
+              "version": "[7.0.15, 7.0.15]"
             },
             {
               "name": "Microsoft.NETCore.App.Ref",
-              "version": "[7.0.14, 7.0.14]"
+              "version": "[7.0.15, 7.0.15]"
             },
             {
               "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[7.0.14, 7.0.14]"
+              "version": "[7.0.15, 7.0.15]"
             }
           ],
           "frameworkReferences": {
@@ -104,12 +104,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
-        }
-      },
-      "runtimes": {
-        "linux-x64": {
-          "#import": []
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }

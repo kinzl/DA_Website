@@ -83,22 +83,20 @@ public class VeloMobilService : ControllerBase
     {
         double distance = 0;
 
+
         for (int i = 0; i < course.DetailPosition.Count - 1; i++)
         {
-            var point1 = course.DetailPosition[i];
-            var point2 = course.DetailPosition[i + 1];
+            var d1 = course.DetailPosition[i].PosY * (Math.PI / 180.0);
+            var num1 = course.DetailPosition[i].PosX * (Math.PI / 180.0);
+            var d2 = course.DetailPosition[i + 1].PosY * (Math.PI / 180.0);
+            var num2 = course.DetailPosition[i + 1].PosX * (Math.PI / 180.0) - num1;
+            var d3 = Math.Pow(Math.Sin((d2 - d1) / 2.0), 2.0) +
+                     Math.Cos(d1) * Math.Cos(d2) * Math.Pow(Math.Sin(num2 / 2.0), 2.0);
 
-            double deltaX = point2.PosX - point1.PosX;
-            double deltaY = point2.PosY - point1.PosY;
-
-            // Calculate Euclidean distance between two points
-            double segmentDistance = Math.Sqrt(deltaX * deltaX + deltaY * deltaY);
-
-            // Add the distance to the total distance
-            distance += segmentDistance;
+            distance += 6376500.0 * (2.0 * Math.Atan2(Math.Sqrt(d3), Math.Sqrt(1.0 - d3)));
         }
 
-        return (distance / 1000);
+        return distance/1000;
     }
 
     private double CalculateSavedCo2(double distance)

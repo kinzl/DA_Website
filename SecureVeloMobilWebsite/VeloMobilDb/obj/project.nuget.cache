@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "sAuPFSrvWjYd8GDZo3GbJxMAJow3i1eLyogfX71jPTziepWY0yIT3xDwMM637SCoPPq/rzXB2nojVV4U6ynn+Q==",
+  "dgSpecHash": "xtE8hk5l+n4v8SfKQqZ1XHmMGrpEbX7LsinYPxtXcuFkc3xDxvVIPCO8StbtqVkn7aYIuPJznRi8MnQiytrKjQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\VeloMobilDb\\VeloMobilDb.csproj",
   "expectedPackageFiles": [
@@ -32,9 +32,9 @@
     "C:\\Users\\kinzl\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.5.0\\swashbuckle.aspnetcore.swaggergen.6.5.0.nupkg.sha512",
     "C:\\Users\\kinzl\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.5.0\\swashbuckle.aspnetcore.swaggerui.6.5.0.nupkg.sha512",
     "C:\\Users\\kinzl\\.nuget\\packages\\system.text.encodings.web\\4.5.0\\system.text.encodings.web.4.5.0.nupkg.sha512",
-    "C:\\Users\\kinzl\\.nuget\\packages\\microsoft.netcore.app.ref\\7.0.14\\microsoft.netcore.app.ref.7.0.14.nupkg.sha512",
-    "C:\\Users\\kinzl\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\7.0.14\\microsoft.windowsdesktop.app.ref.7.0.14.nupkg.sha512",
-    "C:\\Users\\kinzl\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\7.0.14\\microsoft.aspnetcore.app.ref.7.0.14.nupkg.sha512"
+    "C:\\Users\\kinzl\\.nuget\\packages\\microsoft.netcore.app.ref\\7.0.15\\microsoft.netcore.app.ref.7.0.15.nupkg.sha512",
+    "C:\\Users\\kinzl\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\7.0.15\\microsoft.windowsdesktop.app.ref.7.0.15.nupkg.sha512",
+    "C:\\Users\\kinzl\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\7.0.15\\microsoft.aspnetcore.app.ref.7.0.15.nupkg.sha512"
   ],
   "logs": []
 }
