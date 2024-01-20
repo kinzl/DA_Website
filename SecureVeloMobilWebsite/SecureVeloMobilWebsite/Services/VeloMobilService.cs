@@ -21,35 +21,43 @@ public class VeloMobilService : ControllerBase
         _db = db;
     }
 
-    public List<DetailPosition> GetPositionsByCourseId(int courseId)
-    {
-        return _db.DetailPositions
-            .Include(x => x.Courses)
-            .Where(x => x.Courses.CourseId == courseId)
-            .ToList();
-    }
-
     public async Task<ActionResult> AddPositionsToNewCourse(Course course)
     {
-        if (course.DetailPosition.IsNullOrEmpty()) return Ok("No Positions found");
-        course.Distance = CalculateDistance(course);
-        course.SavedCo2 = CalculateSavedCo2(course.Distance);
-
-        foreach (var position in course.DetailPosition)
+        if (!course.DetailPosition.IsNullOrEmpty())
         {
-            position.PosZ = await GetAltitudeAsync(position.PosY, position.PosX);
+            course.Distance = CalculateDistance(course);
+            course.SavedCo2 = CalculateSavedCo2(course.Distance);
+
+            foreach (var position in course.DetailPosition)
+            {
+                position.PosZ = await GetAltitudeAsync(position.PosY, position.PosX);
+            }
+
+            _db.Courses.Add(new Course()
+            {
+                DetailPosition = course.DetailPosition,
+                Name = course.Name,
+                Distance = course.Distance,
+                MaxSpeed = course.MaxSpeed,
+                EndTime = course.EndTime,
+                StartTime = course.StartTime,
+                SavedCo2 = course.SavedCo2,
+            });
+        }
+        else
+        {
+            _db.Courses.Add(new Course()
+            {
+                DetailPosition = new List<DetailPosition>(),
+                Name = course.Name,
+                Distance = course.Distance,
+                MaxSpeed = course.MaxSpeed,
+                EndTime = course.EndTime,
+                StartTime = course.StartTime,
+                SavedCo2 = course.SavedCo2,
+            });
         }
 
-        _db.Courses.Add(new Course()
-        {
-            DetailPosition = course.DetailPosition,
-            Name = course.Name,
-            Distance = course.Distance,
-            MaxSpeed = course.MaxSpeed,
-            EndTime = course.EndTime,
-            StartTime = course.StartTime,
-            SavedCo2 = course.SavedCo2,
-        });
         await _db.SaveChangesAsync();
         var lastCourseId = _db.Courses.OrderBy(x => x.CourseId).Last().CourseId;
         Console.WriteLine(lastCourseId);
@@ -58,9 +66,8 @@ public class VeloMobilService : ControllerBase
 
     public async Task<ActionResult> AddPositionsToExistingCourse(Course course)
     {
-        if (course.DetailPosition.IsNullOrEmpty()) return BadRequest("No Positions found");
-        course.Distance = CalculateDistance(course);
-        course.SavedCo2 = CalculateSavedCo2(course.Distance);
+        //ToDO: calculate full distance and not only the new one
+        if (course.DetailPosition.IsNullOrEmpty()) return BadRequest("Detail Positions are empty");
 
         foreach (var position in course.DetailPosition)
         {
@@ -69,10 +76,11 @@ public class VeloMobilService : ControllerBase
 
         var selectedCourse = _db.Courses
             .Include(x => x.DetailPosition)
-            .SingleOrDefault(x => x.CourseId == course.CourseId)!
-            .DetailPosition;
+            .SingleOrDefault(x => x.CourseId == course.CourseId)!;
 
-        selectedCourse.AddRange(course.DetailPosition);
+        selectedCourse.DetailPosition.AddRange(course.DetailPosition);
+        selectedCourse.Distance += CalculateDistance(course);
+        selectedCourse.SavedCo2 += CalculateSavedCo2(selectedCourse.Distance);
 
         await _db.SaveChangesAsync();
 
@@ -82,7 +90,6 @@ public class VeloMobilService : ControllerBase
     private double CalculateDistance(Course course)
     {
         double distance = 0;
-
 
         for (int i = 0; i < course.DetailPosition.Count - 1; i++)
         {
@@ -96,7 +103,7 @@ public class VeloMobilService : ControllerBase
             distance += 6376500.0 * (2.0 * Math.Atan2(Math.Sqrt(d3), Math.Sqrt(1.0 - d3)));
         }
 
-        return distance/1000;
+        return distance / 1000;
     }
 
     private double CalculateSavedCo2(double distance)

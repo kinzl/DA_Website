@@ -150,6 +150,6 @@ public class StartupBackgroundService : BackgroundService
 
     private double CalculateSavedCo2(double distance)
     {
-        return (distance * MyConstants.co2FootprintCarInGram - distance * MyConstants.co2FootprintBikeInGram) / 1000000;
+        return (distance * MyConstants.co2FootprintCarInGram - distance * MyConstants.co2FootprintBikeInGram) / 1000;
     }
 }

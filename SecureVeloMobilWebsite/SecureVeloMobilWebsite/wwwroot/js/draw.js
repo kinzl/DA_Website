@@ -61,9 +61,9 @@ function drawAltitudeDiagram(coordinates) {
             datasets: [{
                 label: 'Altitude',
                 data: coordinates.map(coord => coord.posZ),
-                borderColor: 'blue',
+                borderColor: '#5FBD00',
                 borderWidth: 2,
-                pointBackgroundColor: 'blue',
+                pointBackgroundColor: '#5FBD00',
                 fill: false
             }]
         },
