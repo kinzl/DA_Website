@@ -67,7 +67,7 @@ public class VeloMobilService : ControllerBase
     public async Task<ActionResult> AddPositionsToExistingCourse(Course course)
     {
         //ToDO: calculate full distance and not only the new one
-        if (course.DetailPosition.IsNullOrEmpty()) return BadRequest("Detail Positions are empty");
+        if (course.DetailPosition.IsNullOrEmpty()) return Ok("Detail Positions are empty");
 
         foreach (var position in course.DetailPosition)
         {
@@ -79,8 +79,8 @@ public class VeloMobilService : ControllerBase
             .SingleOrDefault(x => x.CourseId == course.CourseId)!;
 
         selectedCourse.DetailPosition.AddRange(course.DetailPosition);
-        selectedCourse.Distance += CalculateDistance(course);
-        selectedCourse.SavedCo2 += CalculateSavedCo2(selectedCourse.Distance);
+        selectedCourse.Distance = CalculateDistance(selectedCourse);
+        selectedCourse.SavedCo2 = CalculateSavedCo2(selectedCourse.Distance);
 
         await _db.SaveChangesAsync();
 
