@@ -50,11 +50,11 @@ public class VeloMobilService : ControllerBase
             {
                 DetailPosition = new List<DetailPosition>(),
                 Name = course.Name,
-                Distance = course.Distance,
-                MaxSpeed = course.MaxSpeed,
+                Distance = 0,
+                MaxSpeed = 0,
                 EndTime = course.EndTime,
                 StartTime = course.StartTime,
-                SavedCo2 = course.SavedCo2,
+                SavedCo2 = 0,
             });
         }
 
@@ -67,7 +67,7 @@ public class VeloMobilService : ControllerBase
     public async Task<ActionResult> AddPositionsToExistingCourse(Course course)
     {
         //ToDO: calculate full distance and not only the new one
-        if (course.DetailPosition.IsNullOrEmpty()) return Ok("Detail Positions are empty");
+        if (course.DetailPosition.IsNullOrEmpty()) return BadRequest("Detail Positions are empty");
 
         foreach (var position in course.DetailPosition)
         {
