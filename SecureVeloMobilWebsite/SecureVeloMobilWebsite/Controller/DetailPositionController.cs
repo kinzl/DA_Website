@@ -19,7 +19,7 @@ public class DetailPositionController
     [HttpPut]
     public Task<ActionResult> AddPositionsToExistingCourse([FromBody] CourseDto course)
     {
-        return _service.AddPositionsToExistingCourse(new Course()
+        return _service.ExistingCourse(new Course()
         {
             Name = course.Name,
             DetailPosition = course.DetailPosition.Select(x => new DetailPosition().CopyFrom(x)).ToList(),
@@ -42,6 +42,6 @@ public class DetailPositionController
             EndTime = positions.EndTime
         };
 
-        return _service.AddPositionsToNewCourse(newCourse);
+        return _service.NewCourse(newCourse);
     }
 }

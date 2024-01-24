@@ -68,16 +68,16 @@
                         </tr>
                         <tr>
                             <td>Maximale Geschwindigkeit</td>
-                            <td id="maxSpeed">Something kmh</td>
+                            <td id="maxSpeed">@Model.SelectedCourse.MaxSpeed.ToString("##.#") kmh</td>
                         </tr>
                         <tr>
                             <td>Gefahrene Zeit</td>
                             <td id="drivenTime">@Model.DrivenTime.ToString(@"hh\:mm\:ss")</td>
                         </tr>
-                        <tr>
-                            <td>Gefahrener Tag</td>
-                            <td id="drivenDay">@Model.SelectedCourse.StartTime.ToString("ddd dd.MM.yyyy", CultureInfo.GetCultureInfo("de"))</td>
-                        </tr>
+                        @* <tr> *@
+                        @*     <td>Gefahrener Tag</td> *@
+                        @*     <td id="drivenDay">@Model.SelectedCourse.StartTime.ToString("ddd dd.MM.yyyy", CultureInfo.GetCultureInfo("de"))</td> *@
+                        @* </tr> *@
                         <tr>
                             <td>Eingespartes CO2</td>
                             <td>@Model.SelectedCourse.SavedCo2.ToString("##.#") kg</td>
