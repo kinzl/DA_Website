@@ -31,13 +31,13 @@
     width: 98%;
 }
 
-.co2Chart,
+.altitudeChart,
 .stats {
     flex: 1;
     margin: 10px;
 }
 
-.co2Chart {
+.altitudeChart {
     max-width: 100%;
     height: auto;
 }
@@ -170,9 +170,9 @@ select {
     margin-right: 10px; /* Adjust the margin between co2Chart and stats */
 }
 
-.co2Chart {
+.altitudeChart {
     max-width: 100%;
-    height: auto;
+    max-height: 30vh;
 }
 
 .stats {

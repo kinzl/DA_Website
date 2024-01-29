@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SecureVeloMobilWebsite")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+29f2d27e40df2002f3428dd80136a76182ae0a98")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fc478ca71bab5e0ffae2dd1846fb680efccd4175")]
 [assembly: System.Reflection.AssemblyProductAttribute("SecureVeloMobilWebsite")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SecureVeloMobilWebsite")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
