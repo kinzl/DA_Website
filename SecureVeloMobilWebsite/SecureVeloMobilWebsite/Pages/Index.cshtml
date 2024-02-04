@@ -46,7 +46,7 @@
 
             <div class="container-row">
                 <form method="post" asp-page-handler="CourseChanged">
-                    <select id="routeList" size="100" onchange="this.form.submit()" name="courseId" class="routeListbox">
+                    <select id="routeList" size="20" onchange="this.form.submit()" name="courseId" class="routeListbox">
                         @for (int i = 0; i < @Model.Courses.Count; i++)
                         {
                             @if (i == @Model.SelectedCourseIndex)
@@ -68,28 +68,26 @@
                         </tr>
                         <tr>
                             <td>Maximale Geschwindigkeit</td>
-                            <td id="maxSpeed">Something kmh</td>
+                            <td id="maxSpeed">@Model.SelectedCourse.MaxSpeed.ToString("##.#") kmh</td>
                         </tr>
                         <tr>
                             <td>Gefahrene Zeit</td>
                             <td id="drivenTime">@Model.DrivenTime.ToString(@"hh\:mm\:ss")</td>
                         </tr>
-                        <tr>
-                            <td>Gefahrener Tag</td>
-                            <td id="drivenDay">@Model.SelectedCourse.StartTime.ToString("ddd dd.MM.yyyy", CultureInfo.GetCultureInfo("de"))</td>
-                        </tr>
+                        @* <tr> *@
+                        @*     <td>Gefahrener Tag</td> *@
+                        @*     <td id="drivenDay">@Model.SelectedCourse.StartTime.ToString("ddd dd.MM.yyyy", CultureInfo.GetCultureInfo("de"))</td> *@
+                        @* </tr> *@
                         <tr>
                             <td>Eingespartes CO2</td>
-                            <td>@Model.SelectedCourse.SavedCo2.ToString("####.#") kg</td>
+                            <td>@Model.SelectedCourse.SavedCo2.ToString("##.#") kg</td>
                         </tr>
                     </table>
                 </div>
             </div>
 
             <h6 style="color: red">@Model.InfoBoxText</h6>
-            <div>
-                <canvas id="co2Chart" class="co2Chart"></canvas>
-            </div>
+                <canvas id="altitudeChart" class="altitudeChart"></canvas>
         </div>
         <div class="right-section col-md-6">
             <div id="map">
@@ -106,7 +104,7 @@ let lastTimeStamp = @Html.Raw(Json.Serialize(Model.LastDetailPosition));
 let distance = @Html.Raw(Json.Serialize(Model.SelectedCourse.Distance));
 console.log(distance);
 drawMap(data, lastTimeStamp, distance);
-drawCo2Graphic();
+drawAltitudeDiagram(data);
 })
 
 </script>

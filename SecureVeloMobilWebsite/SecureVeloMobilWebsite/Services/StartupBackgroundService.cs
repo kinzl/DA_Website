@@ -90,41 +90,41 @@ public class StartupBackgroundService : BackgroundService
             }
         };
         db.Courses.Add(course2);
-        var course3 = new Course()
-        {
-            CourseId = 0,
-            Name = "Linz - Graz - Wien",
-            StartTime = DateTime.Today.AddDays(-8).AddHours(2),
-            EndTime = DateTime.Today.AddDays(-7),
-            DetailPosition = new List<DetailPosition>()
-            {
-                // Wien
-                new DetailPosition()
-                {
-                    PosX = 14.28611f,
-                    PosY = 48.30639f,
-                    PositionTime = DateTime.ParseExact("31.07.2023 10:55", "dd.MM.yyyy hh:mm",
-                        CultureInfo.InvariantCulture),
-                },
-                // Graz
-                new DetailPosition()
-                {
-                    PosX = 15.500000f,
-                    PosY = 47.300000f,
-                    PositionTime = DateTime.ParseExact("31.07.2023 10:56", "dd.MM.yyyy hh:mm",
-                        CultureInfo.InvariantCulture),
-                },
-                // Linz
-                new DetailPosition()
-                {
-                    PosX = 16.363449f,
-                    PosY = 48.210033f,
-                    PositionTime = DateTime.ParseExact("31.07.2023 10:57", "dd.MM.yyyy hh:mm",
-                        CultureInfo.InvariantCulture),
-                }
-            }
-        };
-        db.Courses.Add(course3);
+        // var course3 = new Course()
+        // {
+        //     CourseId = 0,
+        //     Name = "Linz - Graz - Wien",
+        //     StartTime = DateTime.Today.AddDays(-8).AddHours(2),
+        //     EndTime = DateTime.Today.AddDays(-7),
+        //     DetailPosition = new List<DetailPosition>()
+        //     {
+        //         // Wien
+        //         new DetailPosition()
+        //         {
+        //             PosX = 14.28611f,
+        //             PosY = 48.30639f,
+        //             PositionTime = DateTime.ParseExact("31.07.2023 10:55", "dd.MM.yyyy hh:mm",
+        //                 CultureInfo.InvariantCulture),
+        //         },
+        //         // Graz
+        //         new DetailPosition()
+        //         {
+        //             PosX = 15.500000f,
+        //             PosY = 47.300000f,
+        //             PositionTime = DateTime.ParseExact("31.07.2023 10:56", "dd.MM.yyyy hh:mm",
+        //                 CultureInfo.InvariantCulture),
+        //         },
+        //         // Linz
+        //         new DetailPosition()
+        //         {
+        //             PosX = 16.363449f,
+        //             PosY = 48.210033f,
+        //             PositionTime = DateTime.ParseExact("31.07.2023 10:57", "dd.MM.yyyy hh:mm",
+        //                 CultureInfo.InvariantCulture),
+        //         }
+        //     }
+        // };
+        // db.Courses.Add(course3);
         db.SaveChanges();
     }
 
@@ -150,6 +150,6 @@ public class StartupBackgroundService : BackgroundService
 
     private double CalculateSavedCo2(double distance)
     {
-        return (distance * MyConstants.co2FootprintCarInGram - distance * MyConstants.co2FootprintBikeInGram) / 1000000;
+        return (distance * MyConstants.co2FootprintCarInGram - distance * MyConstants.co2FootprintBikeInGram) / 1000;
     }
 }

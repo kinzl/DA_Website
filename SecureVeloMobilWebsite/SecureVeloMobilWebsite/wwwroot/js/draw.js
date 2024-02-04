@@ -50,27 +50,45 @@ function drawMap(data, inputLastTimeStamp, distance) {
     map.fitBounds(bounds);
 }
 
-
-function drawCo2Graphic() {
-    const ctx = document.getElementById('co2Chart');
+function drawAltitudeDiagram(coordinates) {
+    const ctx = document.getElementById('altitudeChart');
+    console.log(coordinates.map(coord => coord.posZ));
 
     new Chart(ctx, {
-        type: 'bar', // Use 'bar' for vertical bars
+        type: 'line', // Use 'line' for altitude diagram
         data: {
-            labels: ['Fahrrad', 'Zug', 'Auto', 'Flugzeug'],
+            labels: coordinates.map(coord => new Date(coord.positionTime).toLocaleDateString("de", dateOptions)),
             datasets: [{
-                label: '# of Votes',
-                data: [12, 19, 3, 5, 2, 3],
-                borderWidth: 1
+                label: 'Altitude',
+                data: coordinates.map(coord => coord.posZ),
+                borderColor: '#5FBD00',
+                borderWidth: 2,
+                pointBackgroundColor: '#5FBD00',
+                fill: false
             }]
         },
         options: {
-            indexAxis: 'x', // Use 'y' for vertical bars
             scales: {
-                x: {
-                    beginAtZero: true
+                y: {
+                    beginAtZero: false // Adjust as needed based on your altitude data
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
                 }
             }
         }
     });
 }
+
+// // Example usage:
+// const altitudeCoordinates = [
+//     { label: 'Point A', altitude: 100 },
+//     { label: 'Point B', altitude: 150 },
+//     { label: 'Point C', altitude: 120 },
+//     // Add more coordinates as needed
+// ];
+//
+// drawAltitudeDiagram(altitudeCoordinates);

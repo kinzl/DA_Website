@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "903ikT5+5OrIY3xr9qlm9qF2cGN9o28KcVl715eFeSQ=",
+  "Hash": "y7H8M3nZGIes7ibWGEU0UvCoAfL2WfQtZQ75s9VFqSY=",
   "Source": "SecureVeloMobilWebsite",
   "BasePath": "_content/SecureVeloMobilWebsite",
   "Mode": "Default",
@@ -129,25 +129,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\img\\DavidKogler.jpg"
-    },
-    {
-      "Identity": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\img\\EmilKinzl.jpg",
-      "SourceId": "SecureVeloMobilWebsite",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\",
-      "BasePath": "_content/SecureVeloMobilWebsite",
-      "RelativePath": "img/EmilKinzl.jpg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\img\\EmilKinzl.jpg"
     },
     {
       "Identity": "C:\\Users\\kinzl\\OneDrive\\HtlGrieskirchen\\Diplomarbeit\\SecureVeloMobilWebsite\\VeloMobilDA\\SecureVeloMobilWebsite\\SecureVeloMobilWebsite\\wwwroot\\img\\MatthiasKogler.jpg",

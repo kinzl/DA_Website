@@ -21,7 +21,7 @@ public class IndexModel : PageModel
     public CourseDto SelectedCourse;
     public TimeSpan DrivenTime;
     public string InfoBoxText = "";
-    public static int TotalCo2Saved { get; private set; }
+    public static double TotalCo2Saved { get; private set; }
     public FilterDate SelectedFilterDate;
 
     public List<FilterDate> FilterDates = new()
@@ -64,7 +64,6 @@ public class IndexModel : PageModel
     {
         _logger = logger;
         _db = db;
-
     }
 
     public void OnGet()
@@ -86,7 +85,7 @@ public class IndexModel : PageModel
 
     private void Initialize()
     {
-        TotalCo2Saved = _db.Courses.Select(x => x.SavedCo2).Count();
+        TotalCo2Saved = _db.Courses.Sum(x => x.SavedCo2);
         SelectedFilterDateIndex = Convert.ToInt32(HttpContext.Session.GetString("SelectedFilterDateIndex") ?? "0");
         if (SelectedFilterDateIndex == 0)
         {
@@ -114,7 +113,7 @@ public class IndexModel : PageModel
                 SavedCo2 = x.SavedCo2,
             })
             .ToList();
-        
+
         if (!Courses.IsNullOrEmpty())
         {
             try
@@ -126,14 +125,7 @@ public class IndexModel : PageModel
                 DrivenTime = SelectedCourse.EndTime - SelectedCourse.StartTime;
                 DetailPositions = _db.DetailPositions
                     .Where(x => x.Courses.CourseId == SelectedCourseId)
-                    .Select(x => new DetailPositionDto()
-                    {
-                        PositionTime = x.PositionTime,
-                        PosY = x.PosY,
-                        PosX = x.PosX,
-                        PosZ = x.PosZ,
-                        DetailPositionId = x.DetailPositionId,
-                    })
+                    .Select(x => new DetailPositionDto().CopyFrom(x))
                     .ToList();
                 LastDetailPosition = DetailPositions.OrderBy(x => x.PositionTime)
                     .Last();
