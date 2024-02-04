@@ -7,6 +7,8 @@ namespace SecureVeloMobilWebsite.Services;
 public class StartupBackgroundService : BackgroundService
 {
     private readonly IServiceScope _scope;
+    private Logger<StartupBackgroundService> _logger;
+
     public StartupBackgroundService(IServiceProvider provider)
     {
         _scope = provider.CreateScope();
@@ -17,13 +19,13 @@ public class StartupBackgroundService : BackgroundService
         var db = _scope.ServiceProvider.GetRequiredService<VeloMobilContext>();
         db.Database.EnsureDeleted();
         db.Database.EnsureCreated();
-        
+
         Seed(db);
-        
+
         return Task.Run(() => db.SaveChanges(), stoppingToken);
     }
 
-   private void Seed(VeloMobilContext db)
+    private void Seed(VeloMobilContext db)
     {
         var course1 = new Course()
         {
@@ -90,41 +92,6 @@ public class StartupBackgroundService : BackgroundService
             }
         };
         db.Courses.Add(course2);
-        // var course3 = new Course()
-        // {
-        //     CourseId = 0,
-        //     Name = "Linz - Graz - Wien",
-        //     StartTime = DateTime.Today.AddDays(-8).AddHours(2),
-        //     EndTime = DateTime.Today.AddDays(-7),
-        //     DetailPosition = new List<DetailPosition>()
-        //     {
-        //         // Wien
-        //         new DetailPosition()
-        //         {
-        //             PosX = 14.28611f,
-        //             PosY = 48.30639f,
-        //             PositionTime = DateTime.ParseExact("31.07.2023 10:55", "dd.MM.yyyy hh:mm",
-        //                 CultureInfo.InvariantCulture),
-        //         },
-        //         // Graz
-        //         new DetailPosition()
-        //         {
-        //             PosX = 15.500000f,
-        //             PosY = 47.300000f,
-        //             PositionTime = DateTime.ParseExact("31.07.2023 10:56", "dd.MM.yyyy hh:mm",
-        //                 CultureInfo.InvariantCulture),
-        //         },
-        //         // Linz
-        //         new DetailPosition()
-        //         {
-        //             PosX = 16.363449f,
-        //             PosY = 48.210033f,
-        //             PositionTime = DateTime.ParseExact("31.07.2023 10:57", "dd.MM.yyyy hh:mm",
-        //                 CultureInfo.InvariantCulture),
-        //         }
-        //     }
-        // };
-        // db.Courses.Add(course3);
         db.SaveChanges();
     }
 
@@ -145,7 +112,7 @@ public class StartupBackgroundService : BackgroundService
             distance += 6376500.0 * (2.0 * Math.Atan2(Math.Sqrt(d3), Math.Sqrt(1.0 - d3)));
         }
 
-        return distance/1000;
+        return distance / 1000;
     }
 
     private double CalculateSavedCo2(double distance)

@@ -7,7 +7,7 @@
     second: '2-digit',
 };
 
-function drawMap(data, inputLastTimeStamp, distance) {
+function drawMap(data) {
     if (data == null) return;
     console.log(data);
     const map = L.map('map').setView([51.5074, -0.1278], 13);

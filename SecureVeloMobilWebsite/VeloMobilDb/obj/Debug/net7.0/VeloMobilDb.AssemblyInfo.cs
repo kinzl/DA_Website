@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("VeloMobilDb")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e9031a76f06d842d0bdf41283410fd1d0a8338e3")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
 [assembly: System.Reflection.AssemblyProductAttribute("VeloMobilDb")]
 [assembly: System.Reflection.AssemblyTitleAttribute("VeloMobilDb")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

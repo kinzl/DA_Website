@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices.JavaScript;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -145,17 +144,17 @@ public class IndexModel : PageModel
     public IActionResult OnPostCourseChanged(string courseId)
     {
         Initialize();
-        var item = Courses.Where(x => x.CourseId == int.Parse(courseId)).Single();
+        var item = Courses.SingleOrDefault(x => x.CourseId == int.Parse(courseId));
         int nrInList = Courses.IndexOf(item);
         HttpContext.Session.SetString("SelectedCourseIndex", nrInList.ToString());
-        HttpContext.Session.SetString("SelectedCourseId", courseId.ToString());
+        HttpContext.Session.SetString("SelectedCourseId", courseId);
         return new RedirectToPageResult("Index");
     }
 
     public IActionResult OnPostTimeFilterChanged(string selectedDay)
     {
         Initialize();
-        SelectedFilterDate = FilterDates.Where(x => x.DayName == selectedDay).Single();
+        SelectedFilterDate = FilterDates.Single(x => x.DayName == selectedDay);
         SelectedFilterDateIndex = FilterDates.IndexOf(SelectedFilterDate);
 
         HttpContext.Session.SetString("SelectedFilterDateIndex", SelectedFilterDateIndex.ToString());

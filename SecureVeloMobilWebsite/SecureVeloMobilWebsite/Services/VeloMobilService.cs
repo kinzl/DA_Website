@@ -1,10 +1,6 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.VisualBasic;
-using SecureVeloMobilWebsite.Controller;
-using SecureVeloMobilWebsite.Dto;
 using SecureVeloMobilWebsite.wwwroot.Extensions;
 using VeloMobilDb;
 
@@ -14,7 +10,6 @@ public class VeloMobilService : ControllerBase
 {
     private VeloMobilContext _db;
     private ILogger<VeloMobilService> _logger;
-    private List<double> _speed = new();
 
     public VeloMobilService(ILogger<VeloMobilService> logger, VeloMobilContext db)
     {
@@ -103,10 +98,10 @@ public class VeloMobilService : ControllerBase
             });
         }
 
-
+        _logger.LogWarning("new course created with id: ");
         _db.SaveChanges();
         var lastCourseId = _db.Courses.OrderBy(x => x.CourseId).Last().CourseId;
-        Console.WriteLine(lastCourseId);
+        _logger.LogWarning(lastCourseId.ToString());
         return Ok(lastCourseId);
     }
     //public async Task<ActionResult> ExistingCourse(Course course)
@@ -133,7 +128,8 @@ public class VeloMobilService : ControllerBase
 
     public ActionResult ExistingCourse(Course course)
     {
-        if (course.DetailPosition.IsNullOrEmpty() || course.CourseId == 0) return BadRequest("Detail Positions or courseId empty");
+        if (course.DetailPosition.IsNullOrEmpty() || course.CourseId == 0)
+            return BadRequest("Detail Positions or courseId empty");
         foreach (var position in course.DetailPosition)
         {
             //position.PosZ = GetAltitudeAsync(position.PosY, position.PosX);
@@ -142,7 +138,7 @@ public class VeloMobilService : ControllerBase
 
         var selectedCourse = _db.Courses
             .Include(x => x.DetailPosition)
-            .Single(x => x.CourseId == course.CourseId)!;
+            .Single(x => x.CourseId == course.CourseId);
 
         selectedCourse.DetailPosition.AddRange(course.DetailPosition);
         selectedCourse.Distance = CalculateDistance(selectedCourse);
@@ -246,5 +242,4 @@ public class VeloMobilService : ControllerBase
             }
         }
     }
-
 }
