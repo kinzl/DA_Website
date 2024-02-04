@@ -39,7 +39,7 @@ function drawMap(data, inputLastTimeStamp, distance) {
         }).addTo(map);
 
         const date = new Date(item.positionTime);
-        marker.bindPopup(date.toLocaleDateString("de", dateOptions));
+        marker.bindPopup(date.toLocaleDateString("de", dateOptions)+ "<br>" + item.currentSpeed.toFixed(1) + " km/h");
     });
 
     // Add some additional map enhancements
