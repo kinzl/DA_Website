@@ -177,7 +177,6 @@ public class VeloMobilService : ControllerBase
     private void CalculateMaxSpeed(double distance, DetailPosition firstPosition, DetailPosition secondPosition)
     {
         double timeDifference = (secondPosition.PositionTime - firstPosition.PositionTime).TotalSeconds;
-        // _speed.Add(distance / timeDifference);
         secondPosition.CurrentSpeed = (distance / timeDifference) * 3.6;
     }
 
@@ -186,36 +185,36 @@ public class VeloMobilService : ControllerBase
         return (distance * MyConstants.co2FootprintCarInGram - distance * MyConstants.co2FootprintBikeInGram) / 1000;
     }
 
-    async Task<double> GetAltitudeAsync(double latitude, double longitude)
-    {
-        using (HttpClient httpClient = new HttpClient())
-        {
-            string apiUrl = $"https://api.open-elevation.com/api/v1/lookup?locations={latitude},{longitude}";
+    //async Task<double> GetAltitudeAsync(double latitude, double longitude)
+    //{
+    //    using (HttpClient httpClient = new HttpClient())
+    //    {
+    //        string apiUrl = $"https://api.open-elevation.com/api/v1/lookup?locations={latitude},{longitude}";
 
-            try
-            {
-                HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
+    //        try
+    //        {
+    //            HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    string json = await response.Content.ReadAsStringAsync();
-                    dynamic result = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
+    //            if (response.IsSuccessStatusCode)
+    //            {
+    //                string json = await response.Content.ReadAsStringAsync();
+    //                dynamic result = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
 
-                    // Extract altitude from the API response
-                    double altitude = result.results[0].elevation;
-                    return altitude;
-                }
+    //                // Extract altitude from the API response
+    //                double altitude = result.results[0].elevation;
+    //                return altitude;
+    //            }
 
-                Console.WriteLine($"API request failed: {response.StatusCode}");
-                return double.NaN;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"An error occurred: {ex.Message}");
-                return double.NaN;
-            }
-        }
-    }
+    //            Console.WriteLine($"API request failed: {response.StatusCode}");
+    //            return double.NaN;
+    //        }
+    //        catch (Exception ex)
+    //        {
+    //            Console.WriteLine($"An error occurred: {ex.Message}");
+    //            return double.NaN;
+    //        }
+    //    }
+    //}
 
     double GetAltitude(double latitude, double longitude)
     {
