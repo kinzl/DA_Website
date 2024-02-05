@@ -7,7 +7,6 @@ namespace SecureVeloMobilWebsite.Services;
 public class StartupBackgroundService : BackgroundService
 {
     private readonly IServiceScope _scope;
-    private Logger<StartupBackgroundService> _logger;
 
     public StartupBackgroundService(IServiceProvider provider)
     {
@@ -16,6 +15,7 @@ public class StartupBackgroundService : BackgroundService
 
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        Console.WriteLine("ExecuteAsync STARTUPSERVICE");
         var db = _scope.ServiceProvider.GetRequiredService<VeloMobilContext>();
         db.Database.EnsureDeleted();
         db.Database.EnsureCreated();
@@ -27,6 +27,7 @@ public class StartupBackgroundService : BackgroundService
 
     private void Seed(VeloMobilContext db)
     {
+        Console.WriteLine("SEED STARTUPSERVICE");
         var course1 = new Course()
         {
             CourseId = 0,

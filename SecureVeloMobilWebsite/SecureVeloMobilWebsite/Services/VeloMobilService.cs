@@ -17,50 +17,7 @@ public class VeloMobilService : ControllerBase
         _db = db;
     }
 
-    //public async Task<ActionResult> NewCourse(Course course)
-    //{
-    //    if (!course.DetailPosition.IsNullOrEmpty())
-    //    {
-    //        course.Distance = CalculateDistance(course);
-    //        course.SavedCo2 = CalculateSavedCo2(course.Distance);
-
-    //        foreach (var position in course.DetailPosition)
-    //        {
-    //            position.PosZ = await GetAltitudeAsync(position.PosY, position.PosX);
-    //        }
-
-    //        _db.Courses.Add(new Course()
-    //        {
-    //            DetailPosition = course.DetailPosition,
-    //            Name = course.Name,
-    //            Distance = course.Distance,
-    //            MaxSpeed = course.MaxSpeed,
-    //            EndTime = course.EndTime,
-    //            StartTime = course.StartTime,
-    //            SavedCo2 = course.SavedCo2,
-    //        });
-    //    }
-    //    else
-    //    {
-    //        _db.Courses.Add(new Course()
-    //        {
-    //            DetailPosition = new List<DetailPosition>(),
-    //            Name = course.Name,
-    //            Distance = 0,
-    //            MaxSpeed = 0,
-    //            EndTime = course.EndTime,
-    //            StartTime = course.StartTime,
-    //            SavedCo2 = 0,
-    //        });
-    //    }
-
-    //    await _db.SaveChangesAsync();
-    //    var lastCourseId = _db.Courses.OrderBy(x => x.CourseId).Last().CourseId;
-    //    Console.WriteLine(lastCourseId);
-    //    return Ok(lastCourseId);
-    //}
-
-    public ActionResult NewCourse(Course course)
+    public async Task<ActionResult> NewCourse(Course course)
     {
         if (!course.DetailPosition.IsNullOrEmpty())
         {
@@ -69,8 +26,7 @@ public class VeloMobilService : ControllerBase
 
             foreach (var position in course.DetailPosition)
             {
-                //position.PosZ = await GetAltitudeAsync(position.PosY, position.PosX);
-                position.PosZ = GetAltitude(position.PosY, position.PosX);
+                position.PosZ = await GetAltitudeAsync(position.PosY, position.PosX);
             }
 
             _db.Courses.Add(new Course()
@@ -98,47 +54,67 @@ public class VeloMobilService : ControllerBase
             });
         }
 
-        _logger.LogWarning("new course created with id: ");
-        _db.SaveChanges();
+        await _db.SaveChangesAsync();
         var lastCourseId = _db.Courses.OrderBy(x => x.CourseId).Last().CourseId;
-        _logger.LogWarning(lastCourseId.ToString());
+        Console.WriteLine(lastCourseId);
         return Ok(lastCourseId);
     }
-    //public async Task<ActionResult> ExistingCourse(Course course)
-    //{
-    //    if (course.DetailPosition.IsNullOrEmpty() && course.CourseId == 0) return Ok("Detail Positions or courseId empty");
-    //    foreach (var position in course.DetailPosition)
-    //    {
-    //        position.PosZ = await GetAltitudeAsync(position.PosY, position.PosX);
-    //    }
 
-    //    var selectedCourse = _db.Courses
-    //        .Include(x => x.DetailPosition)
-    //        .SingleOrDefault(x => x.CourseId == course.CourseId)!;
-
-    //    selectedCourse.DetailPosition.AddRange(course.DetailPosition);
-    //    selectedCourse.Distance = CalculateDistance(selectedCourse);
-    //    selectedCourse.SavedCo2 = CalculateSavedCo2(selectedCourse.Distance);
-    //    selectedCourse.EndTime = course.EndTime;
-    //    selectedCourse.MaxSpeed = selectedCourse.DetailPosition.Max(x => x.CurrentSpeed);
-
-    //    await _db.SaveChangesAsync();
-    //    return Ok("Added positions to " + course.CourseId);
-    //}
-
-    public ActionResult ExistingCourse(Course course)
+    // public ActionResult NewCourse(Course course)
+    // {
+    //     if (!course.DetailPosition.IsNullOrEmpty())
+    //     {
+    //         course.Distance = CalculateDistance(course);
+    //         course.SavedCo2 = CalculateSavedCo2(course.Distance);
+    //
+    //         foreach (var position in course.DetailPosition)
+    //         {
+    //             //position.PosZ = await GetAltitudeAsync(position.PosY, position.PosX);
+    //             position.PosZ = GetAltitude(position.PosY, position.PosX);
+    //         }
+    //
+    //         _db.Courses.Add(new Course()
+    //         {
+    //             DetailPosition = course.DetailPosition,
+    //             Name = course.Name,
+    //             Distance = course.Distance,
+    //             MaxSpeed = course.MaxSpeed,
+    //             EndTime = course.EndTime,
+    //             StartTime = course.StartTime,
+    //             SavedCo2 = course.SavedCo2,
+    //         });
+    //     }
+    //     else
+    //     {
+    //         _db.Courses.Add(new Course()
+    //         {
+    //             DetailPosition = new List<DetailPosition>(),
+    //             Name = course.Name,
+    //             Distance = 0,
+    //             MaxSpeed = 0,
+    //             EndTime = course.EndTime,
+    //             StartTime = course.StartTime,
+    //             SavedCo2 = 0,
+    //         });
+    //     }
+    //
+    //     _logger.LogWarning("new course created with id: ");
+    //     _db.SaveChanges();
+    //     var lastCourseId = _db.Courses.OrderBy(x => x.CourseId).Last().CourseId;
+    //     _logger.LogWarning(lastCourseId.ToString());
+    //     return Ok(lastCourseId);
+    // }
+    public async Task<ActionResult> ExistingCourse(Course course)
     {
-        if (course.DetailPosition.IsNullOrEmpty() || course.CourseId == 0)
-            return BadRequest("Detail Positions or courseId empty");
+        if (course.DetailPosition.IsNullOrEmpty() || course.CourseId == 0) return BadRequest("Detail Positions or courseId empty");
         foreach (var position in course.DetailPosition)
         {
-            //position.PosZ = GetAltitudeAsync(position.PosY, position.PosX);
-            position.PosZ = GetAltitude(position.PosY, position.PosX);
+            position.PosZ = await GetAltitudeAsync(position.PosY, position.PosX);
         }
 
         var selectedCourse = _db.Courses
             .Include(x => x.DetailPosition)
-            .Single(x => x.CourseId == course.CourseId);
+            .SingleOrDefault(x => x.CourseId == course.CourseId)!;
 
         selectedCourse.DetailPosition.AddRange(course.DetailPosition);
         selectedCourse.Distance = CalculateDistance(selectedCourse);
@@ -146,9 +122,33 @@ public class VeloMobilService : ControllerBase
         selectedCourse.EndTime = course.EndTime;
         selectedCourse.MaxSpeed = selectedCourse.DetailPosition.Max(x => x.CurrentSpeed);
 
-        _db.SaveChanges();
+        await _db.SaveChangesAsync();
         return Ok("Added positions to " + course.CourseId);
     }
+
+    // public ActionResult ExistingCourse(Course course)
+    // {
+    //     if (course.DetailPosition.IsNullOrEmpty() || course.CourseId == 0)
+    //         return BadRequest("Detail Positions or courseId empty");
+    //     foreach (var position in course.DetailPosition)
+    //     {
+    //         //position.PosZ = GetAltitudeAsync(position.PosY, position.PosX);
+    //         position.PosZ = GetAltitude(position.PosY, position.PosX);
+    //     }
+    //
+    //     var selectedCourse = _db.Courses
+    //         .Include(x => x.DetailPosition)
+    //         .Single(x => x.CourseId == course.CourseId);
+    //
+    //     selectedCourse.DetailPosition.AddRange(course.DetailPosition);
+    //     selectedCourse.Distance = CalculateDistance(selectedCourse);
+    //     selectedCourse.SavedCo2 = CalculateSavedCo2(selectedCourse.Distance);
+    //     selectedCourse.EndTime = course.EndTime;
+    //     selectedCourse.MaxSpeed = selectedCourse.DetailPosition.Max(x => x.CurrentSpeed);
+    //
+    //     _db.SaveChanges();
+    //     return Ok("Added positions to " + course.CourseId);
+    // }
 
     private double CalculateDistance(Course course)
     {
@@ -181,36 +181,36 @@ public class VeloMobilService : ControllerBase
         return (distance * MyConstants.co2FootprintCarInGram - distance * MyConstants.co2FootprintBikeInGram) / 1000;
     }
 
-    //async Task<double> GetAltitudeAsync(double latitude, double longitude)
-    //{
-    //    using (HttpClient httpClient = new HttpClient())
-    //    {
-    //        string apiUrl = $"https://api.open-elevation.com/api/v1/lookup?locations={latitude},{longitude}";
+    async Task<double> GetAltitudeAsync(double latitude, double longitude)
+    {
+        using (HttpClient httpClient = new HttpClient())
+        {
+            string apiUrl = $"https://api.open-elevation.com/api/v1/lookup?locations={latitude},{longitude}";
 
-    //        try
-    //        {
-    //            HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
+            try
+            {
+                HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
 
-    //            if (response.IsSuccessStatusCode)
-    //            {
-    //                string json = await response.Content.ReadAsStringAsync();
-    //                dynamic result = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
+                if (response.IsSuccessStatusCode)
+                {
+                    string json = await response.Content.ReadAsStringAsync();
+                    dynamic result = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
 
-    //                // Extract altitude from the API response
-    //                double altitude = result.results[0].elevation;
-    //                return altitude;
-    //            }
+                    // Extract altitude from the API response
+                    double altitude = result.results[0].elevation;
+                    return altitude;
+                }
 
-    //            Console.WriteLine($"API request failed: {response.StatusCode}");
-    //            return double.NaN;
-    //        }
-    //        catch (Exception ex)
-    //        {
-    //            Console.WriteLine($"An error occurred: {ex.Message}");
-    //            return double.NaN;
-    //        }
-    //    }
-    //}
+                Console.WriteLine($"API request failed: {response.StatusCode}");
+                return double.NaN;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                return double.NaN;
+            }
+        }
+    }
 
     double GetAltitude(double latitude, double longitude)
     {

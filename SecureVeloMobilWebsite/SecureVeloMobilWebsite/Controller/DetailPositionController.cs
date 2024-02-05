@@ -17,7 +17,7 @@ public class DetailPositionController
     }
 
     [HttpPut]
-    public ActionResult AddPositionsToExistingCourse([FromBody] CourseDto course)
+    public Task<ActionResult> AddPositionsToExistingCourse([FromBody] CourseDto course)
     {
         return _service.ExistingCourse(new Course()
         {
@@ -27,11 +27,11 @@ public class DetailPositionController
             MaxSpeed = course.MaxSpeed,
             CourseId = course.CourseId,
             EndTime = course.EndTime
-        }); 
+        });
     }
 
     [HttpPost]
-    public ActionResult AddPositionsToNewCourse([FromBody] CourseDto positions)
+    public Task<ActionResult> AddPositionsToNewCourse([FromBody] CourseDto positions)
     {
         var newCourse = new Course()
         {

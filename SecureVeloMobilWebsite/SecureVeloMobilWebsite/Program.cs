@@ -1,17 +1,9 @@
-using System;
-using System.IO;
 using GrueneisR.RestClientGenerator;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
-using SecureVeloMobilWebsite.Controller;
 using SecureVeloMobilWebsite.Services;
-using SecureVeloMobilWebsite.wwwroot.Extensions;
 using VeloMobilDb;
 
 string corsKey = "_myCorsKey";
@@ -48,22 +40,22 @@ builder.Services
 //builder.Services.AddScoped<ICategoriesService, CategoriesService>();
 
 //builder.Services.AddLogging(x => x.AddCustomFormatter());
+string? connectionStringMariaDb = builder.Configuration.GetConnectionString("VeloMobilMariaDb");
 
 string? connectionString = builder.Configuration.GetConnectionString("VeloMobilDb");
 string location = System.Reflection.Assembly.GetEntryAssembly()!.Location;
 string dataDirectory = Path.GetDirectoryName(location)!;
 Console.WriteLine("Path: " + dataDirectory);
 connectionString = connectionString?.Replace("|DataDirectory|", dataDirectory + Path.DirectorySeparatorChar);
-Console.WriteLine($"******** ConnectionString: {connectionString}");
+Console.WriteLine($"******** ConnectionString: {connectionStringMariaDb}");
 Console.ForegroundColor = ConsoleColor.Yellow;
 Console.WriteLine($"******** Don't forget to comment out NorthwindContext.OnConfiguring !");
 Console.ResetColor();
 
-string? connectionStringMariaDb = builder.Configuration.GetConnectionString("VeloMobilMariaDb");
 builder.Services.AddDbContext<VeloMobilContext>(options => options
     .UseMySql(connectionStringMariaDb,
         ServerVersion.Create(new Version(11, 1, 2), ServerType.MariaDb)));
-
+builder.Services.AddLogging();
 builder.Services.AddHostedService<StartupBackgroundService>();
 builder.Services.AddScoped<VeloMobilService>();
 
