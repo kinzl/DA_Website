@@ -109,7 +109,7 @@ public class IndexModel : PageModel
                 EndTime = x.EndTime,
                 MaxSpeed = x.MaxSpeed,
                 StartTime = x.StartTime,
-                SavedCo2 = x.SavedCo2,
+                SavedCo2 = x.SavedCo2
             })
             .ToList();
 

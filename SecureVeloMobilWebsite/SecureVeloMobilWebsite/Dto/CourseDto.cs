@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace SecureVeloMobilWebsite.Dto;
+﻿namespace SecureVeloMobilWebsite.Dto;
 
 public class CourseDto
 {

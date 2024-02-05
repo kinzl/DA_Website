@@ -26,6 +26,11 @@
     transition: transform 0.3s;
 }
 
+.profile-image{
+    width: 15vw;
+    height: auto;
+}
+
 .person:hover {
     transform: scale(1.05);
 }
