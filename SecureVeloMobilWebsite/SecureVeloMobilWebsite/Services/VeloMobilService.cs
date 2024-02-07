@@ -17,7 +17,7 @@ public class VeloMobilService : ControllerBase
         _db = db;
     }
 
-    public async Task<ActionResult> NewCourse(Course course)
+    public ActionResult NewCourse(Course course)
     {
         if (!course.DetailPosition.IsNullOrEmpty())
         {
@@ -26,7 +26,8 @@ public class VeloMobilService : ControllerBase
 
             foreach (var position in course.DetailPosition)
             {
-                position.PosZ = await GetAltitudeAsync(position.PosY, position.PosX);
+                //position.PosZ = await GetAltitudeAsync(position.PosY, position.PosX);
+                position.PosZ = GetAltitude(position.PosY, position.PosX);
             }
 
             _db.Courses.Add(new Course()
@@ -54,67 +55,29 @@ public class VeloMobilService : ControllerBase
             });
         }
 
-        await _db.SaveChangesAsync();
+        _db.SaveChanges();
         var lastCourseId = _db.Courses.OrderBy(x => x.CourseId).Last().CourseId;
-        Console.WriteLine(lastCourseId);
+        _logger.LogWarning("new course created with id: ");
+        _logger.LogWarning(lastCourseId.ToString());
         return Ok(lastCourseId);
     }
 
-    // public ActionResult NewCourse(Course course)
-    // {
-    //     if (!course.DetailPosition.IsNullOrEmpty())
-    //     {
-    //         course.Distance = CalculateDistance(course);
-    //         course.SavedCo2 = CalculateSavedCo2(course.Distance);
-    //
-    //         foreach (var position in course.DetailPosition)
-    //         {
-    //             //position.PosZ = await GetAltitudeAsync(position.PosY, position.PosX);
-    //             position.PosZ = GetAltitude(position.PosY, position.PosX);
-    //         }
-    //
-    //         _db.Courses.Add(new Course()
-    //         {
-    //             DetailPosition = course.DetailPosition,
-    //             Name = course.Name,
-    //             Distance = course.Distance,
-    //             MaxSpeed = course.MaxSpeed,
-    //             EndTime = course.EndTime,
-    //             StartTime = course.StartTime,
-    //             SavedCo2 = course.SavedCo2,
-    //         });
-    //     }
-    //     else
-    //     {
-    //         _db.Courses.Add(new Course()
-    //         {
-    //             DetailPosition = new List<DetailPosition>(),
-    //             Name = course.Name,
-    //             Distance = 0,
-    //             MaxSpeed = 0,
-    //             EndTime = course.EndTime,
-    //             StartTime = course.StartTime,
-    //             SavedCo2 = 0,
-    //         });
-    //     }
-    //
-    //     _logger.LogWarning("new course created with id: ");
-    //     _db.SaveChanges();
-    //     var lastCourseId = _db.Courses.OrderBy(x => x.CourseId).Last().CourseId;
-    //     _logger.LogWarning(lastCourseId.ToString());
-    //     return Ok(lastCourseId);
-    // }
-    public async Task<ActionResult> ExistingCourse(Course course)
+    public ActionResult ExistingCourse(Course course)
     {
-        if (course.DetailPosition.IsNullOrEmpty() || course.CourseId == 0) return BadRequest("Detail Positions or courseId empty");
+        if (course.DetailPosition.IsNullOrEmpty() || course.CourseId == 0)
+            return BadRequest("Detail Positions or courseId empty");
         foreach (var position in course.DetailPosition)
         {
-            position.PosZ = await GetAltitudeAsync(position.PosY, position.PosX);
+            //position.PosZ = GetAltitudeAsync(position.PosY, position.PosX);
+            position.PosZ = GetAltitude(position.PosY, position.PosX);
         }
 
         var selectedCourse = _db.Courses
             .Include(x => x.DetailPosition)
-            .SingleOrDefault(x => x.CourseId == course.CourseId)!;
+            .SingleOrDefault(x => x.CourseId == course.CourseId);
+        if (selectedCourse == null)
+            return BadRequest("Course not found (500?) CourseId: " + course.CourseId +
+                              _db.Courses.Select(x => x.CourseId).ToList());
 
         selectedCourse.DetailPosition.AddRange(course.DetailPosition);
         selectedCourse.Distance = CalculateDistance(selectedCourse);
@@ -122,33 +85,9 @@ public class VeloMobilService : ControllerBase
         selectedCourse.EndTime = course.EndTime;
         selectedCourse.MaxSpeed = selectedCourse.DetailPosition.Max(x => x.CurrentSpeed);
 
-        await _db.SaveChangesAsync();
+        _db.SaveChanges();
         return Ok("Added positions to " + course.CourseId);
     }
-
-    // public ActionResult ExistingCourse(Course course)
-    // {
-    //     if (course.DetailPosition.IsNullOrEmpty() || course.CourseId == 0)
-    //         return BadRequest("Detail Positions or courseId empty");
-    //     foreach (var position in course.DetailPosition)
-    //     {
-    //         //position.PosZ = GetAltitudeAsync(position.PosY, position.PosX);
-    //         position.PosZ = GetAltitude(position.PosY, position.PosX);
-    //     }
-    //
-    //     var selectedCourse = _db.Courses
-    //         .Include(x => x.DetailPosition)
-    //         .Single(x => x.CourseId == course.CourseId);
-    //
-    //     selectedCourse.DetailPosition.AddRange(course.DetailPosition);
-    //     selectedCourse.Distance = CalculateDistance(selectedCourse);
-    //     selectedCourse.SavedCo2 = CalculateSavedCo2(selectedCourse.Distance);
-    //     selectedCourse.EndTime = course.EndTime;
-    //     selectedCourse.MaxSpeed = selectedCourse.DetailPosition.Max(x => x.CurrentSpeed);
-    //
-    //     _db.SaveChanges();
-    //     return Ok("Added positions to " + course.CourseId);
-    // }
 
     private double CalculateDistance(Course course)
     {
