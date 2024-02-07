@@ -17,7 +17,7 @@ public class DetailPositionController
     }
 
     [HttpPut]
-    public Task<ActionResult> AddPositionsToExistingCourse([FromBody] CourseDto course)
+    public ActionResult AddPositionsToExistingCourse([FromBody] CourseDto course)
     {
         return _service.ExistingCourse(new Course()
         {
@@ -31,7 +31,7 @@ public class DetailPositionController
     }
 
     [HttpPost]
-    public Task<ActionResult> AddPositionsToNewCourse([FromBody] CourseDto positions)
+    public ActionResult AddPositionsToNewCourse([FromBody] CourseDto positions)
     {
         var newCourse = new Course()
         {

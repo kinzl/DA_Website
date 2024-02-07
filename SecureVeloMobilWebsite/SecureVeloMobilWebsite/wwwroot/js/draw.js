@@ -1,7 +1,4 @@
 ﻿const dateOptions = {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
     hour: '2-digit',
     minute: '2-digit',
     second: '2-digit',
@@ -39,7 +36,7 @@ function drawMap(data) {
         }).addTo(map);
 
         const date = new Date(item.positionTime);
-        marker.bindPopup(date.toLocaleDateString("de", dateOptions)+ "<br>" + item.currentSpeed.toFixed(1) + " km/h");
+        marker.bindPopup(date.toLocaleTimeString("de", dateOptions) + "<br>" + item.currentSpeed.toFixed(1) + " km/h");
     });
 
     // Add some additional map enhancements
@@ -53,11 +50,12 @@ function drawMap(data) {
 function drawAltitudeDiagram(coordinates) {
     const ctx = document.getElementById('altitudeChart');
     console.log(coordinates.map(coord => coord.posZ));
+    const timestamps = coordinates.map(coord => new Date(coord.positionTime).toLocaleTimeString("de", dateOptions));
 
     new Chart(ctx, {
         type: 'line', // Use 'line' for altitude diagram
         data: {
-            labels: coordinates.map(coord => new Date(coord.positionTime).toLocaleDateString("de", dateOptions)),
+            labels: timestamps,
             datasets: [{
                 label: 'Altitude',
                 data: coordinates.map(coord => coord.posZ),
@@ -69,8 +67,17 @@ function drawAltitudeDiagram(coordinates) {
         },
         options: {
             scales: {
+                x: {
+                    ticks: {
+                        callback: (value, index, values) => {
+                            const firstTimestamp = new Date(coordinates[0].positionTime).toLocaleTimeString("de", dateOptions);
+                            const lastTimestamp = new Date(coordinates[coordinates.length - 1].positionTime).toLocaleTimeString("de", dateOptions);
+                            return index === 0 ? firstTimestamp : (index === values.length - 1 ? lastTimestamp : '');
+                        }
+                    }
+                },
                 y: {
-                    beginAtZero: false // Adjust as needed based on your altitude data
+                    beginAtZero: false
                 }
             },
             plugins: {
@@ -82,13 +89,3 @@ function drawAltitudeDiagram(coordinates) {
         }
     });
 }
-
-// // Example usage:
-// const altitudeCoordinates = [
-//     { label: 'Point A', altitude: 100 },
-//     { label: 'Point B', altitude: 150 },
-//     { label: 'Point C', altitude: 120 },
-//     // Add more coordinates as needed
-// ];
-//
-// drawAltitudeDiagram(altitudeCoordinates);
