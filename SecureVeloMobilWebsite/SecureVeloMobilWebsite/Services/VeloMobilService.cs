@@ -72,21 +72,39 @@ public class VeloMobilService : ControllerBase
             position.PosZ = GetAltitude(position.PosY, position.PosX);
         }
 
-        var selectedCourse = _db.Courses
-            .Include(x => x.DetailPosition)
-            .SingleOrDefault(x => x.CourseId == course.CourseId);
-        if (selectedCourse == null)
+        try
+        {
+            var selectedCourse = _db.Courses
+                .Include(x => x.DetailPosition)
+                .SingleOrDefault(x => x.CourseId == course.CourseId);
+            // if (selectedCourse == null)
+            // {
+
+            // }
+
+
+            selectedCourse.DetailPosition.AddRange(course.DetailPosition);
+            selectedCourse.Distance = CalculateDistance(selectedCourse);
+            selectedCourse.SavedCo2 = CalculateSavedCo2(selectedCourse.Distance);
+            selectedCourse.EndTime = course.EndTime;
+            selectedCourse.MaxSpeed = selectedCourse.DetailPosition.Max(x => x.CurrentSpeed);
+
+            _db.SaveChanges();
+            return Ok("Added positions to " + course.CourseId);
+        }
+        catch (Exception e)
+        {
+            var courses = _db.Courses.Select(x => x.CourseId).ToList();
+            foreach (var i in courses)
+            {
+                _logger.LogError(i.ToString());
+            }
+
+            _logger.LogError("" + courses);
+            _logger.LogError(e.ToString());
             return BadRequest("Course not found (500?) CourseId: " + course.CourseId +
-                              _db.Courses.Select(x => x.CourseId).ToList());
-
-        selectedCourse.DetailPosition.AddRange(course.DetailPosition);
-        selectedCourse.Distance = CalculateDistance(selectedCourse);
-        selectedCourse.SavedCo2 = CalculateSavedCo2(selectedCourse.Distance);
-        selectedCourse.EndTime = course.EndTime;
-        selectedCourse.MaxSpeed = selectedCourse.DetailPosition.Max(x => x.CurrentSpeed);
-
-        _db.SaveChanges();
-        return Ok("Added positions to " + course.CourseId);
+                              courses);
+        }
     }
 
     private double CalculateDistance(Course course)

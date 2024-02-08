@@ -1,8 +1,12 @@
+using System.Text;
 using GrueneisR.RestClientGenerator;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using SecureVeloMobilWebsite.Model;
 using SecureVeloMobilWebsite.Services;
 using VeloMobilDb;
 
@@ -62,6 +66,31 @@ builder.Services.AddScoped<VeloMobilService>();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options => { options.IdleTimeout = TimeSpan.FromHours(10); });
 
+//Authentication
+var appSettingsSection = builder.Configuration.GetSection("AppSettings");
+builder.Services.Configure<AppSettings>(appSettingsSection);
+var appSettings = appSettingsSection.Get<AppSettings>() ?? new();
+string secret = appSettings.Secret;
+
+byte[]? key = Encoding.ASCII.GetBytes(secret);
+builder.Services.AddAuthentication(x =>
+    {
+        x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(x =>
+    {
+        x.RequireHttpsMetadata = false;
+        x.SaveToken = true;
+        x.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            ValidateIssuer = false,
+            ValidateAudience = false
+        };
+    });
+
 #endregion
 
 var app = builder.Build();
@@ -81,6 +110,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors(corsKey);
 app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
 
 //app.UseExceptionHandler(config => config.Run(async context =>

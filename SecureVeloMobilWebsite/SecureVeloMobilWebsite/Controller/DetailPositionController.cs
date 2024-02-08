@@ -7,7 +7,7 @@ namespace SecureVeloMobilWebsite.Controller;
 
 [ApiController]
 [Route("[controller]/[action]")]
-public class DetailPositionController
+public class DetailPositionController : ControllerBase
 {
     private VeloMobilService _service;
 
