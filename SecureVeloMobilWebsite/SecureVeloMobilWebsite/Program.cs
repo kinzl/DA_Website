@@ -44,21 +44,22 @@ builder.Services
 //builder.Services.AddScoped<ICategoriesService, CategoriesService>();
 
 //builder.Services.AddLogging(x => x.AddCustomFormatter());
-string? connectionStringMariaDb = builder.Configuration.GetConnectionString("VeloMobilMariaDb");
+// string? connectionStringMariaDb = builder.Configuration.GetConnectionString("VeloMobilMariaDb");
 
 string? connectionString = builder.Configuration.GetConnectionString("VeloMobilDb");
 string location = System.Reflection.Assembly.GetEntryAssembly()!.Location;
 string dataDirectory = Path.GetDirectoryName(location)!;
 Console.WriteLine("Path: " + dataDirectory);
 connectionString = connectionString?.Replace("|DataDirectory|", dataDirectory + Path.DirectorySeparatorChar);
-Console.WriteLine($"******** ConnectionString: {connectionStringMariaDb}");
+Console.WriteLine($"******** ConnectionString: {connectionString}");
 Console.ForegroundColor = ConsoleColor.Yellow;
 Console.WriteLine($"******** Don't forget to comment out NorthwindContext.OnConfiguring !");
 Console.ResetColor();
 
-builder.Services.AddDbContext<VeloMobilContext>(options => options
-    .UseMySql(connectionStringMariaDb,
-        ServerVersion.Create(new Version(11, 1, 2), ServerType.MariaDb)));
+builder.Services.AddDbContext<VeloMobilContext>(options => options.UseSqlite(connectionString));
+// builder.Services.AddDbContext<VeloMobilContext>(options => options
+//     .UseMySql(connectionStringMariaDb,
+//         ServerVersion.Create(new Version(11, 1, 2), ServerType.MariaDb)));
 builder.Services.AddLogging();
 builder.Services.AddHostedService<StartupBackgroundService>();
 builder.Services.AddScoped<VeloMobilService>();

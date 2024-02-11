@@ -72,8 +72,8 @@ public class VeloMobilService : ControllerBase
             position.PosZ = GetAltitude(position.PosY, position.PosX);
         }
 
-        try
-        {
+        // try
+        // {
             var selectedCourse = _db.Courses
                 .Include(x => x.DetailPosition)
                 .SingleOrDefault(x => x.CourseId == course.CourseId);
@@ -83,7 +83,31 @@ public class VeloMobilService : ControllerBase
             // }
 
 
-            selectedCourse.DetailPosition.AddRange(course.DetailPosition);
+            using (var transaction = _db.Database.BeginTransaction())
+            {
+                try
+                {
+                    int batchSize = 3;
+
+                    for (int i = 0; i < course.DetailPosition.Count; i += batchSize)
+                    {
+                        var batch = course.DetailPosition.Skip(i).Take(batchSize).ToList();
+                        selectedCourse.DetailPosition.AddRange(batch);
+                    }
+
+                    _db.SaveChanges();
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    _logger.LogError(ex.Message);
+                    // Handle or log the exception
+                }
+            }
+
+
+            // selectedCourse.DetailPosition.AddRange(course.DetailPosition);
             selectedCourse.Distance = CalculateDistance(selectedCourse);
             selectedCourse.SavedCo2 = CalculateSavedCo2(selectedCourse.Distance);
             selectedCourse.EndTime = course.EndTime;
@@ -91,20 +115,20 @@ public class VeloMobilService : ControllerBase
 
             _db.SaveChanges();
             return Ok("Added positions to " + course.CourseId);
-        }
-        catch (Exception e)
-        {
-            var courses = _db.Courses.Select(x => x.CourseId).ToList();
-            foreach (var i in courses)
-            {
-                _logger.LogError(i.ToString());
-            }
-
-            _logger.LogError("" + courses);
-            _logger.LogError(e.ToString());
-            return BadRequest("Course not found (500?) CourseId: " + course.CourseId +
-                              courses);
-        }
+        // }
+        // catch (Exception e)
+        // {
+        //     var courses = _db.Courses.Select(x => x.CourseId).ToList();
+        //     foreach (var i in courses)
+        //     {
+        //         _logger.LogError(i.ToString());
+        //     }
+        //
+        //     _logger.LogError("" + courses);
+        //     _logger.LogError(e.ToString());
+        //     return BadRequest("Course not found (500?) CourseId: " + course.CourseId +
+        //                       courses);
+        // }
     }
 
     private double CalculateDistance(Course course)
