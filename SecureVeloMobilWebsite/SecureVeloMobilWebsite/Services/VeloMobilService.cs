@@ -64,57 +64,59 @@ public class VeloMobilService : ControllerBase
 
     public ActionResult ExistingCourse(Course course)
     {
+        _logger.LogInformation("Existing course");
         if (course.DetailPosition.IsNullOrEmpty() || course.CourseId == 0)
             return BadRequest("Detail Positions or courseId empty");
         foreach (var position in course.DetailPosition)
         {
             //position.PosZ = GetAltitudeAsync(position.PosY, position.PosX);
             position.PosZ = GetAltitude(position.PosY, position.PosX);
+            // position.PosZ = 0;
         }
 
         // try
         // {
-            var selectedCourse = _db.Courses
-                .Include(x => x.DetailPosition)
-                .SingleOrDefault(x => x.CourseId == course.CourseId);
-            // if (selectedCourse == null)
-            // {
+        var selectedCourse = _db.Courses
+            .Include(x => x.DetailPosition)
+            .SingleOrDefault(x => x.CourseId == course.CourseId);
+        // if (selectedCourse == null)
+        // {
 
-            // }
-
-
-            using (var transaction = _db.Database.BeginTransaction())
-            {
-                try
-                {
-                    int batchSize = 3;
-
-                    for (int i = 0; i < course.DetailPosition.Count; i += batchSize)
-                    {
-                        var batch = course.DetailPosition.Skip(i).Take(batchSize).ToList();
-                        selectedCourse.DetailPosition.AddRange(batch);
-                    }
-
-                    _db.SaveChanges();
-                    transaction.Commit();
-                }
-                catch (Exception ex)
-                {
-                    transaction.Rollback();
-                    _logger.LogError(ex.Message);
-                    // Handle or log the exception
-                }
-            }
+        // }
 
 
-            // selectedCourse.DetailPosition.AddRange(course.DetailPosition);
-            selectedCourse.Distance = CalculateDistance(selectedCourse);
-            selectedCourse.SavedCo2 = CalculateSavedCo2(selectedCourse.Distance);
-            selectedCourse.EndTime = course.EndTime;
-            selectedCourse.MaxSpeed = selectedCourse.DetailPosition.Max(x => x.CurrentSpeed);
+        // using (var transaction = _db.Database.BeginTransaction())
+        // {
+        //     try
+        //     {
+        //         int batchSize = 3;
+        //
+        //         for (int i = 0; i < course.DetailPosition.Count; i += batchSize)
+        //         {
+        //             var batch = course.DetailPosition.Skip(i).Take(batchSize).ToList();
+        //             selectedCourse.DetailPosition.AddRange(batch);
+        //         }
+        //
+        //         _db.SaveChanges();
+        //         transaction.Commit();
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         transaction.Rollback();
+        //         _logger.LogError(ex.Message);
+        //         // Handle or log the exception
+        //     }
+        // }
 
-            _db.SaveChanges();
-            return Ok("Added positions to " + course.CourseId);
+
+        selectedCourse.DetailPosition.AddRange(course.DetailPosition);
+        selectedCourse.Distance = CalculateDistance(selectedCourse);
+        selectedCourse.SavedCo2 = CalculateSavedCo2(selectedCourse.Distance);
+        selectedCourse.EndTime = course.EndTime;
+        selectedCourse.MaxSpeed = selectedCourse.DetailPosition.Max(x => x.CurrentSpeed);
+
+        _db.SaveChanges();
+        return Ok("Added positions to " + course.CourseId);
         // }
         // catch (Exception e)
         // {
