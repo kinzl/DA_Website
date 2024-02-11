@@ -1,13 +1,12 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SecureVeloMobilWebsite.Controller;
-using SecureVeloMobilWebsite.Dto;
+using Microsoft.IdentityModel.Tokens;
+using SecureVeloMobilWebsite.wwwroot.Extensions;
 using VeloMobilDb;
 
 namespace SecureVeloMobilWebsite.Services;
 
-public class VeloMobilService
+public class VeloMobilService : ControllerBase
 {
     private VeloMobilContext _db;
     private ILogger<VeloMobilService> _logger;
@@ -18,28 +17,186 @@ public class VeloMobilService
         _db = db;
     }
 
-    public List<DetailPosition> GetPositionsByCourseId(int courseId)
+    public ActionResult NewCourse(Course course)
     {
-        return _db.DetailPositions
-            .Include(x => x.Courses)
-            .Where(x => x.Courses.CourseId == courseId)
-            .ToList();
+        if (!course.DetailPosition.IsNullOrEmpty())
+        {
+            course.Distance = CalculateDistance(course);
+            course.SavedCo2 = CalculateSavedCo2(course.Distance);
+
+            foreach (var position in course.DetailPosition)
+            {
+                //position.PosZ = await GetAltitudeAsync(position.PosY, position.PosX);
+                position.PosZ = GetAltitude(position.PosY, position.PosX);
+            }
+
+            _db.Courses.Add(new Course()
+            {
+                DetailPosition = course.DetailPosition,
+                Name = course.Name,
+                Distance = course.Distance,
+                MaxSpeed = course.MaxSpeed,
+                EndTime = course.EndTime,
+                StartTime = course.StartTime,
+                SavedCo2 = course.SavedCo2,
+            });
+        }
+        else
+        {
+            _db.Courses.Add(new Course()
+            {
+                DetailPosition = new List<DetailPosition>(),
+                Name = course.Name,
+                Distance = 0,
+                MaxSpeed = 0,
+                EndTime = course.EndTime,
+                StartTime = course.StartTime,
+                SavedCo2 = 0,
+            });
+        }
+
+        _db.SaveChanges();
+        var lastCourseId = _db.Courses.OrderBy(x => x.CourseId).Last().CourseId;
+        _logger.LogWarning("new course created with id: ");
+        _logger.LogWarning(lastCourseId.ToString());
+        return Ok(lastCourseId);
     }
 
-    public ActionResult AddPositionsToNewCourse(Course detailPositions)
+    public ActionResult ExistingCourse(Course course)
     {
-        int maxSpeed = 0;
-        detailPositions.DetailPosition.ForEach(x =>
+        if (course.DetailPosition.IsNullOrEmpty() || course.CourseId == 0)
+            return BadRequest("Detail Positions or courseId empty");
+        foreach (var position in course.DetailPosition)
         {
-            
-        });
-        _db.Courses.Add(new Course()
+            //position.PosZ = GetAltitudeAsync(position.PosY, position.PosX);
+            position.PosZ = GetAltitude(position.PosY, position.PosX);
+        }
+
+        try
         {
-            DetailPosition = detailPositions.DetailPosition,
-            Name = detailPositions.Name,
-            MaxSpeed = maxSpeed,
-        });
-        _db.SaveChanges();
-        return new OkResult();
+            var selectedCourse = _db.Courses
+                .Include(x => x.DetailPosition)
+                .SingleOrDefault(x => x.CourseId == course.CourseId);
+            // if (selectedCourse == null)
+            // {
+
+            // }
+
+
+            selectedCourse.DetailPosition.AddRange(course.DetailPosition);
+            selectedCourse.Distance = CalculateDistance(selectedCourse);
+            selectedCourse.SavedCo2 = CalculateSavedCo2(selectedCourse.Distance);
+            selectedCourse.EndTime = course.EndTime;
+            selectedCourse.MaxSpeed = selectedCourse.DetailPosition.Max(x => x.CurrentSpeed);
+
+            _db.SaveChanges();
+            return Ok("Added positions to " + course.CourseId);
+        }
+        catch (Exception e)
+        {
+            var courses = _db.Courses.Select(x => x.CourseId).ToList();
+            foreach (var i in courses)
+            {
+                _logger.LogError(i.ToString());
+            }
+
+            _logger.LogError("" + courses);
+            _logger.LogError(e.ToString());
+            return BadRequest("Course not found (500?) CourseId: " + course.CourseId +
+                              courses);
+        }
+    }
+
+    private double CalculateDistance(Course course)
+    {
+        double distance = 0;
+        for (int i = 0; i < course.DetailPosition.Count - 1; i++)
+        {
+            var d1 = course.DetailPosition[i].PosY * (Math.PI / 180.0);
+            var num1 = course.DetailPosition[i].PosX * (Math.PI / 180.0);
+            var d2 = course.DetailPosition[i + 1].PosY * (Math.PI / 180.0);
+            var num2 = course.DetailPosition[i + 1].PosX * (Math.PI / 180.0) - num1;
+            var d3 = Math.Pow(Math.Sin((d2 - d1) / 2.0), 2.0) +
+                     Math.Cos(d1) * Math.Cos(d2) * Math.Pow(Math.Sin(num2 / 2.0), 2.0);
+
+            distance += 6376500.0 * (2.0 * Math.Atan2(Math.Sqrt(d3), Math.Sqrt(1.0 - d3)));
+            CalculateMaxSpeed(distance, course.DetailPosition[i],
+                course.DetailPosition[i + 1]);
+        }
+
+        return distance / 1000;
+    }
+
+    private void CalculateMaxSpeed(double distance, DetailPosition firstPosition, DetailPosition secondPosition)
+    {
+        double timeDifference = (secondPosition.PositionTime - firstPosition.PositionTime).TotalSeconds;
+        secondPosition.CurrentSpeed = (distance / timeDifference) * 3.6;
+    }
+
+    private double CalculateSavedCo2(double distance)
+    {
+        return (distance * MyConstants.co2FootprintCarInGram - distance * MyConstants.co2FootprintBikeInGram) / 1000;
+    }
+
+    async Task<double> GetAltitudeAsync(double latitude, double longitude)
+    {
+        using (HttpClient httpClient = new HttpClient())
+        {
+            string apiUrl = $"https://api.open-elevation.com/api/v1/lookup?locations={latitude},{longitude}";
+
+            try
+            {
+                HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string json = await response.Content.ReadAsStringAsync();
+                    dynamic result = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
+
+                    // Extract altitude from the API response
+                    double altitude = result.results[0].elevation;
+                    return altitude;
+                }
+
+                Console.WriteLine($"API request failed: {response.StatusCode}");
+                return double.NaN;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                return double.NaN;
+            }
+        }
+    }
+
+    double GetAltitude(double latitude, double longitude)
+    {
+        using (HttpClient httpClient = new HttpClient())
+        {
+            string apiUrl = $"https://api.open-elevation.com/api/v1/lookup?locations={latitude},{longitude}";
+
+            try
+            {
+                HttpResponseMessage response = httpClient.GetAsync(apiUrl).Result;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string json = response.Content.ReadAsStringAsync().Result;
+                    dynamic result = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
+
+                    // Extract altitude from the API response
+                    double altitude = result.results[0].elevation;
+                    return altitude;
+                }
+
+                Console.WriteLine($"API request failed: {response.StatusCode}");
+                return double.NaN;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                return double.NaN;
+            }
+        }
     }
 }

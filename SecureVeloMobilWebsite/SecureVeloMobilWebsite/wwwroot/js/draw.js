@@ -1,34 +1,28 @@
 ﻿const dateOptions = {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
     hour: '2-digit',
     minute: '2-digit',
     second: '2-digit',
 };
 
-function drawMap(data, inputLastTimeStamp) {
+function drawMap(data) {
     if (data == null) return;
+    console.log(data);
     const map = L.map('map').setView([51.5074, -0.1278], 13);
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    // Use CartoDB Dark Matter tiles for a dark map style
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
         maxZoom: 19
     }).addTo(map);
 
     const routeCoordinates = data.map(item => [item.posY, item.posX]);
 
-    const route = L.polyline(routeCoordinates, {color: 'blue'}).addTo(map);
+    // const route = L.polyline(routeCoordinates, { color: 'blue' }).addTo(map);
+    const route = L.polyline(routeCoordinates, {color: '#5FBD00'}).addTo(map);
 
-    // Calculate the total distance of the route
-    let distance = 0;
-    for (let i = 0; i < routeCoordinates.length - 1; i++) {
-        let from = L.latLng(routeCoordinates[i]);
-        let to = L.latLng(routeCoordinates[i + 1]);
-        distance += from.distanceTo(to);
-    }
+    console.log(data);
 
-    const lblDistance = $('#totalDistance').html((distance / 1000).toFixed(3) + " km");
+    // const lblDistance = $('#totalDistance').html((distance / 1000).toFixed(3) + " km");
 
     // Add square markers for each coordinate
     data.forEach(item => {
@@ -41,10 +35,8 @@ function drawMap(data, inputLastTimeStamp) {
             })
         }).addTo(map);
 
-        // marker.bindPopup('PosX: ' + item.posX);
-        // marker.bindPopup('PosY: ' + item.posY);
         const date = new Date(item.positionTime);
-        marker.bindPopup(date.toLocaleDateString("de", dateOptions));
+        marker.bindPopup(date.toLocaleTimeString("de", dateOptions) + "<br>" + item.currentSpeed.toFixed(1) + " km/h");
     });
 
     // Add some additional map enhancements
@@ -53,34 +45,47 @@ function drawMap(data, inputLastTimeStamp) {
 
     const bounds = L.latLngBounds(routeCoordinates);
     map.fitBounds(bounds);
-
-    calculateCo2((distance / 1000).toFixed(3));
 }
 
-function drawCo2Graphic() {
-    const ctx = document.getElementById('co2Chart');
+function drawAltitudeDiagram(coordinates) {
+    const ctx = document.getElementById('altitudeChart');
+    console.log(coordinates.map(coord => coord.posZ));
+    const timestamps = coordinates.map(coord => new Date(coord.positionTime).toLocaleTimeString("de", dateOptions));
 
     new Chart(ctx, {
-        type: 'bar', // Use 'bar' for vertical bars
+        type: 'line', // Use 'line' for altitude diagram
         data: {
-            labels: ['Fahrrad', 'Zug', 'Auto', 'Flugzeug'],
+            labels: timestamps,
             datasets: [{
-                label: '# of Votes',
-                data: [12, 19, 3, 5, 2, 3],
-                borderWidth: 1
+                label: 'Altitude',
+                data: coordinates.map(coord => coord.posZ),
+                borderColor: '#5FBD00',
+                borderWidth: 2,
+                pointBackgroundColor: '#5FBD00',
+                fill: false
             }]
         },
         options: {
-            indexAxis: 'x', // Use 'y' for vertical bars
             scales: {
                 x: {
-                    beginAtZero: true
+                    ticks: {
+                        callback: (value, index, values) => {
+                            const firstTimestamp = new Date(coordinates[0].positionTime).toLocaleTimeString("de", dateOptions);
+                            const lastTimestamp = new Date(coordinates[coordinates.length - 1].positionTime).toLocaleTimeString("de", dateOptions);
+                            return index === 0 ? firstTimestamp : (index === values.length - 1 ? lastTimestamp : '');
+                        }
+                    }
+                },
+                y: {
+                    beginAtZero: false
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
                 }
             }
         }
     });
-}
-
-function calculateCo2(distance) {
-    $("#savedCo2").html("Sie haben " + (((distance * co2FootprintCarInGram) - (distance * co2FootprintBikeInGram))/1000).toFixed(1) + " kg eingespart");
 }

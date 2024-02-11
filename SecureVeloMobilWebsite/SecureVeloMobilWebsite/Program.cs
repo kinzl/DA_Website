@@ -1,17 +1,13 @@
-using System;
-using System.IO;
+using System.Text;
 using GrueneisR.RestClientGenerator;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
-using SecureVeloMobilWebsite.Controller;
+using SecureVeloMobilWebsite.Model;
 using SecureVeloMobilWebsite.Services;
-using SecureVeloMobilWebsite.wwwroot.Extensions;
 using VeloMobilDb;
 
 string corsKey = "_myCorsKey";
@@ -48,28 +44,52 @@ builder.Services
 //builder.Services.AddScoped<ICategoriesService, CategoriesService>();
 
 //builder.Services.AddLogging(x => x.AddCustomFormatter());
+string? connectionStringMariaDb = builder.Configuration.GetConnectionString("VeloMobilMariaDb");
 
 string? connectionString = builder.Configuration.GetConnectionString("VeloMobilDb");
 string location = System.Reflection.Assembly.GetEntryAssembly()!.Location;
 string dataDirectory = Path.GetDirectoryName(location)!;
 Console.WriteLine("Path: " + dataDirectory);
 connectionString = connectionString?.Replace("|DataDirectory|", dataDirectory + Path.DirectorySeparatorChar);
-Console.WriteLine($"******** ConnectionString: {connectionString}");
+Console.WriteLine($"******** ConnectionString: {connectionStringMariaDb}");
 Console.ForegroundColor = ConsoleColor.Yellow;
 Console.WriteLine($"******** Don't forget to comment out NorthwindContext.OnConfiguring !");
 Console.ResetColor();
 
-// builder.Services.AddDbContext<VeloMobilContext>(options => options.UseSqlServer(connectionString));
-string? connectionStringMariaDb = builder.Configuration.GetConnectionString("VeloMobilMariaDb");
-builder.Services.AddDbContext<VeloMobilContext>(options => options      
-    .UseMySql(connectionStringMariaDb, 
+builder.Services.AddDbContext<VeloMobilContext>(options => options
+    .UseMySql(connectionStringMariaDb,
         ServerVersion.Create(new Version(11, 1, 2), ServerType.MariaDb)));
-
+builder.Services.AddLogging();
+builder.Services.AddHostedService<StartupBackgroundService>();
 builder.Services.AddScoped<VeloMobilService>();
-builder.Services.AddScoped<Seeder>();
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options => { options.IdleTimeout = TimeSpan.FromHours(10); });
+
+//Authentication
+var appSettingsSection = builder.Configuration.GetSection("AppSettings");
+builder.Services.Configure<AppSettings>(appSettingsSection);
+var appSettings = appSettingsSection.Get<AppSettings>() ?? new();
+string secret = appSettings.Secret;
+
+byte[]? key = Encoding.ASCII.GetBytes(secret);
+builder.Services.AddAuthentication(x =>
+    {
+        x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(x =>
+    {
+        x.RequireHttpsMetadata = false;
+        x.SaveToken = true;
+        x.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            ValidateIssuer = false,
+            ValidateAudience = false
+        };
+    });
 
 #endregion
 
@@ -90,6 +110,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors(corsKey);
 app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
 
 //app.UseExceptionHandler(config => config.Run(async context =>

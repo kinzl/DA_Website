@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices.JavaScript;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -13,7 +12,6 @@ public class IndexModel : PageModel
 {
     private readonly ILogger<IndexModel> _logger;
     private VeloMobilContext _db;
-    private Seeder _seeder;
     public List<CourseDto> Courses;
     public int SelectedCourseIndex;
     public int SelectedCourseId;
@@ -22,7 +20,8 @@ public class IndexModel : PageModel
     public CourseDto SelectedCourse;
     public TimeSpan DrivenTime;
     public string InfoBoxText = "";
-    public FilterDate SelectedFilterDate { get; set; }
+    public static double TotalCo2Saved { get; private set; }
+    public FilterDate SelectedFilterDate;
 
     public List<FilterDate> FilterDates = new()
     {
@@ -58,17 +57,12 @@ public class IndexModel : PageModel
         },
     };
 
-    public DetailPositionDto LastDetailPosition { get; set; }
+    public DetailPositionDto LastDetailPosition;
 
-    public IndexModel(ILogger<IndexModel> logger, VeloMobilContext db, Seeder seeder)
+    public IndexModel(ILogger<IndexModel> logger, VeloMobilContext db)
     {
         _logger = logger;
         _db = db;
-        _seeder = seeder;
-
-        // _db.Database.EnsureDeleted();
-        // _db.Database.EnsureCreated();
-        // _seeder.Seed();
     }
 
     public void OnGet()
@@ -90,6 +84,7 @@ public class IndexModel : PageModel
 
     private void Initialize()
     {
+        TotalCo2Saved = _db.Courses.Sum(x => x.SavedCo2);
         SelectedFilterDateIndex = Convert.ToInt32(HttpContext.Session.GetString("SelectedFilterDateIndex") ?? "0");
         if (SelectedFilterDateIndex == 0)
         {
@@ -102,25 +97,21 @@ public class IndexModel : PageModel
             SelectedFilterDate = FilterDates[SelectedFilterDateIndex];
         }
 
-
         Courses = _db.Courses
             .Include(x => x.DetailPosition)
-            .Where(x => x.DayOfRecording >= SelectedFilterDate.startTime &&
-                        x.DayOfRecording <= SelectedFilterDate.endTime)
+            .Where(x => x.StartTime.Date >= SelectedFilterDate.startTime.Date &&
+                        x.StartTime.Date <= SelectedFilterDate.endTime.Date)
             .Select(x => new CourseDto()
             {
-                Picture = x.Picture,
                 CourseId = x.CourseId,
-                DayOfRecording = x.DayOfRecording,
                 Distance = x.Distance,
                 Name = x.Name,
-                Visible = x.Visible,
                 EndTime = x.EndTime,
                 MaxSpeed = x.MaxSpeed,
                 StartTime = x.StartTime,
+                SavedCo2 = x.SavedCo2
             })
             .ToList();
-
 
         if (!Courses.IsNullOrEmpty())
         {
@@ -133,13 +124,7 @@ public class IndexModel : PageModel
                 DrivenTime = SelectedCourse.EndTime - SelectedCourse.StartTime;
                 DetailPositions = _db.DetailPositions
                     .Where(x => x.Courses.CourseId == SelectedCourseId)
-                    .Select(x => new DetailPositionDto()
-                    {
-                        PositionTime = x.PositionTime,
-                        PosY = x.PosY,
-                        PosX = x.PosX,
-                        DetailPositionId = x.DetailPositionId,
-                    })
+                    .Select(x => new DetailPositionDto().CopyFrom(x))
                     .ToList();
                 LastDetailPosition = DetailPositions.OrderBy(x => x.PositionTime)
                     .Last();
@@ -159,17 +144,17 @@ public class IndexModel : PageModel
     public IActionResult OnPostCourseChanged(string courseId)
     {
         Initialize();
-        var item = Courses.Where(x => x.CourseId == int.Parse(courseId)).Single();
+        var item = Courses.SingleOrDefault(x => x.CourseId == int.Parse(courseId));
         int nrInList = Courses.IndexOf(item);
         HttpContext.Session.SetString("SelectedCourseIndex", nrInList.ToString());
-        HttpContext.Session.SetString("SelectedCourseId", courseId.ToString());
+        HttpContext.Session.SetString("SelectedCourseId", courseId);
         return new RedirectToPageResult("Index");
     }
 
     public IActionResult OnPostTimeFilterChanged(string selectedDay)
     {
         Initialize();
-        SelectedFilterDate = FilterDates.Where(x => x.DayName == selectedDay).Single();
+        SelectedFilterDate = FilterDates.Single(x => x.DayName == selectedDay);
         SelectedFilterDateIndex = FilterDates.IndexOf(SelectedFilterDate);
 
         HttpContext.Session.SetString("SelectedFilterDateIndex", SelectedFilterDateIndex.ToString());

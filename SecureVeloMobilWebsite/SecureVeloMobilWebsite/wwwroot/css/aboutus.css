@@ -1,21 +1,54 @@
 ﻿body {
     font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #121212;
+    color: #ffffff;
 }
 
 .grid-container {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 20px;
 }
 
 .person {
-    flex: 1 1 50%;
+    flex: 1 1 300px;
+    margin: 20px;
+    height: 75vh;
     padding: 20px;
     box-sizing: border-box;
+    text-align: center;
+    background-color: #333333;
+    border-radius: 10px;
+    transition: transform 0.3s;
+}
+
+.profile-image{
+    width: 15vw;
+    height: auto;
+}
+
+.person:hover {
+    transform: scale(1.05);
 }
 
 .profile-image {
-    max-width: 250px;
+    max-width: 100%;
+    border-radius: 15px;
     height: auto;
+}
+
+h2, h3, p {
+    color: #ffffff;
+}
+
+@media (max-width: 1024px) {
+    .person {
+        flex: 1 1 45%;
+    }
 }
 
 @media (max-width: 780px) {

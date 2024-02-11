@@ -7,7 +7,7 @@ namespace SecureVeloMobilWebsite.Controller;
 
 [ApiController]
 [Route("[controller]/[action]")]
-public class DetailPositionController
+public class DetailPositionController : ControllerBase
 {
     private VeloMobilService _service;
 
@@ -16,27 +16,32 @@ public class DetailPositionController
         _service = service;
     }
 
-    [HttpGet("{courseId}")]
-    public List<DetailPositionDto> GetPositionsByCourseId(int courseId)
+    [HttpPut]
+    public ActionResult AddPositionsToExistingCourse([FromBody] CourseDto course)
     {
-        return _service.GetPositionsByCourseId(courseId)
-            .Select(x => new DetailPositionDto().CopyFrom(x))
-            .ToList();
+        return _service.ExistingCourse(new Course()
+        {
+            Name = course.Name,
+            DetailPosition = course.DetailPosition.Select(x => new DetailPosition().CopyFrom(x)).ToList(),
+            StartTime = course.StartTime,
+            MaxSpeed = course.MaxSpeed,
+            CourseId = course.CourseId,
+            EndTime = course.EndTime
+        });
     }
 
     [HttpPost]
-    public ActionResult AddPositionsToNewCourse([FromBody] PostCourseDto positions)
+    public ActionResult AddPositionsToNewCourse([FromBody] CourseDto positions)
     {
-        var p = new Course()
+        var newCourse = new Course()
         {
             Name = positions.Name,
             DetailPosition = positions.DetailPosition.Select(x => new DetailPosition().CopyFrom(x)).ToList(),
-            Distance = positions.Distance,
-            Picture = positions.Picture,
-            Visible = positions.Visible,
-            StartTime = positions.DrivenTime
+            StartTime = positions.StartTime,
+            MaxSpeed = positions.MaxSpeed,
+            EndTime = positions.EndTime
         };
-        _service.AddPositionsToNewCourse(p);
-        return new OkResult();
+
+        return _service.NewCourse(newCourse);
     }
 }
