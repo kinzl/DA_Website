@@ -100,9 +100,6 @@
 <script>
 $(document).ready(function () {
 let data = @Html.Raw(Json.Serialize(Model.DetailPositions));
-// let lastTimeStamp = @Html.Raw(Json.Serialize(Model.LastDetailPosition));
-// let distance = @Html.Raw(Json.Serialize(Model.SelectedCourse.Distance));
-// console.log(distance);
 drawMap(data);
 drawAltitudeDiagram(data);
 })

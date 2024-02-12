@@ -44,4 +44,10 @@ public class DetailPositionController : ControllerBase
 
         return _service.NewCourse(newCourse);
     }
+
+    [HttpPost("{courseId}")]
+    public ActionResult CalculateAltitudeFromCourse(int courseId)
+    {
+        return _service.AddAltitudeToCourse(courseId);
+    }
 }
