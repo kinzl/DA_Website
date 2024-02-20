@@ -1,0 +1,33 @@
+﻿@page
+@model SecureVeloMobilWebsite.Pages.Login
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="css/login.css"/>
+    <title>Login - VeloMobil</title>
+</head>
+<body>
+
+<div id="base">
+    @* <img id="veloMobilPicture" src="img/" class="img-fluid" alt="VeloMobil Logo"/> *@
+    <div>
+        <form method="post" asp-page-handler="Login">
+            <label for="usernameField" class="userName">Username:</label>
+            <input id="usernameField" type="text" name="username" class="userNameInput"/>
+            <label for="passwordField" class="password">Password:</label>
+            <input id="passwordField" type="password" name="password" class="passwordInput"/>
+            <div id="errorMessage">@Model.ErrorText</div>
+            <input type="submit" class="loginButton" value="Login"/>
+        </form>
+    </div>
+</div>
+</body>
+</html>

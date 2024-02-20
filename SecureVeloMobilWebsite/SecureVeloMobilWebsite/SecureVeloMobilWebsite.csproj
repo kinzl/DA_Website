@@ -10,6 +10,7 @@
 
     <ItemGroup>
       <PackageReference Include="Apricus.Core.Platform.Authentication.JwtBearer.Service" Version="1.0.1" />
+      <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
       <PackageReference Include="GrueneisR.RestClientGenerator" Version="1.2.0" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.9" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.9">

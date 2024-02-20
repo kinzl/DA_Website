@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using SecureVeloMobilWebsite.Extensions;
 using SecureVeloMobilWebsite.Model;
 using SecureVeloMobilWebsite.Services;
 using VeloMobilDb;
@@ -63,34 +64,35 @@ builder.Services.AddDbContext<VeloMobilContext>(options => options
 builder.Services.AddLogging();
 builder.Services.AddHostedService<StartupBackgroundService>();
 builder.Services.AddScoped<VeloMobilService>();
+builder.Services.AddTransient<PasswordEncryption>();
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options => { options.IdleTimeout = TimeSpan.FromHours(10); });
 
 //Authentication
-var appSettingsSection = builder.Configuration.GetSection("AppSettings");
-builder.Services.Configure<AppSettings>(appSettingsSection);
-var appSettings = appSettingsSection.Get<AppSettings>() ?? new();
-string secret = appSettings.Secret;
-
-byte[]? key = Encoding.ASCII.GetBytes(secret);
-builder.Services.AddAuthentication(x =>
-    {
-        x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    })
-    .AddJwtBearer(x =>
-    {
-        x.RequireHttpsMetadata = false;
-        x.SaveToken = true;
-        x.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(key),
-            ValidateIssuer = false,
-            ValidateAudience = false
-        };
-    });
+// var appSettingsSection = builder.Configuration.GetSection("AppSettings");
+// builder.Services.Configure<AppSettings>(appSettingsSection);
+// var appSettings = appSettingsSection.Get<AppSettings>() ?? new();
+// string secret = appSettings.Secret;
+//
+// byte[]? key = Encoding.ASCII.GetBytes(secret);
+// builder.Services.AddAuthentication(x =>
+//     {
+//         x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+//         x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+//     })
+//     .AddJwtBearer(x =>
+//     {
+//         x.RequireHttpsMetadata = false;
+//         x.SaveToken = true;
+//         x.TokenValidationParameters = new TokenValidationParameters
+//         {
+//             ValidateIssuerSigningKey = true,
+//             IssuerSigningKey = new SymmetricSecurityKey(key),
+//             ValidateIssuer = false,
+//             ValidateAudience = false
+//         };
+//     });
 
 #endregion
 

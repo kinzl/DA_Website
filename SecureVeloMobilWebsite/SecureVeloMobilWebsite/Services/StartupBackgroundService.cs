@@ -1,4 +1,5 @@
 using System.Globalization;
+using SecureVeloMobilWebsite.Extensions;
 using SecureVeloMobilWebsite.wwwroot.Extensions;
 using VeloMobilDb;
 
@@ -7,9 +8,11 @@ namespace SecureVeloMobilWebsite.Services;
 public class StartupBackgroundService : BackgroundService
 {
     private readonly IServiceScope _scope;
+    private PasswordEncryption _pe;
 
-    public StartupBackgroundService(IServiceProvider provider)
+    public StartupBackgroundService(IServiceProvider provider, PasswordEncryption pe)
     {
+        _pe = pe;
         _scope = provider.CreateScope();
     }
 
@@ -27,72 +30,79 @@ public class StartupBackgroundService : BackgroundService
 
     private void Seed(VeloMobilContext db)
     {
-        Console.WriteLine("SEED STARTUPSERVICE");
-        var course1 = new Course()
+        Console.WriteLine("SEED STARTUP SERVICE");
+        var hashedPw = _pe.HashPassword("foobar");
+        var user = new User()
         {
-            CourseId = 0,
-            Name = "Peuerbach - Grieskirchen",
-            StartTime = DateTime.Today.AddDays(-1).AddHours(11),
-            EndTime = DateTime.Today,
-            DetailPosition = new List<DetailPosition>()
-            {
-                // Peuerbach
-                new DetailPosition()
-                {
-                    PosX = 13.7672137f,
-                    PosY = 48.3672354f,
-                    PositionTime = DateTime.ParseExact("31.07.2023 10:33", "dd.MM.yyyy hh:mm",
-                        CultureInfo.InvariantCulture),
-                },
-                // Grieskirchen
-                new DetailPosition()
-                {
-                    PosX = 13.8187544f,
-                    PosY = 48.2148842f,
-                    PositionTime = DateTime.ParseExact("31.07.2023 10:41", "dd.MM.yyyy hh:mm",
-                        CultureInfo.InvariantCulture),
-                }
-            }
+            Username = "TWelsch",
+            PasswordHash = hashedPw
         };
-        course1.Distance = CalculateDistance(course1);
-        course1.SavedCo2 = CalculateSavedCo2(course1.Distance);
-        db.Courses.Add(course1);
-
-        var course2 = new Course()
-        {
-            CourseId = 0,
-            Name = "Linz - Graz - Wien",
-            StartTime = DateTime.Today.AddDays(-1).AddHours(-2),
-            EndTime = DateTime.Today,
-            DetailPosition = new List<DetailPosition>()
-            {
-                // Wien
-                new DetailPosition()
-                {
-                    PosX = 14.28611f,
-                    PosY = 48.30639f,
-                    PositionTime = DateTime.ParseExact("31.07.2023 10:55", "dd.MM.yyyy hh:mm",
-                        CultureInfo.InvariantCulture),
-                },
-                // Graz
-                new DetailPosition()
-                {
-                    PosX = 15.500000f,
-                    PosY = 47.300000f,
-                    PositionTime = DateTime.ParseExact("31.07.2023 10:56", "dd.MM.yyyy hh:mm",
-                        CultureInfo.InvariantCulture),
-                },
-                // Linz
-                new DetailPosition()
-                {
-                    PosX = 16.363449f,
-                    PosY = 48.210033f,
-                    PositionTime = DateTime.ParseExact("31.07.2023 10:57", "dd.MM.yyyy hh:mm",
-                        CultureInfo.InvariantCulture),
-                }
-            }
-        };
-        db.Courses.Add(course2);
+        db.Users.Add(user);
+        // var course1 = new Course()
+        // {
+        //     CourseId = 0,
+        //     Name = "Peuerbach - Grieskirchen",
+        //     StartTime = DateTime.Today.AddDays(-1).AddHours(11),
+        //     EndTime = DateTime.Today,
+        //     DetailPosition = new List<DetailPosition>()
+        //     {
+        //         // Peuerbach
+        //         new DetailPosition()
+        //         {
+        //             PosX = 13.7672137f,
+        //             PosY = 48.3672354f,
+        //             PositionTime = DateTime.ParseExact("31.07.2023 10:33", "dd.MM.yyyy hh:mm",
+        //                 CultureInfo.InvariantCulture),
+        //         },
+        //         // Grieskirchen
+        //         new DetailPosition()
+        //         {
+        //             PosX = 13.8187544f,
+        //             PosY = 48.2148842f,
+        //             PositionTime = DateTime.ParseExact("31.07.2023 10:41", "dd.MM.yyyy hh:mm",
+        //                 CultureInfo.InvariantCulture),
+        //         }
+        //     }
+        // };
+        // course1.Distance = CalculateDistance(course1);
+        // course1.SavedCo2 = CalculateSavedCo2(course1.Distance);
+        // db.Courses.Add(course1);
+        //
+        // var course2 = new Course()
+        // {
+        //     CourseId = 0,
+        //     Name = "Linz - Graz - Wien",
+        //     StartTime = DateTime.Today.AddDays(-1).AddHours(-2),
+        //     EndTime = DateTime.Today,
+        //     DetailPosition = new List<DetailPosition>()
+        //     {
+        //         // Wien
+        //         new DetailPosition()
+        //         {
+        //             PosX = 14.28611f,
+        //             PosY = 48.30639f,
+        //             PositionTime = DateTime.ParseExact("31.07.2023 10:55", "dd.MM.yyyy hh:mm",
+        //                 CultureInfo.InvariantCulture),
+        //         },
+        //         // Graz
+        //         new DetailPosition()
+        //         {
+        //             PosX = 15.500000f,
+        //             PosY = 47.300000f,
+        //             PositionTime = DateTime.ParseExact("31.07.2023 10:56", "dd.MM.yyyy hh:mm",
+        //                 CultureInfo.InvariantCulture),
+        //         },
+        //         // Linz
+        //         new DetailPosition()
+        //         {
+        //             PosX = 16.363449f,
+        //             PosY = 48.210033f,
+        //             PositionTime = DateTime.ParseExact("31.07.2023 10:57", "dd.MM.yyyy hh:mm",
+        //                 CultureInfo.InvariantCulture),
+        //         }
+        //     }
+        // };
+        // db.Courses.Add(course2);
         db.SaveChanges();
     }
 

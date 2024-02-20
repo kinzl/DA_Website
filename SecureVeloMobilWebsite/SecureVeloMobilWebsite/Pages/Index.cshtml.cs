@@ -65,10 +65,15 @@ public class IndexModel : PageModel
         _db = db;
     }
 
-    public void OnGet()
+    public IActionResult OnGet(string? errorText)
     {
+        if (HttpContext.User.Identities.ToList().First().Name == null) return new BadRequestResult();
+        _logger.LogInformation($"User {HttpContext.User.Identities.ToList().First().Name} Signed in");
+
+        InfoBoxText = errorText;
         OnCreate();
         Initialize();
+        return null;
     }
 
     private void OnCreate()
