@@ -74,10 +74,10 @@
                             <td>Gefahrene Zeit</td>
                             <td id="drivenTime">@Model.DrivenTime.ToString(@"hh\:mm\:ss")</td>
                         </tr>
-                        @* <tr> *@
-                        @*     <td>Gefahrener Tag</td> *@
-                        @*     <td id="drivenDay">@Model.SelectedCourse.StartTime.ToString("ddd dd.MM.yyyy", CultureInfo.GetCultureInfo("de"))</td> *@
-                        @* </tr> *@
+                        <tr>
+                            <td>Gefahrener Tag</td>
+                            <td id="drivenDay">@Model.SelectedCourse.StartTime.ToString("ddd dd.MM.yyyy", CultureInfo.GetCultureInfo("de"))</td>
+                        </tr>
                         <tr>
                             <td>Eingespartes CO2</td>
                             <td>@Model.SelectedCourse.SavedCo2.ToString("##.#") kg</td>
@@ -87,7 +87,7 @@
             </div>
 
             <h6 style="color: red">@Model.InfoBoxText</h6>
-                <canvas id="altitudeChart" class="altitudeChart"></canvas>
+            <canvas id="altitudeChart" class="altitudeChart"></canvas>
         </div>
         <div class="right-section col-md-6">
             <div id="map">

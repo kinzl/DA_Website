@@ -38,36 +38,36 @@ public class StartupBackgroundService : BackgroundService
             PasswordHash = hashedPw
         };
         db.Users.Add(user);
-        // var course1 = new Course()
-        // {
-        //     CourseId = 0,
-        //     Name = "Peuerbach - Grieskirchen",
-        //     StartTime = DateTime.Today.AddDays(-1).AddHours(11),
-        //     EndTime = DateTime.Today,
-        //     DetailPosition = new List<DetailPosition>()
-        //     {
-        //         // Peuerbach
-        //         new DetailPosition()
-        //         {
-        //             PosX = 13.7672137f,
-        //             PosY = 48.3672354f,
-        //             PositionTime = DateTime.ParseExact("31.07.2023 10:33", "dd.MM.yyyy hh:mm",
-        //                 CultureInfo.InvariantCulture),
-        //         },
-        //         // Grieskirchen
-        //         new DetailPosition()
-        //         {
-        //             PosX = 13.8187544f,
-        //             PosY = 48.2148842f,
-        //             PositionTime = DateTime.ParseExact("31.07.2023 10:41", "dd.MM.yyyy hh:mm",
-        //                 CultureInfo.InvariantCulture),
-        //         }
-        //     }
-        // };
-        // course1.Distance = CalculateDistance(course1);
-        // course1.SavedCo2 = CalculateSavedCo2(course1.Distance);
-        // db.Courses.Add(course1);
-        //
+        var course1 = new Course()
+        {
+            CourseId = 0,
+            Name = "Peuerbach - Grieskirchen",
+            StartTime = DateTime.Today.AddDays(-1).AddHours(11),
+            EndTime = DateTime.Today,
+            DetailPosition = new List<DetailPosition>()
+            {
+                // Peuerbach
+                new DetailPosition()
+                {
+                    PosX = 13.7672137f,
+                    PosY = 48.3672354f,
+                    PositionTime = DateTime.ParseExact("31.07.2023 10:33", "dd.MM.yyyy hh:mm",
+                        CultureInfo.InvariantCulture),
+                },
+                // Grieskirchen
+                new DetailPosition()
+                {
+                    PosX = 13.8187544f,
+                    PosY = 48.2148842f,
+                    PositionTime = DateTime.ParseExact("31.07.2023 10:41", "dd.MM.yyyy hh:mm",
+                        CultureInfo.InvariantCulture),
+                }
+            }
+        };
+        course1.Distance = CalculateDistance(course1);
+        course1.SavedCo2 = CalculateSavedCo2(course1.Distance);
+        db.Courses.Add(course1);
+        
         // var course2 = new Course()
         // {
         //     CourseId = 0,
