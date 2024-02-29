@@ -64,23 +64,23 @@
                     <table>
                         <tr>
                             <td>Strecke</td>
-                            <td id="totalDistance">@Model.SelectedCourse.Distance.ToString("##.#") km</td>
+                            <td id="totalDistance">@Model.SelectedCourse.Distance.ToString("0.0") km</td>
                         </tr>
                         <tr>
                             <td>Maximale Geschwindigkeit</td>
-                            <td id="maxSpeed">@Model.SelectedCourse.MaxSpeed.ToString("##.#") kmh</td>
+                            <td id="maxSpeed">@Model.SelectedCourse.MaxSpeed.ToString("0.0") kmh</td>
                         </tr>
                         <tr>
                             <td>Gefahrene Zeit</td>
-                            <td id="drivenTime">@Model.DrivenTime.ToString(@"hh\:mm\:ss")</td>
+                            <td id="drivenTime">@Model.DrivenTime.ToString(@"hh\:mm\:ss") h</td>
                         </tr>
                         <tr>
                             <td>Gefahrener Tag</td>
                             <td id="drivenDay">@Model.SelectedCourse.StartTime.ToString("ddd dd.MM.yyyy", CultureInfo.GetCultureInfo("de"))</td>
                         </tr>
                         <tr>
-                            <td>Eingespartes CO2</td>
-                            <td>@Model.SelectedCourse.SavedCo2.ToString("##.#") kg</td>
+                            <td>Eingespartes CO<sub>2</sub></td>
+                            <td>@Model.SelectedCourse.SavedCo2.ToString("0.0") kg</td>
                         </tr>
                     </table>
                 </div>

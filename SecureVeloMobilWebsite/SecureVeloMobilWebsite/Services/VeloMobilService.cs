@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Text;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SecureVeloMobilWebsite.wwwroot.Extensions;
@@ -50,7 +51,7 @@ public class VeloMobilService : ControllerBase
         var selectedCourse = _db.Courses
             .Include(x => x.DetailPosition)
             .SingleOrDefault(x => x.CourseId == course.CourseId);
-
+        if (selectedCourse == null) return BadRequest();
         selectedCourse.DetailPosition.AddRange(course.DetailPosition);
         selectedCourse.Distance = CalculateDistance(selectedCourse);
         selectedCourse.SavedCo2 = CalculateSavedCo2(selectedCourse.Distance);
@@ -69,12 +70,7 @@ public class VeloMobilService : ControllerBase
             .Select(x => x.DetailPosition)
             .SingleOrDefault();
         if (selectedCourse == null) return BadRequest("Course does not exist");
-        foreach (var position in selectedCourse)
-        {
-            position.PosZ = CalculateAltitude(position.PosY, position.PosX);
-            Thread.Sleep(100);
-        }
-
+        PostAltitude(selectedCourse);
         _db.SaveChanges();
         return Ok();
     }
@@ -110,33 +106,49 @@ public class VeloMobilService : ControllerBase
         return (distance * MyConstants.co2FootprintCarInGram - distance * MyConstants.co2FootprintBikeInGram) / 1000;
     }
 
-    double CalculateAltitude(double latitude, double longitude)
+    private void PostAltitude(List<DetailPosition> positions)
     {
         using (HttpClient httpClient = new HttpClient())
         {
-            string apiUrl = $"https://api.open-elevation.com/api/v1/lookup?locations={latitude},{longitude}";
+            string apiUrl = "https://api.open-elevation.com/api/v1/lookup";
+
+            var requestData = new
+            {
+                locations = new List<object>()
+            };
+
+            foreach (var item in positions)
+            {
+                requestData.locations.Add(new { latitude = item.PosY, longitude = item.PosX });
+            }
+
+            var content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(requestData), Encoding.UTF8,
+                "application/json");
 
             try
             {
-                HttpResponseMessage response = httpClient.GetAsync(apiUrl).Result;
+                HttpResponseMessage response = httpClient.PostAsync(apiUrl, content).Result;
 
                 if (response.IsSuccessStatusCode)
                 {
                     string json = response.Content.ReadAsStringAsync().Result;
                     dynamic result = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
 
-                    // Extract altitude from the API response
-                    double altitude = result.results[0].elevation;
-                    return altitude;
+
+                    for (int i = 0; i < positions.Count; i++)
+                    {
+                        if (result.results[i].elevation != 0)
+                            positions[i].PosZ = result.results[i].elevation;
+                    }
+
+                    return;
                 }
 
                 Console.WriteLine($"API request failed: {response.StatusCode}");
-                return double.NaN;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"An error occurred: {ex.Message}");
-                return double.NaN;
             }
         }
     }

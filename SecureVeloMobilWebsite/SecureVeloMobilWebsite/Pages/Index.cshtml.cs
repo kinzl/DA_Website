@@ -19,7 +19,7 @@ public class IndexModel : PageModel
     public int SelectedFilterDateIndex;
     public CourseDto SelectedCourse;
     public TimeSpan DrivenTime;
-    public string InfoBoxText = "";
+    public string? InfoBoxText;
     public static double TotalCo2Saved { get; private set; }
     public FilterDate SelectedFilterDate;
 
@@ -116,7 +116,9 @@ public class IndexModel : PageModel
                 StartTime = x.StartTime,
                 SavedCo2 = x.SavedCo2
             })
+            .OrderBy(x => x.StartTime)
             .ToList();
+
 
         if (!Courses.IsNullOrEmpty())
         {

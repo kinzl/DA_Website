@@ -1,14 +1,11 @@
-using System.Text;
 using GrueneisR.RestClientGenerator;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using SecureVeloMobilWebsite.Extensions;
-using SecureVeloMobilWebsite.Model;
 using SecureVeloMobilWebsite.Services;
+using SecureVeloMobilWebsite.wwwroot.Extensions;
 using VeloMobilDb;
 
 string corsKey = "_myCorsKey";
@@ -64,6 +61,7 @@ builder.Services.AddDbContext<VeloMobilContext>(options => options
 builder.Services.AddLogging();
 builder.Services.AddHostedService<StartupBackgroundService>();
 builder.Services.AddScoped<VeloMobilService>();
+// builder.Services.AddScoped<FilterDate>();
 builder.Services.AddTransient<PasswordEncryption>();
 
 builder.Services.AddDistributedMemoryCache();

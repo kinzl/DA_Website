@@ -68,41 +68,41 @@ public class StartupBackgroundService : BackgroundService
         course1.SavedCo2 = CalculateSavedCo2(course1.Distance);
         db.Courses.Add(course1);
         
-        // var course2 = new Course()
-        // {
-        //     CourseId = 0,
-        //     Name = "Linz - Graz - Wien",
-        //     StartTime = DateTime.Today.AddDays(-1).AddHours(-2),
-        //     EndTime = DateTime.Today,
-        //     DetailPosition = new List<DetailPosition>()
-        //     {
-        //         // Wien
-        //         new DetailPosition()
-        //         {
-        //             PosX = 14.28611f,
-        //             PosY = 48.30639f,
-        //             PositionTime = DateTime.ParseExact("31.07.2023 10:55", "dd.MM.yyyy hh:mm",
-        //                 CultureInfo.InvariantCulture),
-        //         },
-        //         // Graz
-        //         new DetailPosition()
-        //         {
-        //             PosX = 15.500000f,
-        //             PosY = 47.300000f,
-        //             PositionTime = DateTime.ParseExact("31.07.2023 10:56", "dd.MM.yyyy hh:mm",
-        //                 CultureInfo.InvariantCulture),
-        //         },
-        //         // Linz
-        //         new DetailPosition()
-        //         {
-        //             PosX = 16.363449f,
-        //             PosY = 48.210033f,
-        //             PositionTime = DateTime.ParseExact("31.07.2023 10:57", "dd.MM.yyyy hh:mm",
-        //                 CultureInfo.InvariantCulture),
-        //         }
-        //     }
-        // };
-        // db.Courses.Add(course2);
+        var course2 = new Course()
+        {
+            CourseId = 0,
+            Name = "Linz - Graz - Wien",
+            StartTime = DateTime.Today.AddDays(-1).AddHours(-2),
+            EndTime = DateTime.Today,
+            DetailPosition = new List<DetailPosition>()
+            {
+                // Wien
+                new DetailPosition()
+                {
+                    PosX = 14.28611f,
+                    PosY = 48.30639f,
+                    PositionTime = DateTime.ParseExact("31.07.2023 10:55", "dd.MM.yyyy hh:mm",
+                        CultureInfo.InvariantCulture),
+                },
+                // Graz
+                new DetailPosition()
+                {
+                    PosX = 15.500000f,
+                    PosY = 47.300000f,
+                    PositionTime = DateTime.ParseExact("31.07.2023 10:56", "dd.MM.yyyy hh:mm",
+                        CultureInfo.InvariantCulture),
+                },
+                // Linz
+                new DetailPosition()
+                {
+                    PosX = 16.363449f,
+                    PosY = 48.210033f,
+                    PositionTime = DateTime.ParseExact("31.07.2023 10:57", "dd.MM.yyyy hh:mm",
+                        CultureInfo.InvariantCulture),
+                }
+            }
+        };
+        db.Courses.Add(course2);
         db.SaveChanges();
     }
 

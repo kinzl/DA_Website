@@ -30,7 +30,7 @@ function drawMap(data) {
         const marker = L.marker(markerCoordinates, {
             icon: L.divIcon({
                 className: 'custom-square-marker-icon',
-                iconSize: [12, 12], // Adjust the size as needed
+                iconSize: [8, 8], // Adjust the size as needed
                 html: '<div class="square-marker"></div>'
             })
         }).addTo(map);
@@ -57,10 +57,11 @@ function drawAltitudeDiagram(coordinates) {
         data: {
             labels: timestamps,
             datasets: [{
-                label: 'Altitude',
+                label: 'Höhenprofil',
                 data: coordinates.map(coord => coord.posZ),
                 borderColor: '#5FBD00',
                 borderWidth: 2,
+                pointRadius: 0.2,
                 pointBackgroundColor: '#5FBD00',
                 fill: false
             }]

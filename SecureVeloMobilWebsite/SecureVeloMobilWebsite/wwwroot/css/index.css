@@ -5,6 +5,16 @@
     padding: 10px;
 }
 
+.logo {
+    /*flex: 1 1 300px;*/
+    height: 5vh;
+    margin-left: 13vw;
+    width: auto;
+    box-sizing: border-box;
+    text-align: center;
+    transition: transform 0.3s;
+}
+
 .container-row {
     display: flex;
     flex-wrap: wrap;
