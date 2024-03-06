@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Globalization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -23,39 +24,7 @@ public class IndexModel : PageModel
     public static double TotalCo2Saved { get; private set; }
     public FilterDate SelectedFilterDate;
 
-    public List<FilterDate> FilterDates = new()
-    {
-        new()
-        {
-            startTime = DateTime.MinValue,
-            endTime = DateTime.Today,
-            DayName = "Benutzerdefiniert",
-        },
-        new()
-        {
-            startTime = DateTime.MinValue,
-            endTime = DateTime.Today,
-            DayName = "Alle",
-        },
-        new()
-        {
-            startTime = DateTime.Today,
-            endTime = DateTime.Today,
-            DayName = "Heute",
-        },
-        new()
-        {
-            startTime = DateTime.Today.AddDays(-1),
-            endTime = DateTime.Today.AddDays(-1),
-            DayName = "Gestern",
-        },
-        new()
-        {
-            startTime = DateTime.Today.AddDays(-7),
-            endTime = DateTime.Today,
-            DayName = "Letzten 7 Tagen",
-        },
-    };
+    public List<FilterDate> FilterDates = new();
 
     public DetailPositionDto LastDetailPosition;
 
@@ -65,10 +34,10 @@ public class IndexModel : PageModel
         _db = db;
     }
 
-    public IActionResult OnGet(string? errorText)
+    public IActionResult? OnGet(string? errorText)
     {
-        if (HttpContext.User.Identities.ToList().First().Name == null) return new BadRequestResult();
-        _logger.LogInformation($"User {HttpContext.User.Identities.ToList().First().Name} Signed in");
+        if (HttpContext.User.Identities.ToList().First().Name == null) return new RedirectToPageResult(nameof(Login));
+        _logger.LogInformation("User {Name} Signed in", HttpContext.User.Identities.ToList().First().Name);
 
         InfoBoxText = errorText;
         OnCreate();
@@ -80,9 +49,11 @@ public class IndexModel : PageModel
     {
         var isCreate = HttpContext.Session.GetString("isCreate");
         if (isCreate != null) return;
+
         HttpContext.Session.SetString("SelectedFilterDateIndex", "1");
-        HttpContext.Session.SetString("startDate", DateTime.Today.ToString());
-        HttpContext.Session.SetString("endDate", DateTime.Today.ToString());
+        HttpContext.Session.SetString("startDate", DateTime.Today.ToString(CultureInfo.InvariantCulture));
+        HttpContext.Session.SetString("endDate", DateTime.Today.ToString(CultureInfo.InvariantCulture));
+
 
         HttpContext.Session.SetString("isCreate", "false");
     }
@@ -91,11 +62,47 @@ public class IndexModel : PageModel
     {
         TotalCo2Saved = _db.Courses.Sum(x => x.SavedCo2);
         SelectedFilterDateIndex = Convert.ToInt32(HttpContext.Session.GetString("SelectedFilterDateIndex") ?? "0");
+        var minCourseDate = _db.Courses.Min(x => x.StartTime);
+        FilterDates = new List<FilterDate>()
+        {
+            new()
+            {
+                StartTime = minCourseDate,
+                EndTime = DateTime.Today,
+                DayName = "Benutzerdefiniert"
+            },
+            new()
+            {
+                StartTime = minCourseDate,
+                EndTime = DateTime.Today,
+                DayName = "Alle"
+            },
+            new()
+            {
+                StartTime = DateTime.Today,
+                EndTime = DateTime.Today,
+                DayName = "Heute"
+            },
+            new()
+            {
+                StartTime = DateTime.Today.AddDays(-1),
+                EndTime = DateTime.Today.AddDays(-1),
+                DayName = "Gestern"
+            },
+            new()
+            {
+                StartTime = DateTime.Today.AddDays(-7),
+                EndTime = DateTime.Today,
+                DayName = "Letzten 7 Tagen"
+            }
+        };
         if (SelectedFilterDateIndex == 0)
         {
-            SelectedFilterDate = new FilterDate();
-            SelectedFilterDate.startTime = Convert.ToDateTime(HttpContext.Session.GetString("startDate"));
-            SelectedFilterDate.endTime = Convert.ToDateTime(HttpContext.Session.GetString("endDate"));
+            SelectedFilterDate = new FilterDate
+            {
+                StartTime = Convert.ToDateTime(HttpContext.Session.GetString("startDate")),
+                EndTime = Convert.ToDateTime(HttpContext.Session.GetString("endDate"))
+            };
         }
         else
         {
@@ -104,8 +111,8 @@ public class IndexModel : PageModel
 
         Courses = _db.Courses
             .Include(x => x.DetailPosition)
-            .Where(x => x.StartTime.Date >= SelectedFilterDate.startTime.Date &&
-                        x.StartTime.Date <= SelectedFilterDate.endTime.Date)
+            .Where(x => x.StartTime.Date >= SelectedFilterDate.StartTime.Date &&
+                        x.StartTime.Date <= SelectedFilterDate.EndTime.Date)
             .Select(x => new CourseDto()
             {
                 CourseId = x.CourseId,
@@ -126,6 +133,7 @@ public class IndexModel : PageModel
             {
                 SelectedCourseIndex = Convert.ToInt32(HttpContext.Session.GetString("SelectedCourseIndex") ?? "0");
                 SelectedCourseId = Convert.ToInt32(HttpContext.Session.GetString("SelectedCourseId") ?? "1");
+
                 SelectedCourse = Courses.SingleOrDefault(x => x.CourseId == SelectedCourseId) ??
                                  new CourseDto();
                 DrivenTime = SelectedCourse.EndTime - SelectedCourse.StartTime;
@@ -174,8 +182,8 @@ public class IndexModel : PageModel
         Initialize();
         if (startDate > endDate) (startDate, endDate) = (endDate, startDate);
 
-        HttpContext.Session.SetString("startDate", startDate.ToString());
-        HttpContext.Session.SetString("endDate", endDate.ToString());
+        HttpContext.Session.SetString("startDate", startDate.ToString(CultureInfo.InvariantCulture));
+        HttpContext.Session.SetString("endDate", endDate.ToString(CultureInfo.InvariantCulture));
         HttpContext.Session.SetString("SelectedFilterDateIndex", "0");
         return new RedirectToPageResult("Index");
     }

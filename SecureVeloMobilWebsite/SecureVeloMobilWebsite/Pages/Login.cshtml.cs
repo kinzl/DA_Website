@@ -51,13 +51,15 @@ public class Login : PageModel
 
                 return new RedirectToPageResult(nameof(Index));
             }
+            else
+            {
+                return new RedirectToPageResult(nameof(Login));
+            }
         }
         catch (Exception e)
         {
             _logger.LogError(e.Message);
             return new RedirectToPageResult(nameof(Login), new { ErrorText = "Password or Username is wrong" });
         }
-
-        return new RedirectToPageResult(nameof(Login), new { ErrorText = "Password or Username is wrong" });
     }
 }

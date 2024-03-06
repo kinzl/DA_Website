@@ -38,10 +38,14 @@
                         }
                     </select>
                 </form>
-                <form method="post" asp-page-handler="SetDate" class="container-row">
-                    <input id="startDate" type="date" onfocusout="this.form.submit()" name="startDate" value="@Model.SelectedFilterDate.startTime.ToString("yyyy-MM-dd")" class="form-control date"/>
-                    <input id="endDate" type="date" onfocusout="this.form.submit()" name="endDate" value="@Model.SelectedFilterDate.endTime.ToString("yyyy-MM-dd")" class="form-control date"/>
-                </form>
+                    <form method="post" asp-page-handler="SetDate" class="container-row stats">
+                        <td>
+                            <input id="startDate" type="date" onfocusout="this.form.submit()" name="startDate" value="@Model.SelectedFilterDate.StartTime.ToString("yyyy-MM-dd")" class="date"/>
+                        </td>
+                        <td>
+                            <input id="endDate" type="date" onfocusout="this.form.submit()" name="endDate" value="@Model.SelectedFilterDate.EndTime.ToString("yyyy-MM-dd")" class="date"/>
+                        </td>
+                    </form>
             </div>
 
             <div class="container-row">
@@ -67,7 +71,7 @@
                             <td id="totalDistance">@Model.SelectedCourse.Distance.ToString("0.0") km</td>
                         </tr>
                         <tr>
-                            <td>Maximale Geschwindigkeit</td>
+                            <td>Max. Geschwindigkeit</td>
                             <td id="maxSpeed">@Model.SelectedCourse.MaxSpeed.ToString("0.0") kmh</td>
                         </tr>
                         <tr>
@@ -90,9 +94,7 @@
             <canvas id="altitudeChart" class="altitudeChart"></canvas>
         </div>
         <div class="right-section col-md-6">
-            <div id="map">
-                @* <h2>Es kann keine Karte gezeichnet werden \\oder empty map mit standpunkt london bzw kann man wo anders setzen</h2> *@
-            </div>
+            <div id="map"></div>
         </div>
 
     </div>

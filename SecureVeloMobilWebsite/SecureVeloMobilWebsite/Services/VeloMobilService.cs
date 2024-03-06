@@ -33,8 +33,7 @@ public class VeloMobilService : ControllerBase
 
         _db.SaveChanges();
         var lastCourseId = _db.Courses.OrderBy(x => x.CourseId).Last().CourseId;
-        _logger.LogInformation("new course created with id: ");
-        _logger.LogInformation(lastCourseId.ToString());
+        _logger.LogInformation("new course created with id: " + lastCourseId);
         return Ok(lastCourseId);
     }
 
@@ -132,7 +131,8 @@ public class VeloMobilService : ControllerBase
                 if (response.IsSuccessStatusCode)
                 {
                     string json = response.Content.ReadAsStringAsync().Result;
-                    dynamic result = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
+                    dynamic result = Newtonsoft.Json.JsonConvert.DeserializeObject(json) ??
+                                     throw new InvalidOperationException("Request to Server for altitude failed");
 
 
                     for (int i = 0; i < positions.Count; i++)

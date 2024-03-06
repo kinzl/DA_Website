@@ -1,3 +1,8 @@
+@font-face {
+    font-family: "Inter Regular", sans-serif;
+    src: url("../Inter-Regular.ttf");
+}
+
 .content-container {
     display: flex;
     justify-content: space-between;
@@ -34,6 +39,8 @@
     color: #fff;
     padding: 0;
     max-width: 100%;
+    font-family: "Inter Regular", sans-serif;
+    font-size: 14px;
 }
 
 .index-container {
@@ -93,6 +100,7 @@ td {
 
 .routeListbox {
     /*min-width: 25vw;*/
+    margin: 2px;
     width: 25vw;
     padding: 10px;
     border: 1px solid #555;
@@ -102,7 +110,7 @@ td {
     color: #fff;
     transition: border-color 0.2s;
     white-space: normal;
-    text-align: center;
+    text-align: left;
     max-height: 32vh;
     overflow: auto;
 }
@@ -174,6 +182,7 @@ td {
     }
 
     .date {
+        /*max-width: calc(50% - 20px);*/
         width: 100%;
         margin-left: 0;
         min-width: auto;
@@ -210,9 +219,10 @@ td {
 }
 
 .date {
-    width: 49%;
-    margin-left: 0.2vw;
-    min-width: 11vw;
+    /*max-width: calc(50% - 10px);*/
+    width: 50%;
+    /*margin-left: 0.2vw;*/
+    /*min-width: 11vw;*/
     height: 100%;
     background-color: #333333;
     color: #fff; /* Light text color */
