@@ -19,9 +19,9 @@ public class DetailPositionController : ControllerBase
     [HttpPut]
     public ActionResult AddPositionsToExistingCourse([FromBody] CourseDto course)
     {
-        return _service.ExistingCourse(new Course()
+        return _service.AddPositionsToExistingCourse(new Course()
         {
-            Name = course.Name,
+            Name = course.Name ?? "",
             DetailPosition = course.DetailPosition.Select(x => new DetailPosition().CopyFrom(x)).ToList(),
             StartTime = course.StartTime,
             MaxSpeed = course.MaxSpeed,
@@ -35,14 +35,14 @@ public class DetailPositionController : ControllerBase
     {
         var newCourse = new Course()
         {
-            Name = positions.Name,
+            Name = positions.Name ?? "",
             DetailPosition = positions.DetailPosition.Select(x => new DetailPosition().CopyFrom(x)).ToList(),
             StartTime = positions.StartTime,
             MaxSpeed = positions.MaxSpeed,
             EndTime = positions.EndTime
         };
 
-        return _service.NewCourse(newCourse);
+        return _service.CreateNewCourse(newCourse);
     }
 
     [HttpPost("{courseId}")]

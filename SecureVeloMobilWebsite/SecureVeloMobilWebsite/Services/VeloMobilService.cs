@@ -18,8 +18,9 @@ public class VeloMobilService : ControllerBase
         _db = db;
     }
 
-    public ActionResult NewCourse(Course course)
+    public ActionResult CreateNewCourse(Course course)
     {
+        _logger.LogInformation("New Course created on {Now}", DateTime.Now);
         _db.Courses.Add(new Course()
         {
             DetailPosition = new List<DetailPosition>(),
@@ -33,19 +34,21 @@ public class VeloMobilService : ControllerBase
 
         _db.SaveChanges();
         var lastCourseId = _db.Courses.OrderBy(x => x.CourseId).Last().CourseId;
-        _logger.LogInformation("new course created with id: " + lastCourseId);
+        _logger.LogInformation("New course created with id: {LastCourseId}", lastCourseId);
         return Ok(lastCourseId);
     }
 
-    public ActionResult ExistingCourse(Course course)
+    public ActionResult AddPositionsToExistingCourse(Course course)
     {
         _logger.LogInformation("Existing course");
         if (course.DetailPosition.IsNullOrEmpty() || course.CourseId == 0)
             return BadRequest("Detail Positions or courseId empty");
-        foreach (var position in course.DetailPosition)
-        {
-            position.PosZ = 0;
-        }
+        // foreach (var position in course.DetailPosition)
+        // {
+        // position.PosZ = 0;
+        // }
+
+        PostAltitude(course.DetailPosition);
 
         var selectedCourse = _db.Courses
             .Include(x => x.DetailPosition)
