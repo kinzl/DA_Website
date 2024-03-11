@@ -123,7 +123,7 @@ public class IndexModel : PageModel
                 StartTime = x.StartTime,
                 SavedCo2 = x.SavedCo2
             })
-            .OrderBy(x => x.StartTime)
+            .OrderByDescending(x => x.StartTime)
             .ToList();
 
 

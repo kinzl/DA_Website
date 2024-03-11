@@ -10,10 +10,10 @@ public class StartupBackgroundService : BackgroundService
     private readonly IServiceScope _scope;
     private PasswordEncryption _pe;
 
-    public StartupBackgroundService(IServiceProvider provider, PasswordEncryption pe)
+    public StartupBackgroundService(IServiceProvider provider)
     {
-        _pe = pe;
         _scope = provider.CreateScope();
+        _pe = provider.GetRequiredService<PasswordEncryption>();
     }
 
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
@@ -47,7 +47,7 @@ public class StartupBackgroundService : BackgroundService
             DetailPosition = new List<DetailPosition>()
             {
                 // Peuerbach
-                new DetailPosition()
+                new()
                 {
                     PosX = 13.7672137f,
                     PosY = 48.3672354f,
@@ -55,7 +55,7 @@ public class StartupBackgroundService : BackgroundService
                         CultureInfo.InvariantCulture),
                 },
                 // Grieskirchen
-                new DetailPosition()
+                new()
                 {
                     PosX = 13.8187544f,
                     PosY = 48.2148842f,
@@ -67,7 +67,7 @@ public class StartupBackgroundService : BackgroundService
         course1.Distance = CalculateDistance(course1);
         course1.SavedCo2 = CalculateSavedCo2(course1.Distance);
         db.Courses.Add(course1);
-        
+
         var course2 = new Course()
         {
             CourseId = 0,
@@ -77,7 +77,7 @@ public class StartupBackgroundService : BackgroundService
             DetailPosition = new List<DetailPosition>()
             {
                 // Wien
-                new DetailPosition()
+                new()
                 {
                     PosX = 14.28611f,
                     PosY = 48.30639f,
@@ -85,7 +85,7 @@ public class StartupBackgroundService : BackgroundService
                         CultureInfo.InvariantCulture),
                 },
                 // Graz
-                new DetailPosition()
+                new()
                 {
                     PosX = 15.500000f,
                     PosY = 47.300000f,
@@ -93,7 +93,7 @@ public class StartupBackgroundService : BackgroundService
                         CultureInfo.InvariantCulture),
                 },
                 // Linz
-                new DetailPosition()
+                new()
                 {
                     PosX = 16.363449f,
                     PosY = 48.210033f,

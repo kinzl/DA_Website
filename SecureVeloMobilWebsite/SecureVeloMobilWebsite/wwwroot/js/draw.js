@@ -17,12 +17,7 @@ function drawMap(data) {
 
     const routeCoordinates = data.map(item => [item.posY, item.posX]);
 
-    // const route = L.polyline(routeCoordinates, { color: 'blue' }).addTo(map);
-    const route = L.polyline(routeCoordinates, {color: '#5FBD00'}).addTo(map);
-
-    console.log(data);
-
-    // const lblDistance = $('#totalDistance').html((distance / 1000).toFixed(3) + " km");
+    L.polyline(routeCoordinates, {color: '#5FBD00'}).addTo(map);
 
     // Add square markers for each coordinate
     data.forEach(item => {
@@ -30,7 +25,8 @@ function drawMap(data) {
         const marker = L.marker(markerCoordinates, {
             icon: L.divIcon({
                 className: 'custom-square-marker-icon',
-                iconSize: [8, 8], // Adjust the size as needed
+                // iconSize: [8, 8], // Adjust the size as needed
+                // pointRadius: 0.2,
                 html: '<div class="square-marker"></div>'
             })
         }).addTo(map);
@@ -41,7 +37,7 @@ function drawMap(data) {
 
     // Add some additional map enhancements
     L.control.scale().addTo(map);
-    L.control.zoom({position: 'topright'}).addTo(map);
+    // L.control.zoom({position: 'topright'}).addTo(map);
 
     const bounds = L.latLngBounds(routeCoordinates);
     map.fitBounds(bounds);

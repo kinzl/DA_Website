@@ -38,7 +38,7 @@ public class VeloMobilService : ControllerBase
         return Ok(lastCourseId);
     }
 
-    public ActionResult AddPositionsToExistingCourse(Course course)
+    public async Task<ActionResult> AddPositionsToExistingCourse(Course course)
     {
         _logger.LogInformation("Existing course");
         if (course.DetailPosition.IsNullOrEmpty() || course.CourseId == 0)
@@ -48,7 +48,7 @@ public class VeloMobilService : ControllerBase
         // position.PosZ = 0;
         // }
 
-        PostAltitude(course.DetailPosition);
+        await PostAltitudeAsync(course.DetailPosition);
 
         var selectedCourse = _db.Courses
             .Include(x => x.DetailPosition)
@@ -60,11 +60,11 @@ public class VeloMobilService : ControllerBase
         selectedCourse.EndTime = course.EndTime;
         selectedCourse.MaxSpeed = selectedCourse.DetailPosition.Max(x => x.CurrentSpeed);
 
-        _db.SaveChanges();
+        await _db.SaveChangesAsync();
         return Ok("Added positions to " + course.CourseId);
     }
 
-    public ActionResult AddAltitudeToCourse(int courseId)
+    public async Task<ActionResult> AddAltitudeToCourse(int courseId)
     {
         var selectedCourse = _db.Courses
             .Include(x => x.DetailPosition)
@@ -72,8 +72,8 @@ public class VeloMobilService : ControllerBase
             .Select(x => x.DetailPosition)
             .SingleOrDefault();
         if (selectedCourse == null) return BadRequest("Course does not exist");
-        PostAltitude(selectedCourse);
-        _db.SaveChanges();
+        await PostAltitudeAsync(selectedCourse);
+        await _db.SaveChangesAsync();
         return Ok();
     }
 
@@ -108,7 +108,7 @@ public class VeloMobilService : ControllerBase
         return (distance * MyConstants.co2FootprintCarInGram - distance * MyConstants.co2FootprintBikeInGram) / 1000;
     }
 
-    private void PostAltitude(List<DetailPosition> positions)
+    private async Task PostAltitudeAsync(List<DetailPosition> positions)
     {
         using (HttpClient httpClient = new HttpClient())
         {
@@ -116,27 +116,21 @@ public class VeloMobilService : ControllerBase
 
             var requestData = new
             {
-                locations = new List<object>()
+                locations = positions.Select(item => new { latitude = item.PosY, longitude = item.PosX }).ToList()
             };
-
-            foreach (var item in positions)
-            {
-                requestData.locations.Add(new { latitude = item.PosY, longitude = item.PosX });
-            }
 
             var content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(requestData), Encoding.UTF8,
                 "application/json");
 
             try
             {
-                HttpResponseMessage response = httpClient.PostAsync(apiUrl, content).Result;
+                HttpResponseMessage response = await httpClient.PostAsync(apiUrl, content);
 
                 if (response.IsSuccessStatusCode)
                 {
-                    string json = response.Content.ReadAsStringAsync().Result;
+                    string json = await response.Content.ReadAsStringAsync();
                     dynamic result = Newtonsoft.Json.JsonConvert.DeserializeObject(json) ??
                                      throw new InvalidOperationException("Request to Server for altitude failed");
-
 
                     for (int i = 0; i < positions.Count; i++)
                     {

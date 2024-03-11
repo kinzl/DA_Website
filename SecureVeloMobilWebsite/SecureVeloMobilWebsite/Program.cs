@@ -61,7 +61,7 @@ builder.Services.AddDbContext<VeloMobilContext>(options => options
 builder.Services.AddLogging();
 // builder.Services.AddHostedService<StartupBackgroundService>();
 builder.Services.AddScoped<VeloMobilService>();
-builder.Services.AddTransient<PasswordEncryption>();
+builder.Services.AddScoped<PasswordEncryption>();
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options => { options.IdleTimeout = TimeSpan.FromHours(10); });

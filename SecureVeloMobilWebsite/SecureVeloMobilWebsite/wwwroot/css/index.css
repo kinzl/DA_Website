@@ -13,7 +13,7 @@
 .logo {
     /*flex: 1 1 300px;*/
     height: 5vh;
-    margin-left: 13vw;
+    margin-left: 5vw;
     width: auto;
     box-sizing: border-box;
     text-align: center;
@@ -128,8 +128,8 @@ td {
 }
 
 .square-marker {
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
     background-color: #5FBD00;
     border: 1px solid #fff;
     border-radius: 3px;

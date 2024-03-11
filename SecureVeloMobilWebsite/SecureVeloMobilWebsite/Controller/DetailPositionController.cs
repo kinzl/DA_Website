@@ -17,9 +17,9 @@ public class DetailPositionController : ControllerBase
     }
 
     [HttpPut]
-    public ActionResult AddPositionsToExistingCourse([FromBody] CourseDto course)
+    public async Task<ActionResult> AddPositionsToExistingCourse([FromBody] CourseDto course)
     {
-        return _service.AddPositionsToExistingCourse(new Course()
+        return await _service.AddPositionsToExistingCourse(new Course()
         {
             Name = course.Name ?? "",
             DetailPosition = course.DetailPosition.Select(x => new DetailPosition().CopyFrom(x)).ToList(),
@@ -46,8 +46,8 @@ public class DetailPositionController : ControllerBase
     }
 
     [HttpPost("{courseId}")]
-    public ActionResult CalculateAltitudeFromCourse(int courseId)
+    public async Task<ActionResult> CalculateAltitudeFromCourse(int courseId)
     {
-        return _service.AddAltitudeToCourse(courseId);
+        return await _service.AddAltitudeToCourse(courseId);
     }
 }
