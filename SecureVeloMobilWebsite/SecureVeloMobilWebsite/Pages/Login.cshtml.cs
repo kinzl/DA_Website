@@ -34,7 +34,7 @@ public class Login : PageModel
         try
         {
             var user = _db.Users.Single(x => x.Username == body.Username);
-            if (_pe.VerifyPassword(body.Password, user.PasswordHash))
+            if (body.Password != null && _pe.VerifyPassword(body.Password, user.PasswordHash))
             {
                 var claims = new List<Claim>()
                 {

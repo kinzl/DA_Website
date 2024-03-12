@@ -1,4 +1,6 @@
 ﻿using System.Globalization;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -25,8 +27,6 @@ public class IndexModel : PageModel
     public FilterDate SelectedFilterDate;
 
     public List<FilterDate> FilterDates = new();
-
-    public DetailPositionDto LastDetailPosition;
 
     public IndexModel(ILogger<IndexModel> logger, VeloMobilContext db)
     {
@@ -63,7 +63,7 @@ public class IndexModel : PageModel
         TotalCo2Saved = _db.Courses.Sum(x => x.SavedCo2);
         SelectedFilterDateIndex = Convert.ToInt32(HttpContext.Session.GetString("SelectedFilterDateIndex") ?? "0");
         var minCourseDate = _db.Courses.Min(x => x.StartTime);
-        FilterDates = new List<FilterDate>()
+        FilterDates = new List<FilterDate>
         {
             new()
             {
@@ -141,8 +141,6 @@ public class IndexModel : PageModel
                     .Where(x => x.Courses.CourseId == SelectedCourseId)
                     .Select(x => new DetailPositionDto().CopyFrom(x))
                     .ToList();
-                LastDetailPosition = DetailPositions.OrderBy(x => x.PositionTime)
-                    .Last();
             }
             catch (Exception)
             {
@@ -163,7 +161,7 @@ public class IndexModel : PageModel
         int nrInList = Courses.IndexOf(item);
         HttpContext.Session.SetString("SelectedCourseIndex", nrInList.ToString());
         HttpContext.Session.SetString("SelectedCourseId", courseId);
-        return new RedirectToPageResult("Index");
+        return new RedirectToPageResult(nameof(Index));
     }
 
     public IActionResult OnPostTimeFilterChanged(string selectedDay)
@@ -174,7 +172,7 @@ public class IndexModel : PageModel
 
         HttpContext.Session.SetString("SelectedFilterDateIndex", SelectedFilterDateIndex.ToString());
 
-        return new RedirectToPageResult("Index");
+        return new RedirectToPageResult(nameof(Index));
     }
 
     public IActionResult OnPostSetDate(DateTime startDate, DateTime endDate)
@@ -185,6 +183,13 @@ public class IndexModel : PageModel
         HttpContext.Session.SetString("startDate", startDate.ToString(CultureInfo.InvariantCulture));
         HttpContext.Session.SetString("endDate", endDate.ToString(CultureInfo.InvariantCulture));
         HttpContext.Session.SetString("SelectedFilterDateIndex", "0");
-        return new RedirectToPageResult("Index");
+        return new RedirectToPageResult(nameof(Index));
+    }
+
+    public async Task<RedirectToPageResult> OnPostLogout()
+    {
+        _logger.LogInformation("OnPostLogout");
+        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        return new RedirectToPageResult(nameof(Login));
     }
 }

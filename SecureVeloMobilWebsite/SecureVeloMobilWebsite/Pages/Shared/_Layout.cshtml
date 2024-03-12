@@ -9,6 +9,7 @@
 </head>
 <body class="container body-container">
 <nav class="navbar navbar-expand-lg">
+
     <img class="logo" src="img/LogoWhite.png" alt="Logo"/>
     <div class="container d-flex justify-content-center">
         <div class="navbar-collapse collapse d-lg-flex justify-content-start">
@@ -35,6 +36,9 @@
                 <h5>Summe Eingespartes CO<sub>2</sub>: <b>@IndexModel.TotalCo2Saved.ToString("0.0") kg</b></h5>
             </a>
         </div>
+        <form method="post" asp-page-handler="Logout">
+            <button class="navbar" >Ausloggen</button>
+        </form>
     </div>
 </nav>
 
