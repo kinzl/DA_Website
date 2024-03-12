@@ -45,9 +45,9 @@ public class DetailPositionController : ControllerBase
         return _service.CreateNewCourse(newCourse);
     }
 
-    [HttpPost("{courseId}")]
-    public async Task<ActionResult> CalculateAltitudeFromCourse(int courseId)
-    {
-        return await _service.AddAltitudeToCourse(courseId);
-    }
+    // [HttpPut("{courseId}")]
+    // public async Task<ActionResult> CalculateAltitudeFromCourse(int courseId)
+    // {
+    //     return await _service.AddAltitudeToCourse(courseId);
+    // }
 }

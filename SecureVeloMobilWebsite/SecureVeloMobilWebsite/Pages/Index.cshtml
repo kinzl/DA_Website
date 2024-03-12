@@ -38,14 +38,14 @@
                         }
                     </select>
                 </form>
-                    <form method="post" asp-page-handler="SetDate" class="container-row stats">
-                        <td>
-                            <input id="startDate" type="date" onfocusout="this.form.submit()" name="startDate" value="@Model.SelectedFilterDate.StartTime.ToString("yyyy-MM-dd")" class="date"/>
-                        </td>
-                        <td>
-                            <input id="endDate" type="date" onfocusout="this.form.submit()" name="endDate" value="@Model.SelectedFilterDate.EndTime.ToString("yyyy-MM-dd")" class="date"/>
-                        </td>
-                    </form>
+                <form method="post" asp-page-handler="SetDate" class="container-row stats">
+                    <td>
+                        <input id="startDate" type="date" onfocusout="this.form.submit()" name="startDate" value="@Model.SelectedFilterDate.StartTime.ToString("yyyy-MM-dd")" class="date"/>
+                    </td>
+                    <td>
+                        <input id="endDate" type="date" onfocusout="this.form.submit()" name="endDate" value="@Model.SelectedFilterDate.EndTime.ToString("yyyy-MM-dd")" class="date"/>
+                    </td>
+                </form>
             </div>
 
             <div class="container-row">
@@ -101,7 +101,7 @@
 </div>
 <script>
 $(document).ready(function () {
-let data = @Html.Raw(Json.Serialize(Model.DetailPositions));
+let data = @Html.Raw(Json.Serialize(Model.SelectedCourse.DetailPosition));
 drawMap(data);
 drawAltitudeDiagram(data);
 })

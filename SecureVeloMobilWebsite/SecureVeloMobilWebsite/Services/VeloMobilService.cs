@@ -41,14 +41,14 @@ public class VeloMobilService : ControllerBase
     public async Task<ActionResult> AddPositionsToExistingCourse(Course course)
     {
         _logger.LogInformation("Existing course");
-        if (course.DetailPosition.IsNullOrEmpty() || course.CourseId == 0)
+        if (course.CourseId == 0)
             return BadRequest("Detail Positions or courseId empty");
         // foreach (var position in course.DetailPosition)
         // {
         // position.PosZ = 0;
         // }
 
-        await PostAltitudeAsync(course.DetailPosition);
+        await CalculateAltitudeAsync(course.DetailPosition);
 
         var selectedCourse = _db.Courses
             .Include(x => x.DetailPosition)
@@ -64,18 +64,18 @@ public class VeloMobilService : ControllerBase
         return Ok("Added positions to " + course.CourseId);
     }
 
-    public async Task<ActionResult> AddAltitudeToCourse(int courseId)
-    {
-        var selectedCourse = _db.Courses
-            .Include(x => x.DetailPosition)
-            .Where(x => x.CourseId == courseId)
-            .Select(x => x.DetailPosition)
-            .SingleOrDefault();
-        if (selectedCourse == null) return BadRequest("Course does not exist");
-        await PostAltitudeAsync(selectedCourse);
-        await _db.SaveChangesAsync();
-        return Ok();
-    }
+    // public async Task<ActionResult> AddAltitudeToCourse(int courseId)
+    // {
+    //     var selectedCourse = _db.Courses
+    //         .Include(x => x.DetailPosition)
+    //         .Where(x => x.CourseId == courseId)
+    //         .Select(x => x.DetailPosition)
+    //         .SingleOrDefault();
+    //     if (selectedCourse == null) return BadRequest("Course does not exist");
+    //     await CalculateAltitudeAsync(selectedCourse);
+    //     await _db.SaveChangesAsync();
+    //     return Ok();
+    // }
 
     private double CalculateDistance(Course course)
     {
@@ -108,7 +108,7 @@ public class VeloMobilService : ControllerBase
         return (distance * MyConstants.co2FootprintCarInGram - distance * MyConstants.co2FootprintBikeInGram) / 1000;
     }
 
-    private async Task PostAltitudeAsync(List<DetailPosition> positions)
+    private async Task CalculateAltitudeAsync(List<DetailPosition> positions)
     {
         using (HttpClient httpClient = new HttpClient())
         {

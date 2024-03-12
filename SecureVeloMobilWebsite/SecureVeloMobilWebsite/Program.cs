@@ -39,9 +39,6 @@ builder.Services
         //.EnableLogging()
     );
 
-//builder.Services.AddScoped<ICategoriesService, CategoriesService>();
-
-//builder.Services.AddLogging(x => x.AddCustomFormatter());
 string? connectionStringMariaDb = builder.Configuration.GetConnectionString("VeloMobilMariaDb");
 
 // string? connectionString = builder.Configuration.GetConnectionString("VeloMobilDb");
@@ -61,35 +58,10 @@ builder.Services.AddDbContext<VeloMobilContext>(options => options
 builder.Services.AddLogging();
 // builder.Services.AddHostedService<StartupBackgroundService>();
 builder.Services.AddScoped<VeloMobilService>();
-builder.Services.AddScoped<PasswordEncryption>();
+builder.Services.AddSingleton<PasswordEncryption>();
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options => { options.IdleTimeout = TimeSpan.FromHours(10); });
-
-//Authentication
-// var appSettingsSection = builder.Configuration.GetSection("AppSettings");
-// builder.Services.Configure<AppSettings>(appSettingsSection);
-// var appSettings = appSettingsSection.Get<AppSettings>() ?? new();
-// string secret = appSettings.Secret;
-//
-// byte[]? key = Encoding.ASCII.GetBytes(secret);
-// builder.Services.AddAuthentication(x =>
-//     {
-//         x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-//         x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-//     })
-//     .AddJwtBearer(x =>
-//     {
-//         x.RequireHttpsMetadata = false;
-//         x.SaveToken = true;
-//         x.TokenValidationParameters = new TokenValidationParameters
-//         {
-//             ValidateIssuerSigningKey = true,
-//             IssuerSigningKey = new SymmetricSecurityKey(key),
-//             ValidateIssuer = false,
-//             ValidateAudience = false
-//         };
-//     });
 
 #endregion
 
@@ -104,7 +76,7 @@ if (app.Environment.IsDevelopment())
     Console.WriteLine("++++ Swagger enabled: http://localhost:5000 (to set as default route: see launchsettings.json)");
     app.UseSwagger();
     Console.WriteLine($@"++++ RestClient generating (after first request) to {restClientFolder}\{restClientFilename}");
-    app.UseRestClientGenerator(); //Note: must be used after UseSwagger
+    app.UseRestClientGenerator();
     app.UseSwaggerUI(x => x.SwaggerEndpoint($"/swagger/{swaggerVersion}/swagger.json", swaggerTitle));
 }
 
@@ -112,18 +84,6 @@ app.UseCors(corsKey);
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
-
-//app.UseExceptionHandler(config => config.Run(async context =>
-//{
-//  context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-//  context.Response.ContentType = System.Net.Mime.MediaTypeNames.Application.Json; //"application/json"
-//  var error = context.Features.Get<Microsoft.AspNetCore.Diagnostics.IExceptionHandlerFeature>();
-//  if (error != null)
-//  {
-//    await context.Response.WriteAsync(
-//      $"Exception: {error.Error?.Message} {error.Error?.InnerException?.Message}");
-//  }
-//}));
 
 #endregion
 

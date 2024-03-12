@@ -18,7 +18,6 @@ public class IndexModel : PageModel
     public List<CourseDto> Courses;
     public int SelectedCourseIndex;
     public int SelectedCourseId;
-    public List<DetailPositionDto> DetailPositions;
     public int SelectedFilterDateIndex;
     public CourseDto SelectedCourse;
     public TimeSpan DrivenTime;
@@ -121,7 +120,8 @@ public class IndexModel : PageModel
                 EndTime = x.EndTime,
                 MaxSpeed = x.MaxSpeed,
                 StartTime = x.StartTime,
-                SavedCo2 = x.SavedCo2
+                SavedCo2 = x.SavedCo2,
+                DetailPosition = x.DetailPosition.Select(y => new DetailPositionDto().CopyFrom(y)).ToList()
             })
             .OrderByDescending(x => x.StartTime)
             .ToList();
@@ -137,10 +137,6 @@ public class IndexModel : PageModel
                 SelectedCourse = Courses.SingleOrDefault(x => x.CourseId == SelectedCourseId) ??
                                  new CourseDto();
                 DrivenTime = SelectedCourse.EndTime - SelectedCourse.StartTime;
-                DetailPositions = _db.DetailPositions
-                    .Where(x => x.Courses.CourseId == SelectedCourseId)
-                    .Select(x => new DetailPositionDto().CopyFrom(x))
-                    .ToList();
             }
             catch (Exception)
             {
