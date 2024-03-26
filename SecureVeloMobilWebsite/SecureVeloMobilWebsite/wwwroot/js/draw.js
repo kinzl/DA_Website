@@ -25,8 +25,6 @@ function drawMap(data) {
         const marker = L.marker(markerCoordinates, {
             icon: L.divIcon({
                 className: 'custom-square-marker-icon',
-                // iconSize: [8, 8], // Adjust the size as needed
-                // pointRadius: 0.2,
                 html: '<div class="square-marker"></div>'
             })
         }).addTo(map);

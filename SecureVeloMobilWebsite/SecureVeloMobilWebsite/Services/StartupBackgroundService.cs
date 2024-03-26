@@ -38,6 +38,7 @@ public class StartupBackgroundService : BackgroundService
             PasswordHash = hashedPw
         };
         db.Users.Add(user);
+        
         var course1 = new Course()
         {
             CourseId = 0,
@@ -51,6 +52,7 @@ public class StartupBackgroundService : BackgroundService
                 {
                     PosX = 13.7672137f,
                     PosY = 48.3672354f,
+                    PosZ = 420,
                     PositionTime = DateTime.ParseExact("31.07.2023 10:33", "dd.MM.yyyy hh:mm",
                         CultureInfo.InvariantCulture),
                 },
@@ -59,6 +61,7 @@ public class StartupBackgroundService : BackgroundService
                 {
                     PosX = 13.8187544f,
                     PosY = 48.2148842f,
+                    PosZ = 425,
                     PositionTime = DateTime.ParseExact("31.07.2023 10:41", "dd.MM.yyyy hh:mm",
                         CultureInfo.InvariantCulture),
                 }
@@ -81,6 +84,7 @@ public class StartupBackgroundService : BackgroundService
                 {
                     PosX = 14.28611f,
                     PosY = 48.30639f,
+                    PosZ = 350,
                     PositionTime = DateTime.ParseExact("31.07.2023 10:55", "dd.MM.yyyy hh:mm",
                         CultureInfo.InvariantCulture),
                 },
@@ -89,6 +93,7 @@ public class StartupBackgroundService : BackgroundService
                 {
                     PosX = 15.500000f,
                     PosY = 47.300000f,
+                    PosZ = 300,
                     PositionTime = DateTime.ParseExact("31.07.2023 10:56", "dd.MM.yyyy hh:mm",
                         CultureInfo.InvariantCulture),
                 },
@@ -97,6 +102,7 @@ public class StartupBackgroundService : BackgroundService
                 {
                     PosX = 16.363449f,
                     PosY = 48.210033f,
+                    PosZ = 400,
                     PositionTime = DateTime.ParseExact("31.07.2023 10:57", "dd.MM.yyyy hh:mm",
                         CultureInfo.InvariantCulture),
                 }
@@ -128,6 +134,6 @@ public class StartupBackgroundService : BackgroundService
 
     private double CalculateSavedCo2(double distance)
     {
-        return (distance * MyConstants.co2FootprintCarInGram - distance * MyConstants.co2FootprintBikeInGram) / 1000;
+        return (distance * MyConstants.Co2FootprintCarInGram - distance * MyConstants.Co2FootprintBikeInGram) / 1000;
     }
 }

@@ -7,27 +7,13 @@ namespace SecureVeloMobilWebsite.Controller;
 
 [ApiController]
 [Route("[controller]/[action]")]
-public class DetailPositionController : ControllerBase
+public class DetailPositionController
 {
     private VeloMobilService _service;
 
     public DetailPositionController(VeloMobilService service)
     {
         _service = service;
-    }
-
-    [HttpPut]
-    public async Task<ActionResult> AddPositionsToExistingCourse([FromBody] CourseDto course)
-    {
-        return await _service.AddPositionsToExistingCourse(new Course()
-        {
-            Name = course.Name ?? "",
-            DetailPosition = course.DetailPosition.Select(x => new DetailPosition().CopyFrom(x)).ToList(),
-            StartTime = course.StartTime,
-            MaxSpeed = course.MaxSpeed,
-            CourseId = course.CourseId,
-            EndTime = course.EndTime
-        });
     }
 
     [HttpPost]
@@ -43,6 +29,19 @@ public class DetailPositionController : ControllerBase
         };
 
         return _service.CreateNewCourse(newCourse);
+    }
+
+    [HttpPut]
+    public async Task<ActionResult> AddPositionsToExistingCourse([FromBody] CourseDto course)
+    {
+        return await _service.AddPositionsToExistingCourse(new Course()
+        {
+            Name = course.Name ?? "",
+            DetailPosition = course.DetailPosition.Select(x => new DetailPosition().CopyFrom(x)).ToList(),
+            StartTime = course.StartTime,
+            CourseId = course.CourseId,
+            EndTime = course.EndTime
+        });
     }
 
     // [HttpPut("{courseId}")]

@@ -51,10 +51,8 @@ public class Login : PageModel
 
                 return new RedirectToPageResult(nameof(Index));
             }
-            else
-            {
-                return new RedirectToPageResult(nameof(Login));
-            }
+
+            return new RedirectToPageResult(nameof(Login));
         }
         catch (Exception e)
         {

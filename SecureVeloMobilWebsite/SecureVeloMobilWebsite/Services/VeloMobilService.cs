@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using SecureVeloMobilWebsite.Extensions;
 using SecureVeloMobilWebsite.wwwroot.Extensions;
 using VeloMobilDb;
 
@@ -40,20 +41,18 @@ public class VeloMobilService : ControllerBase
 
     public async Task<ActionResult> AddPositionsToExistingCourse(Course course)
     {
-        _logger.LogInformation("Existing course");
-        if (course.CourseId == 0)
+        _logger.LogInformation("Added to existing course on {Now}", DateTime.Now);
+        if (course.CourseId == 0 || course.DetailPosition.IsNullOrEmpty())
             return BadRequest("Detail Positions or courseId empty");
-        // foreach (var position in course.DetailPosition)
-        // {
-        // position.PosZ = 0;
-        // }
-
-        await CalculateAltitudeAsync(course.DetailPosition);
 
         var selectedCourse = _db.Courses
             .Include(x => x.DetailPosition)
             .SingleOrDefault(x => x.CourseId == course.CourseId);
+
         if (selectedCourse == null) return BadRequest();
+
+        await CalculateAltitudeAsync(course.DetailPosition);
+
         selectedCourse.DetailPosition.AddRange(course.DetailPosition);
         selectedCourse.Distance = CalculateDistance(selectedCourse);
         selectedCourse.SavedCo2 = CalculateSavedCo2(selectedCourse.Distance);
@@ -63,19 +62,6 @@ public class VeloMobilService : ControllerBase
         await _db.SaveChangesAsync();
         return Ok("Added positions to " + course.CourseId);
     }
-
-    // public async Task<ActionResult> AddAltitudeToCourse(int courseId)
-    // {
-    //     var selectedCourse = _db.Courses
-    //         .Include(x => x.DetailPosition)
-    //         .Where(x => x.CourseId == courseId)
-    //         .Select(x => x.DetailPosition)
-    //         .SingleOrDefault();
-    //     if (selectedCourse == null) return BadRequest("Course does not exist");
-    //     await CalculateAltitudeAsync(selectedCourse);
-    //     await _db.SaveChangesAsync();
-    //     return Ok();
-    // }
 
     private double CalculateDistance(Course course)
     {
@@ -105,7 +91,7 @@ public class VeloMobilService : ControllerBase
 
     private double CalculateSavedCo2(double distance)
     {
-        return (distance * MyConstants.co2FootprintCarInGram - distance * MyConstants.co2FootprintBikeInGram) / 1000;
+        return (distance * MyConstants.Co2FootprintCarInGram - distance * MyConstants.Co2FootprintBikeInGram) / 1000;
     }
 
     private async Task CalculateAltitudeAsync(List<DetailPosition> positions)
@@ -141,11 +127,11 @@ public class VeloMobilService : ControllerBase
                     return;
                 }
 
-                Console.WriteLine($"API request failed: {response.StatusCode}");
+                _logger.LogError("API request failed: {ResponseStatusCode}", response.StatusCode);
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred: {ex.Message}");
+                _logger.LogError("An error occurred: {ExMessage}", ex.Message);
             }
         }
     }

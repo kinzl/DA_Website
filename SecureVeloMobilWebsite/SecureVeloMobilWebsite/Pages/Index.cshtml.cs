@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SecureVeloMobilWebsite.Dto;
+using SecureVeloMobilWebsite.Extensions;
 using SecureVeloMobilWebsite.wwwroot.Extensions;
 using VeloMobilDb;
 
@@ -112,7 +113,7 @@ public class IndexModel : PageModel
             .Include(x => x.DetailPosition)
             .Where(x => x.StartTime.Date >= SelectedFilterDate.StartTime.Date &&
                         x.StartTime.Date <= SelectedFilterDate.EndTime.Date)
-            .Select(x => new CourseDto()
+            .Select(x => new CourseDto
             {
                 CourseId = x.CourseId,
                 Distance = x.Distance,
@@ -121,11 +122,14 @@ public class IndexModel : PageModel
                 MaxSpeed = x.MaxSpeed,
                 StartTime = x.StartTime,
                 SavedCo2 = x.SavedCo2,
-                DetailPosition = x.DetailPosition.Select(y => new DetailPositionDto().CopyFrom(y)).ToList()
+                DetailPosition = x.DetailPosition
+                    .Where(x => x.PosZ > 0)
+                    .Where(x => x.CurrentSpeed < MyConstants.MaxSpeed)
+                    .Select(y => new DetailPositionDto()
+                        .CopyFrom(y)).ToList()
             })
             .OrderByDescending(x => x.StartTime)
             .ToList();
-
 
         if (!Courses.IsNullOrEmpty())
         {
@@ -134,8 +138,7 @@ public class IndexModel : PageModel
                 SelectedCourseIndex = Convert.ToInt32(HttpContext.Session.GetString("SelectedCourseIndex") ?? "0");
                 SelectedCourseId = Convert.ToInt32(HttpContext.Session.GetString("SelectedCourseId") ?? "1");
 
-                SelectedCourse = Courses.SingleOrDefault(x => x.CourseId == SelectedCourseId) ??
-                                 new CourseDto();
+                SelectedCourse = Courses.SingleOrDefault(x => x.CourseId == SelectedCourseId) ?? new CourseDto();
                 DrivenTime = SelectedCourse.EndTime - SelectedCourse.StartTime;
             }
             catch (Exception)
