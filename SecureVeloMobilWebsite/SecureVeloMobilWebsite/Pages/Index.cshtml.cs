@@ -62,7 +62,16 @@ public class IndexModel : PageModel
     {
         TotalCo2Saved = _db.Courses.Sum(x => x.SavedCo2);
         SelectedFilterDateIndex = Convert.ToInt32(HttpContext.Session.GetString("SelectedFilterDateIndex") ?? "0");
-        var minCourseDate = _db.Courses.Min(x => x.StartTime);
+        DateTime minCourseDate;
+        try
+        {
+            minCourseDate = _db.Courses.Min(x => x.StartTime);
+        }
+        catch (Exception)
+        {
+            minCourseDate = DateTime.MinValue;
+        }
+
         FilterDates = new List<FilterDate>
         {
             new()
@@ -119,7 +128,6 @@ public class IndexModel : PageModel
                 Distance = x.Distance,
                 Name = x.Name,
                 EndTime = x.EndTime,
-                MaxSpeed = x.MaxSpeed,
                 StartTime = x.StartTime,
                 SavedCo2 = x.SavedCo2,
                 DetailPosition = x.DetailPosition

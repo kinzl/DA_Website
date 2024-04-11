@@ -38,78 +38,81 @@ public class StartupBackgroundService : BackgroundService
             PasswordHash = hashedPw
         };
         db.Users.Add(user);
-        
-        var course1 = new Course()
-        {
-            CourseId = 0,
-            Name = "Peuerbach - Grieskirchen",
-            StartTime = DateTime.Today.AddDays(-1).AddHours(11),
-            EndTime = DateTime.Today,
-            DetailPosition = new List<DetailPosition>()
-            {
-                // Peuerbach
-                new()
-                {
-                    PosX = 13.7672137f,
-                    PosY = 48.3672354f,
-                    PosZ = 420,
-                    PositionTime = DateTime.ParseExact("31.07.2023 10:33", "dd.MM.yyyy hh:mm",
-                        CultureInfo.InvariantCulture),
-                },
-                // Grieskirchen
-                new()
-                {
-                    PosX = 13.8187544f,
-                    PosY = 48.2148842f,
-                    PosZ = 425,
-                    PositionTime = DateTime.ParseExact("31.07.2023 10:41", "dd.MM.yyyy hh:mm",
-                        CultureInfo.InvariantCulture),
-                }
-            }
-        };
-        course1.Distance = CalculateDistance(course1);
-        course1.SavedCo2 = CalculateSavedCo2(course1.Distance);
-        db.Courses.Add(course1);
 
-        var course2 = new Course()
-        {
-            CourseId = 0,
-            Name = "Linz - Graz - Wien",
-            StartTime = DateTime.Today.AddDays(-1).AddHours(-2),
-            EndTime = DateTime.Today,
-            DetailPosition = new List<DetailPosition>()
-            {
-                // Wien
-                new()
-                {
-                    PosX = 14.28611f,
-                    PosY = 48.30639f,
-                    PosZ = 350,
-                    PositionTime = DateTime.ParseExact("31.07.2023 10:55", "dd.MM.yyyy hh:mm",
-                        CultureInfo.InvariantCulture),
-                },
-                // Graz
-                new()
-                {
-                    PosX = 15.500000f,
-                    PosY = 47.300000f,
-                    PosZ = 300,
-                    PositionTime = DateTime.ParseExact("31.07.2023 10:56", "dd.MM.yyyy hh:mm",
-                        CultureInfo.InvariantCulture),
-                },
-                // Linz
-                new()
-                {
-                    PosX = 16.363449f,
-                    PosY = 48.210033f,
-                    PosZ = 400,
-                    PositionTime = DateTime.ParseExact("31.07.2023 10:57", "dd.MM.yyyy hh:mm",
-                        CultureInfo.InvariantCulture),
-                }
-            }
-        };
-        db.Courses.Add(course2);
-        db.SaveChanges();
+        // var course1 = new Course()
+        // {
+        //     CourseId = 0,
+        //     Name = "Peuerbach - Grieskirchen",
+        //     StartTime = DateTime.Today.AddDays(-1).AddHours(11),
+        //     EndTime = DateTime.Today,
+        //     DetailPosition = new List<DetailPosition>()
+        //     {
+        //         // Peuerbach
+        //         new()
+        //         {
+        //             PosX = 13.7672137f,
+        //             PosY = 48.3672354f,
+        //             PosZ = 420,
+        //             PositionTime = DateTime.ParseExact("31.07.2023 10:33", "dd.MM.yyyy hh:mm",
+        //                 CultureInfo.InvariantCulture),
+        //         },
+        //         // Grieskirchen
+        //         new()
+        //         {
+        //             PosX = 13.8187544f,
+        //             PosY = 48.2148842f,
+        //             PosZ = 425,
+        //             CurrentSpeed = 32,
+        //             PositionTime = DateTime.ParseExact("31.07.2023 10:41", "dd.MM.yyyy hh:mm",
+        //                 CultureInfo.InvariantCulture),
+        //         }
+        //     }
+        // };
+        // course1.Distance = CalculateDistance(course1);
+        // course1.SavedCo2 = CalculateSavedCo2(course1.Distance);
+        // db.Courses.Add(course1);
+        //
+        // var course2 = new Course()
+        // {
+        //     CourseId = 0,
+        //     Name = "Linz - Graz - Wien",
+        //     StartTime = DateTime.Today.AddDays(-1).AddHours(-2),
+        //     EndTime = DateTime.Today,
+        //     DetailPosition = new List<DetailPosition>()
+        //     {
+        //         // Wien
+        //         new()
+        //         {
+        //             PosX = 14.28611f,
+        //             PosY = 48.30639f,
+        //             PosZ = 350,
+        //             PositionTime = DateTime.ParseExact("31.07.2023 10:55", "dd.MM.yyyy hh:mm",
+        //                 CultureInfo.InvariantCulture),
+        //         },
+        //         // Graz
+        //         new()
+        //         {
+        //             PosX = 15.500000f,
+        //             PosY = 47.300000f,
+        //             PosZ = 300,
+        //             CurrentSpeed = 4003,
+        //             PositionTime = DateTime.ParseExact("31.07.2023 10:56", "dd.MM.yyyy hh:mm",
+        //                 CultureInfo.InvariantCulture),
+        //         },
+        //         // Linz
+        //         new()
+        //         {
+        //             PosX = 16.363449f,
+        //             PosY = 48.210033f,
+        //             PosZ = 400,
+        //             CurrentSpeed = 67,
+        //             PositionTime = DateTime.ParseExact("31.07.2023 10:57", "dd.MM.yyyy hh:mm",
+        //                 CultureInfo.InvariantCulture),
+        //         }
+        //     }
+        // };
+        // db.Courses.Add(course2);
+        // db.SaveChanges();
     }
 
     private double CalculateDistance(Course course)

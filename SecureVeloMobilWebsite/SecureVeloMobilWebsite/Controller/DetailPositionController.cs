@@ -24,7 +24,6 @@ public class DetailPositionController
             Name = positions.Name ?? "",
             DetailPosition = positions.DetailPosition.Select(x => new DetailPosition().CopyFrom(x)).ToList(),
             StartTime = positions.StartTime,
-            MaxSpeed = positions.MaxSpeed,
             EndTime = positions.EndTime
         };
 
@@ -43,7 +42,6 @@ public class DetailPositionController
             EndTime = course.EndTime
         });
     }
-
     // [HttpPut("{courseId}")]
     // public async Task<ActionResult> CalculateAltitudeFromCourse(int courseId)
     // {

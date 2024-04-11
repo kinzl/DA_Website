@@ -72,7 +72,7 @@
                         </tr>
                         <tr>
                             <td>Max. Geschwindigkeit</td>
-                            <td id="maxSpeed">@Model.SelectedCourse.MaxSpeed.ToString("0.0") kmh</td>
+                            <td id="maxSpeed">@Model.SelectedCourse.DetailPosition?.Max(x => x.CurrentSpeed).ToString("0.0") kmh</td>
                         </tr>
                         <tr>
                             <td>Gefahrene Zeit</td>

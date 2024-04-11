@@ -27,7 +27,6 @@ public class VeloMobilService : ControllerBase
             DetailPosition = new List<DetailPosition>(),
             Name = course.Name,
             Distance = 0,
-            MaxSpeed = 0,
             EndTime = course.EndTime,
             StartTime = course.StartTime,
             SavedCo2 = 0,
@@ -57,8 +56,7 @@ public class VeloMobilService : ControllerBase
         selectedCourse.Distance = CalculateDistance(selectedCourse);
         selectedCourse.SavedCo2 = CalculateSavedCo2(selectedCourse.Distance);
         selectedCourse.EndTime = course.EndTime;
-        selectedCourse.MaxSpeed = selectedCourse.DetailPosition.Max(x => x.CurrentSpeed);
-
+        
         await _db.SaveChangesAsync();
         return Ok("Added positions to " + course.CourseId);
     }

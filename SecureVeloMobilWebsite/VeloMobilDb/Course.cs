@@ -9,7 +9,6 @@ public partial class Course
     public List<DetailPosition> DetailPosition { get; set; }
     public string Name { get; set; }
     public double Distance { get; set; }
-    public double MaxSpeed { get; set; }
     public double SavedCo2 { get; set; }
     public DateTime StartTime { get; set; }
     public DateTime EndTime { get; set; }
