@@ -131,8 +131,8 @@ public class IndexModel : PageModel
                 StartTime = x.StartTime,
                 SavedCo2 = x.SavedCo2,
                 DetailPosition = x.DetailPosition
-                    .Where(x => x.PosZ > 0)
-                    .Where(x => x.CurrentSpeed < MyConstants.MaxSpeed)
+                    .Where(y => y.PosZ > 0)
+                    .Where(y => y.CurrentSpeed < MyConstants.MaxSpeed)
                     .Select(y => new DetailPositionDto()
                         .CopyFrom(y)).ToList()
             })

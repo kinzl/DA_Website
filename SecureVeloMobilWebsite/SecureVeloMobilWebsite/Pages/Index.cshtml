@@ -1,5 +1,7 @@
 ﻿@page
 @using System.Globalization
+@using Microsoft.IdentityModel.Tokens
+@using SecureVeloMobilWebsite.Dto
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
@@ -72,7 +74,18 @@
                         </tr>
                         <tr>
                             <td>Max. Geschwindigkeit</td>
-                            <td id="maxSpeed">@Model.SelectedCourse.DetailPosition?.Max(x => x.CurrentSpeed).ToString("0.0") kmh</td>
+                            <td id="maxSpeed">
+                                @if (Model.SelectedCourse.DetailPosition.IsNullOrEmpty())
+                                {
+                                    <span>0.0 kmh</span>
+                                }
+                                else
+                                {
+                                    <span>
+                                        @Model.SelectedCourse.DetailPosition.Max(x => x.CurrentSpeed).ToString("0.0") kmh
+                                    </span>
+                                }
+                            </td>
                         </tr>
                         <tr>
                             <td>Gefahrene Zeit</td>
