@@ -57,7 +57,7 @@ builder.Services.AddDbContext<VeloMobilContext>(options => options
         ServerVersion.Create(new Version(11, 1, 2), ServerType.MariaDb)));
 builder.Services.AddLogging();
 builder.Services.AddHostedService<StartupBackgroundService>();
-// builder.Services.AddScoped<VeloMobilService>();
+builder.Services.AddScoped<VeloMobilService>();
 builder.Services.AddSingleton<PasswordEncryption>();
 
 builder.Services.AddDistributedMemoryCache();
