@@ -5,7 +5,6 @@ using Microsoft.OpenApi.Models;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using SecureVeloMobilWebsite.Extensions;
 using SecureVeloMobilWebsite.Services;
-using SecureVeloMobilWebsite.wwwroot.Extensions;
 using VeloMobilDb;
 
 string corsKey = "_myCorsKey";
@@ -41,20 +40,20 @@ builder.Services
 
 string? connectionStringMariaDb = builder.Configuration.GetConnectionString("VeloMobilMariaDb");
 
-// string? connectionString = builder.Configuration.GetConnectionString("VeloMobilDb");
+string? connectionString = builder.Configuration.GetConnectionString("VeloMobilDb");
 string location = System.Reflection.Assembly.GetEntryAssembly()!.Location;
 string dataDirectory = Path.GetDirectoryName(location)!;
 Console.WriteLine("Path: " + dataDirectory);
-// connectionString = connectionString?.Replace("|DataDirectory|", dataDirectory + Path.DirectorySeparatorChar);
+connectionString = connectionString?.Replace("|DataDirectory|", dataDirectory + Path.DirectorySeparatorChar);
 Console.WriteLine($"******** ConnectionString: {connectionStringMariaDb}");
 Console.ForegroundColor = ConsoleColor.Yellow;
 Console.WriteLine($"******** Don't forget to comment out NorthwindContext.OnConfiguring !");
 Console.ResetColor();
 
-// builder.Services.AddDbContext<VeloMobilContext>(options => options.UseSqlite(connectionString));
-builder.Services.AddDbContext<VeloMobilContext>(options => options
-    .UseMySql(connectionStringMariaDb,
-        ServerVersion.Create(new Version(11, 1, 2), ServerType.MariaDb)));
+builder.Services.AddDbContext<VeloMobilContext>(options => options.UseSqlite(connectionString));
+// builder.Services.AddDbContext<VeloMobilContext>(options => options
+//     .UseMySql(connectionStringMariaDb,
+//         ServerVersion.Create(new Version(11, 1, 2), ServerType.MariaDb)));
 builder.Services.AddLogging();
 builder.Services.AddHostedService<StartupBackgroundService>();
 builder.Services.AddScoped<VeloMobilService>();
@@ -69,7 +68,7 @@ var app = builder.Build();
 
 #region -------------------------------------------- Middleware pipeline
 
-app.UseHttpLogging();
+// app.UseHttpLogging();
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();

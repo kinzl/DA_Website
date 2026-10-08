@@ -110,7 +110,7 @@ td {
     transition: border-color 0.2s;
     white-space: normal;
     text-align: left;
-    max-height: 32vh;
+    max-height: 100%;
     overflow: auto;
 }
 

@@ -1,4 +1,10 @@
+using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using SecureVeloMobilWebsite.Extensions;
 using SecureVeloMobilWebsite.wwwroot.Extensions;
 using VeloMobilDb;
@@ -71,7 +77,7 @@ public class StartupBackgroundService : BackgroundService
         course1.Distance = CalculateDistance(course1);
         course1.SavedCo2 = CalculateSavedCo2(course1.Distance);
         db.Courses.Add(course1);
-        
+
         var course2 = new Course()
         {
             CourseId = 0,
@@ -86,8 +92,9 @@ public class StartupBackgroundService : BackgroundService
                     PosX = 14.28611f,
                     PosY = 48.30639f,
                     PosZ = 350,
-                    PositionTime = DateTime.ParseExact("31.07.2023 10:55", "dd.MM.yyyy hh:mm",
-                        CultureInfo.InvariantCulture),
+                    CurrentSpeed = 55,
+                    PositionTime = DateTime.ParseExact("20.07.2023 10:55", "dd.MM.yyyy hh:mm",
+                    CultureInfo.InvariantCulture),
                 },
                 // Graz
                 new()
@@ -95,8 +102,8 @@ public class StartupBackgroundService : BackgroundService
                     PosX = 15.500000f,
                     PosY = 47.300000f,
                     PosZ = 300,
-                    CurrentSpeed = 4003,
-                    PositionTime = DateTime.ParseExact("31.07.2023 10:56", "dd.MM.yyyy hh:mm",
+                    CurrentSpeed = 40,
+                    PositionTime = DateTime.ParseExact("20.08.2023 10:56", "dd.MM.yyyy hh:mm",
                         CultureInfo.InvariantCulture),
                 },
                 // Linz
@@ -106,7 +113,7 @@ public class StartupBackgroundService : BackgroundService
                     PosY = 48.210033f,
                     PosZ = 400,
                     CurrentSpeed = 67,
-                    PositionTime = DateTime.ParseExact("31.07.2023 10:57", "dd.MM.yyyy hh:mm",
+                    PositionTime = DateTime.ParseExact("20.09.2023 10:57", "dd.MM.yyyy hh:mm",
                         CultureInfo.InvariantCulture),
                 }
             }

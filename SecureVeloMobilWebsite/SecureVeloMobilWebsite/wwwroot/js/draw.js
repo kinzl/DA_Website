@@ -43,8 +43,25 @@ function drawMap(data) {
 
 function drawAltitudeDiagram(coordinates) {
     const ctx = document.getElementById('altitudeChart');
-    console.log(coordinates.map(coord => coord.posZ));
-    const timestamps = coordinates.map(coord => new Date(coord.positionTime).toLocaleTimeString("de", dateOptions));
+    allAltitudes = coordinates.map(x => x.posZ);
+    console.log(allAltitudes);
+    const timestamps = [];
+    // const timestamps = coordinates.map(x => new Date(x.positionTime).toLocaleTimeString("de", dateOptions));
+    avgCoordinates = [];
+
+    for (let i = 0; i < allAltitudes.length; i += 5) {
+        // Get the three values
+        const val1 = allAltitudes[i];
+        const val2 = allAltitudes[i + 1];
+        const val3 = allAltitudes[i + 2];
+        const val4 = allAltitudes[i + 3];
+        const val5 = allAltitudes[i + 4];
+
+        const average = (val1 + val2 + val3 + val4 + val5) / 5;
+        timestamps.push(new Date(coordinates[i].positionTime).toLocaleTimeString("de", dateOptions));
+        avgCoordinates.push(average);
+    }
+    console.log(avgCoordinates);
 
     new Chart(ctx, {
         type: 'line', // Use 'line' for altitude diagram
@@ -52,7 +69,7 @@ function drawAltitudeDiagram(coordinates) {
             labels: timestamps,
             datasets: [{
                 label: 'Höhenprofil',
-                data: coordinates.map(coord => coord.posZ),
+                data: avgCoordinates,
                 borderColor: '#5FBD00',
                 borderWidth: 2,
                 pointRadius: 0.2,
